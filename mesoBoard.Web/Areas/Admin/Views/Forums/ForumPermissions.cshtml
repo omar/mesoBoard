@@ -1,0 +1,46 @@
+﻿@model ForumPermissionsViewer
+@{
+    Layout = "_Forums.cshtml";
+}
+
+<fieldset class="forum_permission">
+    <legend>@Model.Forum.Name 's Forum Permissions</legend>
+          
+    @Html.ActionLink("Create Permission", "CreateForumPermission", new { ForumID = Model.Forum.ForumID }, new { @class = "create_forum_permission add" }) 
+            
+    <table>
+        <tr>
+            <th colspan="7">@Model.Forum.Name 's Forum Permissions</th>
+        </tr>
+
+        <tr>
+            <th class="edit"></th>
+            <th class="delete"></th>
+            <th>Role Name</th>
+            <th>Visibility</th>
+            <th>Posting</th>
+            <th>Attachments</th>
+            <th>Polling</th>
+        </tr>
+
+        @foreach (var permission in Model.ForumPermissions)
+        { 
+            <tr>
+                <td>@Html.ActionLink("Edit", "EditForumPermission", new { ForumPermissionID = permission.ForumPermissionID }) </td>
+                <td>@Html.AdminConfirm("Delete", Url.Action("DeleteForumPermission", new { ForumPermissionID = permission.ForumPermissionID }), Url.Action("ForumPermissions", new { ForumID = permission.ForumID })) </td>
+                <th>@permission.Role.Name</th>
+                <td>@Html.PermissionResource("Visibility_" + mesoBoard.Common.VisibilityPermissions.Class.Get(permission.Visibility).Name)</td>
+                <td>@Html.PermissionResource("Posting_" + mesoBoard.Common.PostingPermissions.Class.Get(permission.Posting).Name)</td>
+                <td>@Html.PermissionResource("Attachments_" + mesoBoard.Common.AttachmentPermissions.Class.Get(permission.Attachments).Name)</td>
+                <td>@Html.PermissionResource("Polling_" + mesoBoard.Common.PollingPermissions.Class.Get(permission.Polling).Name)</td>
+            </tr>
+        }
+
+        @if (Model.ForumPermissions.Count() == 0)
+        { 
+            <tr class="empty">
+                <td colspan="7">No forum permissions</td>
+            </tr>
+        } 
+    </table>
+</fieldset>

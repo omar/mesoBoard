@@ -1,0 +1,31 @@
+﻿@model FileTypeViewModel
+@{
+    Layout = "_FileTypes.cshtml";
+}
+
+<fieldset>
+    <legend>Create File Type</legend>
+    @using (Html.BeginForm())
+    { 
+        @Html.Partial("_FileType")
+    } 
+</fieldset>
+        
+<table>
+    <tr>
+        <th class="edit"></th>
+        <th class="delete"></th>
+        <th>Extension</th>
+        <th>Image</th>
+    </tr>
+            
+    @foreach (var fileType in Model.FileTypes)
+    { 
+        <tr>
+            <td>@Html.ActionLink("Edit", "EditFileType", new { FileTypeID = fileType.FileTypeID })</td>
+            <td>@Html.AdminConfirm("Delete", Url.Action("DeleteFileType", new { FileTypeID = fileType.FileTypeID }), Url.Action("FileTypes"))</td>
+            <td>@fileType.Extension</td>
+            <td>@(string.IsNullOrWhiteSpace(fileType.Image) ? MvcHtmlString.Create("No image") : Html.Image(System.IO.Path.Combine(DirectoryPaths.FileTypes, fileType.Image)))</td>
+        </tr>
+    }        
+</table>

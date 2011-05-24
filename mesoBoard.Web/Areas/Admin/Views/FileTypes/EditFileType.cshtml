@@ -1,0 +1,13 @@
+﻿@model FileTypeViewModel
+@{
+    Layout = "_FileTypes.cshtml";
+}
+
+<fieldset>
+    <legend>Edit File Type</legend>
+
+    @using (Html.BeginForm())
+    { 
+        @Html.Partial("_FileType")
+    } 
+</fieldset>

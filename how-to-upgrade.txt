@@ -1,0 +1,9 @@
+To upgrade mesoBoard from previous versions to version 0.9.2 (current version):
+
+1- Backup mesoBoard files and database
+2- Open "Settings.config" and modify your database connection information
+3- Copy and overwrite files from this folder to your mesoBoard installation folder
+4- Go to http://yourdomain.com/Admin/Upgrade and login as an admin
+5- Follow the on screen instructions
+
+For questions, comments and support, visit http://mesoBoard.com/Board

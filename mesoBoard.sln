@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mesoBoard.Web", "mesoBoard.Web\mesoBoard.Web.csproj", "{BA1A921F-2F31-4774-AD9A-CA12C40117FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mesoBoard.Data", "mesoBoard.Data\mesoBoard.Data.csproj", "{59B8C04A-9143-4DF0-85E0-C00C7E504312}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mesoBoard.Services", "mesoBoard.Services\mesoBoard.Services.csproj", "{A0197574-1AB9-4116-9FB1-48E02879D559}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7A2EF9B9-D5EE-4E64-B69F-CEC44DC9BB0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mesoBoard.Common", "mesoBoard.Common\mesoBoard.Common.csproj", "{EE812012-B40A-44B1-9B79-C80FA087462F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mesoBoard.Web.Helpers", "mesoBoard.Web.Helpers\mesoBoard.Web.Helpers.csproj", "{0AEA5054-D5CA-45A8-BC14-0BF2161EB1C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mesoBoard.Tests", "mesoBoard.Tests\mesoBoard.Tests.csproj", "{9536BBBD-D5AB-4D6D-BCC0-0DC22435B78C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mesoBoard.Framework", "mesoBoard.Framework\mesoBoard.Framework.csproj", "{98C0FD5E-DFD1-4D96-884D-145B081AD708}"
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = mesoBoard.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BA1A921F-2F31-4774-AD9A-CA12C40117FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA1A921F-2F31-4774-AD9A-CA12C40117FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA1A921F-2F31-4774-AD9A-CA12C40117FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA1A921F-2F31-4774-AD9A-CA12C40117FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59B8C04A-9143-4DF0-85E0-C00C7E504312}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59B8C04A-9143-4DF0-85E0-C00C7E504312}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59B8C04A-9143-4DF0-85E0-C00C7E504312}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59B8C04A-9143-4DF0-85E0-C00C7E504312}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0197574-1AB9-4116-9FB1-48E02879D559}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0197574-1AB9-4116-9FB1-48E02879D559}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0197574-1AB9-4116-9FB1-48E02879D559}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0197574-1AB9-4116-9FB1-48E02879D559}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE812012-B40A-44B1-9B79-C80FA087462F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE812012-B40A-44B1-9B79-C80FA087462F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE812012-B40A-44B1-9B79-C80FA087462F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE812012-B40A-44B1-9B79-C80FA087462F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AEA5054-D5CA-45A8-BC14-0BF2161EB1C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AEA5054-D5CA-45A8-BC14-0BF2161EB1C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AEA5054-D5CA-45A8-BC14-0BF2161EB1C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AEA5054-D5CA-45A8-BC14-0BF2161EB1C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9536BBBD-D5AB-4D6D-BCC0-0DC22435B78C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9536BBBD-D5AB-4D6D-BCC0-0DC22435B78C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9536BBBD-D5AB-4D6D-BCC0-0DC22435B78C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9536BBBD-D5AB-4D6D-BCC0-0DC22435B78C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98C0FD5E-DFD1-4D96-884D-145B081AD708}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98C0FD5E-DFD1-4D96-884D-145B081AD708}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98C0FD5E-DFD1-4D96-884D-145B081AD708}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98C0FD5E-DFD1-4D96-884D-145B081AD708}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+EndGlobal

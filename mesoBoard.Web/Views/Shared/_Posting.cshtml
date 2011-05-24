@@ -1,0 +1,24 @@
+﻿@{
+    Layout = "~/Views/Shared/_Site.cshtml";
+}
+
+@section HeadContent{
+    <script language="javascript" type="text/javascript" src="@Url.ThemeContent("~/Content/Scripts/insertAtCaret.js")"></script>
+    <script language="javascript" type="text/javascript" src="@Url.ThemeContent("~/Content/Scripts/labelImageClick.js")"></script>
+    <script language="javascript" type="text/javascript" src="@Url.ThemeContent("~/Content/Scripts/attachment-inputs.js")"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("img.smileyimg").click(function () {
+                insertAtCaret("smiley_insert", $(this).attr("alt"));
+            });
+        });
+    </script>
+    
+    @RenderSection("HeadContent", false)
+}
+
+@section BreadCrumbContent{
+    @RenderSection("BreadCrumbContent")
+}
+
+@RenderBody()

@@ -1,0 +1,23 @@
+﻿@model CategoryViewModel
+
+<dl>
+            
+    <dt>Name</dt>
+    <dd>
+        @Html.TextBoxFor(model => model.Name) 
+        @Html.ValidationMessageFor(model => model.Name)             
+    </dd>
+            
+    <dt>Description</dt>
+    <dd>
+        @Html.TextAreaFor(model => model.Description, new { cols = "50", rows = "7" })
+        @Html.ValidationMessageFor(model => model.Description) 
+    </dd>
+                
+    <dt>&nbsp;</dt>
+    <dd>
+        @Html.HiddenFor(model => model.CategoryID)
+        <input type="submit" value="@Html.SubmitButtonText(Model.CategoryID)" />
+    </dd>
+                
+</dl>

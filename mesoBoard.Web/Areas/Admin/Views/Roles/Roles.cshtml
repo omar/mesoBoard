@@ -1,0 +1,78 @@
+﻿@model RolesViewer
+
+<div class="roles section">
+    <h2>Roles</h2>
+        
+    <fieldset>
+        <legend>Create Role</legend>
+        @using(Html.BeginForm("CreateRole", "Roles"))
+        { 
+            @Html.Partial("_Role", Model.RoleViewModel)    
+        } 
+    </fieldset>
+
+    <table>
+        
+        <tr>
+            <th class="edit"></th>
+            <th class="delete"></th>
+            <th>Role Name</th>
+            <th>Users</th>
+            <th>Associated Rank</th>
+            <th>Special Permissions</th>
+            <th>Is Group</th>
+            <th>Registration Role</th>
+        </tr>
+            
+        @foreach(Role role in Model.Roles)
+        { 
+            <tr>
+                <td>@Html.ActionLink("Edit", "RoleDetails", new { RoleID = role.RoleID })</td>
+                <td>@Html.AdminConfirm("Delete", Url.Action("DeleteRole", new { RoleID = role.RoleID }), Url.Action("Roles")) </td>
+                <td>@Html.ActionLink(role.Name, "RoleDetails", new { RoleID = role.RoleID })</td>
+                <td>@Html.ActionLink(role.InRoles.Count.ToString(), "RoleDetails", new { RoleID = role.RoleID })</td>
+                <td>
+                    @if (role.RankID.HasValue)
+                    {
+                        if (string.IsNullOrWhiteSpace(role.Rank.Color))
+                        {
+                            @role.Rank.Title
+                        }
+                        else
+                        {
+                            <span style="color:@role.Rank.Color">@role.Rank.Title</span>
+                        }
+                        if (!string.IsNullOrWhiteSpace(role.Rank.Image))
+                        {
+                            <br />
+                            @Html.Image(DirectoryPaths.Ranks + role.Rank.Image)
+                        }
+                    }
+                    else
+                    {
+                        <text>None</text>
+                    }
+                </td>
+                <td>
+                    @mesoBoard.Common.SpecialPermissions.Class.Get(role.SpecialPermissions).Name
+                </td>
+                <td>
+                    @(role.IsGroup ? "Yes" : "No")
+                </td>
+                <td>
+                    @if(mesoBoard.Services.SiteConfig.RegistrationRole.IntValue() == role.RoleID)
+                    {
+                        <text>Current registration role</text>
+                    }
+                    else
+                    {
+                         @Html.ActionLink("Set as registration role", "SetRegistrationRole", new { RoleID = role.RoleID })
+                    }
+
+                </td>
+            </tr>
+        }
+                    
+    </table>
+            
+</div>

@@ -1,0 +1,109 @@
+﻿@model mesoBoard.Common.IPluginDetails
+
+<link href="@Url.Content("~/Areas/Admin/Content/SyntaxHighlighter/Styles/shCore.css") " type="text/css" rel="Stylesheet" />
+<link href="@Url.Content("~/Areas/Admin/Content/SyntaxHighlighter/Styles/shThemeDefault.css") " type="text/css" rel="Stylesheet" />
+<script src="@Url.Content("~/Areas/Admin/Content/SyntaxHighlighter/Scripts/shCore.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Areas/Admin/Content/SyntaxHighlighter/Scripts/shLegacy.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Areas/Admin/Content/SyntaxHighlighter/Scripts/shBrushSql.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        SyntaxHighlighter.all();
+        dp.SyntaxHighlighter.HighlightAll('code');
+    });
+</script>
+
+    <div class="plugins section">
+        <h2>Install Plugin</h2>
+
+        @{ 
+            var results = ViewData["InstallResults"] as mesoBoard.Web.Areas.Admin.Models.PluginInstall;
+            if(results != null) 
+            { 
+                <ul>
+                    <li>SQL query error: @results.SQL </li>
+                    <li>Plugin configurations error: @results.Configs </li>
+                </ul>
+            } 
+        }
+
+
+        <h2>
+            Plugin Name: @Model.Name 
+        </h2>
+
+        <h3>
+            Description:
+        </h3>
+
+        <p>
+            @Model.Description  
+        </p>
+
+        <p>
+            Are you sure you want to install this plugin?
+        </p>
+
+        <p>
+            @using(Html.BeginForm("InstallPlugin", "Plugins")){ 
+                <input type="hidden" value="@ViewData["AssemblyName"] " name="AssemblyName" />
+                <input type="submit" value="Yes, install this plugin" />
+                @Html.ActionLink("No, don't install this plugin", "Index", "Plugins") 
+            } 
+        </p>
+
+        <p>
+            Below are the changes that will occur when this plugin is installed:
+        </p>
+
+        <h3>
+            The following plugin configurations will be added
+        </h3>
+        
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Value</th>
+                <th>Note</th>
+            </tr>
+            @if (Model.InstallDetails.GetConfigs() != null)
+             {
+                foreach (var item in Model.InstallDetails.GetConfigs())
+                { 
+                    <tr>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @item.Value
+                        </td>
+                        <td>
+                            @item.Note
+                        </td>
+                    </tr>
+                 }
+            }
+            else
+            { 
+                <tr>
+                    <td colspan="3">
+                        No Configurations
+                    </td>
+                </tr>
+            }  
+
+        </table>
+
+        <h3>
+            The following SQL commands will be executed
+        </h3>
+
+        <div style="overflow: hidden; width:770px;">
+            <pre class="brush: sql;" name="code">
+                @Model.InstallDetails.GetSQL 
+            </pre>
+        </div>
+
+    </div>
+
+
+

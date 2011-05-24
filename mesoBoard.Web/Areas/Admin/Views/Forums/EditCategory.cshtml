@@ -1,0 +1,14 @@
+﻿@model CategoryViewModel
+@{
+    Layout = "_Forums.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <fieldset class="category">
+        <legend>Edit Category</legend>
+            
+        @Html.Partial("_Category")
+        
+    </fieldset>
+}

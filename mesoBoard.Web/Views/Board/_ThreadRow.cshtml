@@ -1,0 +1,105 @@
+﻿@model mesoBoard.Framework.Models.ThreadRow
+    
+@{
+    string threadClass;
+    if (Model.HasNewPost)
+    {
+        threadClass = "new";
+    }
+    else if (Model.IsOdd)
+    {
+        threadClass = "bg_color2";
+    }
+    else
+    {
+        threadClass = "bg_color3";
+    }   
+    if (Model.Thread.IsAnnouncement || Model.Thread.IsGlobalAnnouncement)
+    {
+        threadClass += " announcement";
+    }
+    else if (Model.Thread.IsSticky)
+    {
+        threadClass += " sticky";
+    }
+    if (Model.Thread.IsLocked)
+    {
+        threadClass += " locked";
+    }
+}
+
+<tr class="thread_row @threadClass ">
+    <td class="image">
+        &nbsp;
+    </td>
+
+    <td class="info">
+
+        <div class="title">
+            @if(!string.IsNullOrWhiteSpace(Model.Thread.Image) && mesoBoard.Services.SiteConfig.AllowThreadImage.ToBool()){ 
+                <img src="@Url.Content("~/Images/ThreadImages/" + Model.Thread.Image) " alt="" />
+             } 
+            @Html.ActionLink(Model.Thread.Title, "ViewThread", new { ThreadID = Model.Thread.ThreadID })
+            
+            <div class="by_line">
+                by @Html.UsernameLink(Model.FirstPost.User) 
+                - <span>@Html.RelativeDate(Model.FirstPost.Date)</span>
+            </div>
+        </div>
+
+        <div class="attributes">
+
+            @if(Model.Thread.IsLocked) {  
+                @Html.ThemeImage("lock.png", new { alt = "Thread is locked", title = "Thread is locked" })
+             } 
+
+            @if(Model.Thread.HasPoll) {  
+                @Html.ThemeImage("poll.png", new { alt = "Thread has poll", title = "Thread has poll" }) 
+             } 
+
+            @if(Model.HasAttachment) {  
+                @Html.ThemeImage("attachment.png", new { alt = "Thread has attachment", title = "Thread has attachment" })
+
+             } 
+
+            @if(Model.IsSubscribed) {  
+                @Html.ThemeImage("subscribed.png", new { alt = "You're subscribed to this thread", title = "You're subscribed to this thread" })
+             } 
+
+            @if (Model.TotalPosts > mesoBoard.Services.SiteConfig.PostsPerPage.IntValue())
+               {
+                    int PageCount = (int)Math.Ceiling(((double)Model.TotalPosts / mesoBoard.Services.SiteConfig.PostsPerPage.IntValue()));
+                    <div class="pages">
+                        pg.
+                        @Html.ActionLink("1", "ViewThread", new { ThreadID = Model.Thread.ThreadID, Page = 1 })
+                        @if(PageCount > 2){ 
+                            @:...
+                         } 
+                        @Html.ActionLink(PageCount.ToString(), "ViewThread", new { ThreadID = Model.Thread.ThreadID, Page = PageCount })
+                    </div>
+             } 
+        </div>
+    </td>
+    
+    <td class="last_post">
+        <a href="@Url.Action("ViewThread", "Board", new { ThreadID = Model.Thread.ThreadID, LastPost = true })#@(Model.LastPost.PostID)" 
+        title="@Model.LastPost.TextOnly.Shorten(75)">
+        &#187; @Model.LastPost.TextOnly.Shorten(22)
+        </a>
+
+        <div class="by_line">
+            by @Html.UsernameLink(Model.LastPost.User) 
+        
+            - <span>@Html.RelativeDate(Model.LastPost.Date)</span>
+        </div>
+    </td>  
+      
+    <td class="post_count">
+    @(Model.TotalPosts > 1 ? Model.TotalPosts + " posts" : Model.TotalPosts + " post")
+    </td>
+
+    <td class="view_count">
+    @(Model.Thread.Views == 1 ? Model.Thread.Views + " view" : Model.Thread.Views + " views")
+    </td>    
+</tr>
+

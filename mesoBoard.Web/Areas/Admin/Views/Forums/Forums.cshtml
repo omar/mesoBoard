@@ -1,0 +1,90 @@
+﻿@model IEnumerable<mesoBoard.Data.Category>
+@{
+    Layout = "_Forums.cshtml";
+}
+
+<script type="text/javascript">
+	$(document).ready(function () {
+	    $('.toggle_display a').click(function () {
+	        $(this).parents('table.category').find('tbody.forums').toggle();
+	        $(this).toggleClass('show');
+	    });
+	}); 
+</script>
+
+
+    @foreach(var category in Model.OrderBy(x=>x.Order))
+    {
+        <table class="category" id="cat@category.CategoryID ">
+            <tr>                                      
+                <th class="change_order">
+                    @if (Model.OrderBy(x => x.Order).First().CategoryID != category.CategoryID)
+                    { 
+                        @Html.ImageLink("", Url.Action("Move", new { CategoryID = category.CategoryID, Direction = -1 }), Url.AdminContent("images/Icons/arrow_up.png"), "Move Up", "")
+                    } 
+
+                    @if (Model.OrderBy(x => x.Order).Last().CategoryID != category.CategoryID)
+                    { 
+                        @Html.ImageLink("", Url.Action("Move", new { CategoryID = category.CategoryID, Direction = 1 }), Url.AdminContent("images/Icons/arrow_down.png"), "Move Down", "")
+                    } 
+                </th>
+                <th class="actions">
+                    @Html.ActionLink("Edit", "EditCategory", new { CategoryID = category.CategoryID}) 
+                    <br />
+                    @Html.AdminConfirm("Delete", Url.Action("DeleteCategory", new { CategoryID = category.CategoryID }), Url.Action("Forums"))
+                </th>  
+                <th class="details" colspan="2">
+                    <div class="toggle_display">
+                        <a>&nbsp;</a>
+                    </div>
+
+                    <h4>
+                        @Html.ActionLink(category.Name, "EditCategory", new { CategoryID = category.CategoryID })
+                    </h4>
+                    @category.Description
+                </th>
+            </tr>
+            <tbody class="forums">
+                @foreach (var forum in category.Forums.OrderBy(x => x.Order)) {
+                <tr class="forum">
+                    <td class="change_order">
+                        @if(category.Forums.OrderBy(x=>x.Order).First().ForumID != forum.ForumID){ 
+                        @Html.ImageLink("", Url.Action("Move", new { ForumID = forum.ForumID, Direction = -1, CategoryID = forum.CategoryID }), Url.AdminContent("images/Icons/arrow_up.png"), "Move Up", "")
+                        } 
+                        @if(category.Forums.OrderBy(x=>x.Order).Last().ForumID != forum.ForumID){ 
+                        @Html.ImageLink("", Url.Action("Move", new { ForumID = forum.ForumID, Direction = 1, CategoryID = forum.CategoryID }), Url.AdminContent("images/Icons/arrow_down.png"), "Move Down", "")
+                        } 
+                    </td>
+                    <td class="actions">
+                        @Html.ActionLink("Edit", "EditForum", new { ForumID = forum.ForumID })
+                        <br />
+                        @Html.AdminConfirm("Delete", Url.Action("DeleteForum", new { ForumID = forum.ForumID }), Url.Action("Forums"))
+                        <br />
+                        @Html.ActionLink("Permissions", "ForumPermissions", new { ForumID = forum.ForumID })
+                    </td>
+                    <td class="details">
+                        <h5>
+                            @Html.ActionLink(forum.Name, "EditForum", new { ForumID = forum.ForumID })
+                        </h5>
+                        @forum.Description 
+                                               
+                    </td>
+                    <td class="stats">
+                        Posts: @forum.Threads.Sum(item => item.Posts.Count)
+                        <br />
+                        Threads: @forum.Threads.Count
+                    </td>
+                </tr>
+                } 
+            </tbody>
+        </table>
+        }       
+
+    @if(Model.Count() == 0)
+    { 
+        <table class="category">
+            <tr>
+                <th>No categories or forums</th>
+            </tr>
+        </table>
+    } 

@@ -1,0 +1,49 @@
+﻿@model mesoBoard.Data.Role
+           
+@{
+    Layout = "~/Views/Shared/_Site.cshtml";
+}
+
+@{ IEnumerable<User> UsersInGroup = ViewData["Users"] as IEnumerable<User>; }
+
+<div class="view_group section">
+    <h2>Group: 
+        @if (Model.Rank == null)
+        {
+            @Model.Name
+        }
+        else
+        {
+            <span style="color: @Model.Rank.Color">@Model.Name</span>
+        }
+    </h2>
+    
+    <dl>
+        <dt>Group Name:</dt>
+        <dd>@Model.Name </dd>
+        
+        <dt>Total Members:</dt>
+        <dd>@Model.InRoles.Count </dd>
+    </dl>
+        
+    <table>
+        <tr>
+            <th>Username</th>
+        </tr>
+        
+        @foreach (var user in UsersInGroup)
+        {         
+        <tr>
+            <td>@Html.UsernameLink(user, false) </td>
+        </tr>   
+        }       
+    </table>
+    
+    <div style="margin-top: 5px;">
+         @Html.Partial("_Pagination", ViewData["Pagination"]) 
+    </div>
+    
+</div>
+
+
+

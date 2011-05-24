@@ -1,0 +1,41 @@
+﻿@model SignatureViewModel
+@{
+    Layout = "~/Views/Shared/_User.cshtml";
+}
+    
+<div class="user_cp_signature section">
+    <h2>Signature</h2>
+    @using (Html.BeginForm())
+    { 
+        <dl>
+            <dt>Current Signature</dt>
+            <dd class="ucp_signature_preview">
+                @Html.Raw(Model.ParsedSignature)
+            </dd>
+          
+            <dt>Edit Signature</dt>
+            <dd>
+                @Html.TextAreaFor(model => model.Signature, new { style = "width: 400px; height: 120px;", @class = "bbcode" })
+            </dd>
+
+            @if (Model.Preview.HasValue)
+            {
+                <dt>Preview</dt>
+                <dd>
+                    @Html.Raw(Model.PreviewParsedSignature)
+                </dd>
+            }
+                                
+            <dt>&nbsp;</dt>
+            <dd>
+                <input type="submit" value="Save Changes" />
+                <button value="true" name="Preview">Preview Signature</button>
+            </dd>
+        </dl>
+     }  
+</div>
+    
+    
+
+
+

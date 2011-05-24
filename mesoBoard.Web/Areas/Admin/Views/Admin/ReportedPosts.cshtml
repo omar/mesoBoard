@@ -1,0 +1,69 @@
+﻿@model IEnumerable<mesoBoard.Data.ReportedPost>
+ 
+<script type="text/javascript">
+
+    function toggleText(num) {
+        var link = $("#link" + num);
+        var rpost = $("#reportedpost" + num);
+        if (rpost.is(":visible")) {
+            rpost.hide();
+            link.html("(show text)");
+        } else {
+            rpost.show();
+            link.html("(hide text)");
+        }
+        return;
+    }
+
+    $(document).ready(function () {
+        $(".reported-post-text").hide();
+        $(".reported-post-link").click(function () {
+            return false;
+        });
+    });
+        
+</script>
+      
+<div class="reported_posts section">
+    <h2>Reported Posts</h2>
+    <table>
+        <tr>
+            <th>Link</th>
+            <th>Post Text</th>
+            <th>Thread</th>
+            <th>Date</th>
+            <th></th>
+            <th></th>
+        </tr>
+            
+        @if (Model.Count() == 0)
+        { 
+        <tr class="empty">
+            <td colspan="6">No reported posts</td>
+        </tr>
+        } 
+            
+        @{ foreach (var reportedPost in Model.OrderByDescending(x => x.Date))
+            { 
+        <tr>
+            <td>
+                <a href="@Url.Action("ViewThread", "Board", new { ThreadID = reportedPost.Post.ThreadID, PostID = reportedPost.PostID, area = "" })#@reportedPost.PostID">
+                view
+                </a>
+            </td>
+            <td>
+                @reportedPost.Post.TextOnly.Shorten(25)  
+                <a class="reported-post-link" href="#" onclick="javascript: toggleText(@reportedPost.PostID); return;" id="link@(reportedPost.PostID)">(show text)</a>
+                <div id="reportedpost@(reportedPost.PostID)" class="reported-post-text">
+                    <hr />
+                    @Html.Raw(reportedPost.Post.ParsedText)
+                </div>
+            </td>
+            <td>@Html.ActionLink(reportedPost.Post.Thread.Title, "ViewThread", "Board", new { ThreadID = reportedPost.Post.ThreadID }, null) </td>
+            <td>@Html.RelativeDate(reportedPost.Date) </td>
+            <td>@Html.ActionLink("Mark as Safe", "MarkAsSafe", new { ReportedPostID = reportedPost.PostID }) </td>
+            <td>@Html.AdminConfirm("Delete Post", Url.Action("DeletePost", "Post", new { PostID = reportedPost.PostID }), Url.Action("Index")) </td>
+        </tr>
+            } }
+    </table>
+</div>    

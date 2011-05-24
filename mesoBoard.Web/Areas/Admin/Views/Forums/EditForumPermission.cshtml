@@ -1,0 +1,14 @@
+﻿@model ForumPermissionViewModel
+@{
+    Layout = "_Forums.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <fieldset class="forum_permission">
+        <legend>Edit Forum Permissions</legend>
+       
+        @Html.Partial("_ForumPermission")
+            
+    </fieldset>
+}    

@@ -1,0 +1,45 @@
+﻿@model ConfigViewModel
+
+@{
+    switch (Model.Type)
+    {
+        case "bool[]":
+            string[] values = Model.Value.Split(',');
+            string[] options = Model.Options.Split(',');
+            foreach (string option in options)
+            { 
+                <div>
+                    <input type="checkbox" name="@Model.Name" id="@option" value="@option" @(values.Contains(option) ? "checked" : "")/>
+                    @Html.Label(option, option, "inline")
+                </div>
+            }
+            break;
+
+        case "string[]":
+            string[] splitOptions = Model.Options.Split(',');
+            SelectList dropDown = new SelectList(splitOptions.AsEnumerable(), Model.Value); 
+            @Html.DropDownList(Model.Name, dropDown)
+            break;
+        case "string":
+            @Html.TextBox(Model.Name, Model.Value, new { @class = "string" })
+            break;
+        case "int":
+            @Html.TextBox(Model.Name, Model.Value, new { @class = "int" })
+       break;
+
+        case "bool":
+            @Html.RadioButton(Model.Name, true, bool.Parse(Model.Value).Equals(true), new { id = Model.ConfigID + "true" }) 
+            @Html.Label(Model.ConfigID + "true", "True", "inline")                             
+            @Html.RadioButton(Model.Name, false, bool.Parse(Model.Value).Equals(false), new { id = Model.ConfigID + "false" }) 
+            @Html.Label(Model.ConfigID + "false", "False", "inline")
+       break;
+
+        case "password":
+            @Html.Password(Model.Name, Model.Value, new { @class = "password" })
+       break;
+    }
+    
+    @Html.ValidationMessage(Model.Name)
+    
+}
+

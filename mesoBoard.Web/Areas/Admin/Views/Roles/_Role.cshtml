@@ -1,0 +1,30 @@
+﻿@model RoleViewModel
+           
+<dl>
+    <dt>Name</dt>
+    <dd>
+        @Html.TextBoxFor(model => model.Name) 
+        @Html.ValidationMessageFor(model => model.Name) 
+    </dd>
+                    
+    <dt>Associate a rank</dt>
+    <dd>
+        @Html.DropDownListFor(model => model.RankID, Model.RanksList, "(No rank)")
+    </dd>        
+                
+    <dt>Is a group</dt>
+    <dd>
+        @Html.CheckBoxFor(model => model.IsGroup)
+    </dd>
+
+    <dt>Special Permission</dt>
+    <dd>
+        @Html.DropDownListFor(model => model.SpecialPermissions, Model.SpecialPermissionsList, "(Select a special permission)")
+    </dd>
+                                    
+    <dt>&nbsp;</dt>
+    <dd>
+        @Html.HiddenFor(model => model.RoleID)
+        <input type="submit" value="@Html.SubmitButtonText(Model.RoleID)" />
+    </dd>
+</dl>

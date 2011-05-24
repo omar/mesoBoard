@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "~/Views/Shared/_Install.cshtml";
+}
+
+
+<h2>mesoBoard Install</h2>
+
+<p>
+    Welcome to the mesoBoard install.
+</p>
+<p>
+    To install mesoBoard, you will require a Microsoft SQL Server database with write/read access.
+</p>
+
+<p>
+    If you have already installed mesoBoard, change the <strong>'Installed'</strong> value to <strong>'false'</strong> in the <strong>'Settings.config'</strong> file.
+</p>
+
+<h3>
+    <a href="@Url.Action("Step1")">Begin the installation process &#187;</a>
+</h3>
+

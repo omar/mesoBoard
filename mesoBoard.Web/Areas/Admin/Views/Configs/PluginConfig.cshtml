@@ -1,0 +1,103 @@
+﻿@model mesoBoard.Web.Areas.Admin.Models.PluginConfigsViewModel
+
+<script type="text/javascript" language="javascript">
+    $(function () {
+        $("#tabs").tabs();
+        var plugin = "@Ajax.JavaScriptStringEncode(ViewData["Plugin"] as string)";
+        if(plugin !== ""){
+            $("#tabs").tabs('select', plugin);
+        }
+    });
+
+</script>
+
+
+@if (!ViewData.ModelState.IsValid) 
+{ 
+    <p>Validation Errors:</p>
+    <ul class="validation-summary-errors">
+        @foreach (var key in ViewData.ModelState.Keys) { 
+        <li>@Html.ValidationMessage(key)</li>
+        } 
+    </ul>
+} 
+
+    @{ Html.BeginForm(); }
+
+    <div class="plugin_configurations section">
+        <h2>Plugin Configuration</h2>
+        <div id="tabs">
+            <ul>
+                @foreach(string pluginGroup in Model.ConfigGroups)
+                { 
+                    <li><a href="#@pluginGroup.Replace(" ", "") ">@pluginGroup </a></li>
+                } 
+            </ul>
+
+            @foreach(string group in Model.ConfigGroups)
+            { 
+                <div id="@group.Replace(" ", "")">
+                    <fieldset>
+                        <legend>@group </legend>
+                        <dl class="details">
+                            @foreach(var config in Model.Configs.Where(item => item.PluginGroup.Equals(group, StringComparison.InvariantCultureIgnoreCase))){ 
+                                <dt>@config.Name </dt>
+                                <dd>
+                                    @if (config.Name == "BoardTheme") 
+                                    {
+                                            @Html.DropDownList("BoardTheme")
+                                
+                                    } 
+                                    else 
+                                    {
+                                        switch (config.Type)
+                                        {
+                                            case "bool[]":
+                                                string[] values = config.Value.Split(',');
+                                                string[] options = config.Options.Split(',');
+                                                foreach (string option in options) { 
+                                                <div>
+                                                <input type="checkbox" name="@config.Name " id="@option " value="@option " @(values.Contains(option) ? "checked" : "")/>
+                                                @Html.Label(option, option, "inline")
+                                                </div>
+                                                }
+                                                break;
+                                             
+                                            case "string[]":
+                                                string[] splitOptions = config.Options.Split(',');
+                                                SelectList dropDown = new SelectList(splitOptions.AsEnumerable(), config.Value); 
+                                                @Html.DropDownList(config.Name, dropDown)
+                                                break;
+                                             
+                                            case "string":
+                                            @Html.TextBox(config.Name, config.Value, new { @class = "string" })
+                                            break;
+
+                                            case "int":
+                                            @Html.TextBox(config.Name, config.Value, new { @class = "int" })
+                                            break;
+
+                                            case "bool":
+                                            @Html.RadioButton(config.Name, "true", bool.Parse(config.Value).Equals(true), new { id = config.PluginConfigID + "true" }) 
+                                            @Html.Label(config.PluginConfigID + "true", "True", "inline") 
+                                        
+                                            @Html.RadioButton(config.Name, "false", bool.Parse(config.Value).Equals(false), new { id = config.PluginConfigID + "false" }) 
+                                            @Html.Label(config.PluginConfigID + "false", "False", "inline")
+                                            break;
+                                        }
+                                    }
+                                    <label class="note">@config.Note</label>
+                                </dd>
+                                } 
+                        </dl>
+                    </fieldset>
+                </div>
+            } 
+        </div> 
+                   
+    <p style="text-align: center;padding: 5px;">
+        <input type="submit" value="Save Changes" />
+    </p>
+    @{ Html.EndForm(); }
+
+</div>

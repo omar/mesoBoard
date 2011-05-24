@@ -1,0 +1,62 @@
+﻿@model mesoBoard.Framework.Models.RegisterViewModel
+@{
+    Layout = "~/Views/Shared/_Site.cshtml";
+}
+<div class="register section">
+    <h2>Register</h2>
+
+    @using(Html.BeginForm()){
+        <p>
+            @Html.ValidationSummary() 
+        </p>
+    
+        <dl>
+            <dt>@Html.LabelFor(model => model.Username)</dt>
+            <dd>
+                @Html.EditorFor(model => model.Username)
+                <label>@mesoBoard.Services.SiteConfig.UsernameMin.Value to @mesoBoard.Services.SiteConfig.UsernameMax.Value characters</label>
+            </dd>
+            
+            <dt>@Html.LabelFor(model => model.Email)</dt>
+            <dd>
+                @Html.EditorFor(model => model.Email)
+                <label>for account activation</label>
+            </dd>
+            
+            <dt>@Html.LabelFor(model => model.Password)</dt>
+            <dd>
+                @Html.PasswordFor(model => model.Password)
+                <label>min. @mesoBoard.Services.SiteConfig.PasswordMin.Value characters</label>
+            </dd>
+            
+            <dt>@Html.LabelFor(model => model.ConfirmPassword)</dt>
+            <dd>
+                @Html.PasswordFor(model => model.ConfirmPassword)
+            </dd>
+            
+            <dt>@Html.LabelFor(model => model.Captcha)</dt>
+            <dd>
+                @Html.Captcha() 
+                <br />
+                @Html.EditorFor(model => model.Captcha)
+            </dd>
+            
+            <dt>@Html.LabelFor(model => model.Terms)</dt>
+            <dd>
+                @Html.CheckBoxFor(modle => Model.Terms)  
+                <label for="Terms"> I agree to abide by the @Html.ActionLink("terms and conditions", "Terms", "Members")  
+                of @mesoBoard.Services.SiteConfig.BoardName.Value</label>
+            </dd>
+            
+            <dt>&nbsp;</dt>
+            <dd>
+                <input type="submit" value="Register" />
+            </dd>
+        </dl>
+    }    
+</div>
+
+       
+
+
+

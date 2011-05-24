@@ -1,0 +1,5 @@
+﻿@model dynamic
+
+@Html.ActionLink("Board Index", "Index", "Board")    
+&raquo; @Html.TopBreadCrumbLink()  
+&raquo; @Html.BreadCrumbLink(new { @class = "current" })

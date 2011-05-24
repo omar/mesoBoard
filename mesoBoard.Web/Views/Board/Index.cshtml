@@ -1,0 +1,70 @@
+﻿@model mesoBoard.Framework.Models.BoardIndexViewModel
+
+@{
+    Layout = "~/Views/Shared/_Site.cshtml";
+}
+
+@section BreadCrumbContent {
+
+    @Html.ActionLink("Board Index", "Index", "Board", null, new { @class = "current" })    
+
+}
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('table.category th.header').click(function () {
+            $(this).parents('table.category').find('tbody.forums').toggle();
+            $('.toggle_display a', this).toggleClass('show');
+        });
+    });
+        
+</script>
+
+
+<div class="board_index">
+    @{ foreach (var category in Model.Categories) 
+       { 
+        <table class="category">
+            <thead>
+                <tr>
+                    <th colspan="4" class="header">
+                        @category.Name
+                        <div class="toggle_display">
+                            <a>
+                                &nbsp;
+                            </a>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody class="forums">
+                @{ int i = 0;
+                    foreach (var forum in Model.Forums.Where(x => x.Forum.CategoryID == category.CategoryID).OrderBy(x => x.Forum.Order))
+                    {
+                        forum.IsOdd = i++ % 2 == 0;
+                        @Html.Partial("_ForumRow", forum)
+                    } }
+
+                @if (category.Forums.Count == 0)
+                    { 
+                    <tr>
+                        <td colspan="4" class="empty">
+                            No Forums
+                        </td>
+                    </tr>
+                    } 
+            </tbody>
+        </table>       
+        } }
+
+    @if(Model.Categories.Count() == 0){ 
+    <table class="category">
+        <tr>
+            <th>This board has no forums</th>
+        </tr>
+    </table>
+    } 
+    @Html.Action("BoardStats", "Board")
+</div>

@@ -1,0 +1,12 @@
+﻿@model BBCodeViewModel
+@{
+    Layout = "_BBCodes.cshtml";
+}
+
+<fieldset class="bb_codes">
+    <legend>Edit BB Code</legend>
+    @using (Html.BeginForm())
+    {            
+        @Html.Partial("_BBCode")
+    }
+</fieldset>

@@ -1,0 +1,82 @@
+﻿@model IEnumerable<mesoBoard.Data.Message>
+           
+@{
+    Layout = "~/Views/Shared/_User.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#select_all").click(function () {
+            $checkall = $("#select_all");
+            if ($checkall.attr('checked')) {
+                $("." + $checkall.attr("class")).attr('checked', true);
+            } else {
+                $("." + $checkall.attr("class")).attr('checked', false);
+            }
+        });
+    });
+</script>
+
+<div class="messages_inbox section">
+
+    <h2>Inbox</h2>
+    @using (Html.BeginForm())
+    { 
+        <table>
+            <tr>
+                <th colspan="6" class="actions">
+                    With Selected: 
+                    <input type="submit" name="DoAction" value="Delete" style="width: 70px" />
+                        | 
+                    <input type="submit" name="DoAction" value="Mark As Read"/>
+                </th>
+            </tr>
+            <tr>
+                <th class="check">
+                    <input type="checkbox" id="select_all" class="msg_checkbox"  />
+                </th>
+                <th class="type"></th>
+                <th class="from">From</th>
+                <th class="subject">Subject</th>
+                <th>Message</th>
+                <th class="date">Date</th>
+            </tr>
+
+            @{int i = 0;}
+                @foreach (var msg in Model) {
+                    string cssClass = i++ % 2 == 0 ? "bg_color2" : "bg_color3";
+                    if (!msg.IsRead)
+                    {
+                        cssClass += " new";
+                    }                        
+                    <tr class="message @cssClass ">
+                        <td class="check">
+                            <input type="checkbox" class="msg_checkbox" name="msgID" value="@msg.MessageID" />
+                        </td>
+                        <td class="type">
+                        </td>
+                        <td>
+                            @Html.ActionLink(msg.FromUserID.HasValue ? msg.FromUser.Username : "User Deleted", "ViewMessage", new { MessageID = msg.MessageID })
+                        </td>
+                        <td>
+                            @Html.ActionLink(msg.Subject.Shorten(18), "ViewMessage", new { MessageID = msg.MessageID }) 
+                        </td>
+                        <td>
+                            <a href="@Url.Action("ViewMessage", new { MessageID = msg.MessageID })">
+                                @Html.Raw(msg.Text.Shorten(40))
+                            </a>
+                        </td>
+                        <td>
+                            @Html.RelativeDate(msg.DateSent) 
+                        </td>
+                    </tr>
+                    } 
+            @if(Model.Count() == 0)
+            { 
+                <tr><td colspan="6" align="center">No Messages</td></tr>
+            } 
+        </table>
+    } 
+    
+    @Html.Partial("_Pagination", ViewData["Pagination"])
+</div>

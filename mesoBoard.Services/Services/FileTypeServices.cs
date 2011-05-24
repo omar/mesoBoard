@@ -1,0 +1,38 @@
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Web.Hosting;
+using mesoBoard.Common;
+using mesoBoard.Data;
+
+namespace mesoBoard.Services
+{
+    public class FileTypeServices 
+    {
+        IRepository<FileType> FileTypes;
+
+        public FileTypeServices(IRepository<FileType> fileTypes)
+        {
+            FileTypes = fileTypes;
+        }
+
+        public bool ValidFileType(string fileName)
+        {
+            string extension = Path.GetExtension(fileName);
+            return FileTypes.First(item => item.Extension.Equals(extension)) != null;
+        }
+
+        public List<FileInfo> GetFileTypeImages()
+        {
+            DirectoryInfo fileTypeImagesDirectory = new DirectoryInfo(HostingEnvironment.MapPath(DirectoryPaths.FileTypes));
+            List<FileInfo> fileTypeImages = new List<FileInfo>();
+            string[] fileExtensions = { ".png", ".gif" };
+
+            foreach (string e in fileExtensions)
+            {
+                fileTypeImages.AddRange(fileTypeImagesDirectory.GetFiles("*" + e));
+            }
+
+            return fileTypeImages;
+        }
+    }
+}

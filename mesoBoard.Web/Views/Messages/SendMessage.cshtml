@@ -1,0 +1,35 @@
+﻿@model SendMessageViewModel
+@{
+    Layout = "~/Views/Shared/_User.cshtml";
+}
+
+<div class="messages_send section">
+    <h2>Send Message</h2>
+    @using (Html.BeginForm()) 
+    { 
+        <dl>
+            <dt>@Html.LabelFor(model => model.Username)</dt>
+            <dd>
+                @Html.TextBoxFor(model => model.Username) 
+                @Html.ValidationMessageFor(model => model.Username)
+            </dd>
+                
+            <dt>Subject</dt>
+            <dd>
+                @Html.TextBoxFor(model => model.Subject) 
+            </dd>
+                
+            <dt>Message</dt>
+            <dd>
+                @Html.TextAreaFor(model => model.Message, new {cols = "60", rows="10", @class="bbcode"}) 
+                @Html.ValidationMessageFor(model => model.Message)        
+            </dd>
+                
+            <dt>&nbsp;</dt>
+            <dd>
+                <input type="submit" value="Send Message" />
+            </dd>
+                
+        </dl>
+    } 
+</div>

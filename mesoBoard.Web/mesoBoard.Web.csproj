@@ -1,0 +1,789 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BA1A921F-2F31-4774-AD9A-CA12C40117FC}</ProjectGuid>
+    <ProjectTypeGuids>{E53F8FEA-EAE0-44A6-8774-FFD645390401};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>mesoBoard.Web</RootNamespace>
+    <AssemblyName>mesoBoard.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommonServiceLocator.NinjectAdapter, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Ninject\CommonServiceLocator.NinjectAdapter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject, Version=2.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Ninject\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Mvc, Version=2.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Ninject\Ninject.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Abstractions">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Routing">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Mobile" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_GlobalResources\Permissions.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Permissions.resx</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\BBCodesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ForumsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FileTypesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PluginsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RanksController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ConfigsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RolesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SmiliesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ThemesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UpgradeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
+    <Compile Include="Areas\Admin\Models\Configs\ConfigsViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\Configs\PluginConfigsViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\BBCodes\BBCodeViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Configs\ConfigViewer.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Configs\ConfigViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\FileTypes\FileTypeViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Forums\CategoryViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Forums\ForumPermissionsViewer.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Forums\ForumPermissionViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Forums\ForumViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Ranks\RankViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Roles\RolesViewer.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Roles\RoleViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Smilies\SmileyViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Smilies\SmiliesViewer.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Themes\ThemeViewer.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Themes\ThemeViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Upgrade\UpgradeDetailsViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Upgrade\UpgradeViewModel.cs" />
+    <Compile Include="Controllers\InstallController.cs" />
+    <Compile Include="Areas\Admin\Models\Plugins\PluginInstall.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\BoardController.cs" />
+    <Compile Include="Controllers\PostController.cs" />
+    <Compile Include="Controllers\CaptchaController.cs" />
+    <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="Controllers\MembersController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Menus\Menu.cs" />
+    <Compile Include="Areas\Admin\Models\PluginMenu.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\Upgrade\0.9.2\1-BBCodes-Delete-Pattern-Column.sql" />
+    <Content Include="App_Data\Upgrade\0.9.2\10-Threads-Delete-Views,FirstPostID-LastPostID-TotalPosts.sql" />
+    <Content Include="App_Data\Upgrade\0.9.2\11-UserProfiles-AllowNulls-ThemeID-Birthdate-Enable-ThemeID-DefaultRole-ForeignKeys.sql" />
+    <Content Include="App_Data\Upgrade\0.9.2\12-Users-Delete-TotalPosts.sql" />
+    <Content Include="App_Data\Upgrade\0.9.2\13-Threads-Add-FullText-Title.sql" />
+    <Content Include="App_Data\Upgrade\0.9.2\14-Posts-DisallowNull-TextOnly.sql" />
+    <Content Include="App_Data\Upgrade\0.9.2\15-BBCodes-Delete-Old.sql" />
+    <Content Include="App_Data\Upgrade\0.9.2\16-Configs-Delete-DateFormat.sql" />
+    <Content Include="App_Data\Upgrade\0.9.2\2-Forums-Delete-LastPostID-TotalPosts-TotalThreads-Columns.sql" />
+    <Content Include="App_Data\Upgrade\0.9.2\3-Messages-AllowNulls-FromUserID-ToUserID.sql" />
+    <Content Include="App_Data\Upgrade\0.9.2\4-OnlineUsers-Enable-UserID-ForeignKey.sql" />
+    <Content Include="App_Data\Upgrade\0.9.2\5-PollOptions-Enable-PollOptionID-PollID-ForeignKeys.sql" />
+    <Content Include="App_Data\Upgrade\0.9.2\6-Polls-Enable-PollID-ForeignKey.sql" />
+    <Content Include="App_Data\Upgrade\0.9.2\7-PollVotes-Enable-UserID-ForeignKey.sql" />
+    <Content Include="App_Data\Upgrade\0.9.2\8-Ranks-Delete-Repeat.sql" />
+    <Content Include="App_Data\Upgrade\0.9.2\9-Subscriptions-Add-ThreadID-ForeignKey.sql" />
+    <Content Include="App_Data\Upgrade\0.9.2\pre-0-Add-FullText-Catalog.sql" />
+    <Content Include="App_Data\Upgrade\0.9.2\pre-1-Threads-Add-Title-Delete-HasAttachment.sql" />
+    <Content Include="App_Data\Upgrade\0.9.2\pre-2-Threads-Fill-Title.sql" />
+    <Content Include="App_Data\Upgrade\0.9.2\pre-3-Threads-DisallowNull-Title.sql" />
+    <Content Include="App_Data\Upgrade\0.9.2\pre-4-Posts-Delete-Title-Add-TextOnly-Add-FullText-TextOnly.sql" />
+    <Content Include="App_Data\Upgrade\0.9.2\pre-5-UserProfiles-Fill-ThemeID.sql" />
+    <Content Include="App_Data\Upgrade\0.9.3\0.9.3.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="App_Data\Upgrade\0.9.3\1-ForumPermissions-Delete-Name.sql" />
+    <Content Include="App_Data\Upgrade\0.9.3\pre-1-Forums-Add-AllowGuestsDownloads-VisibleToGuests.sql" />
+    <Content Include="App_Data\Upgrade\0.9.3\pre-2-Configs-Add-RegistrationRole.sql" />
+    <Content Include="Areas\Admin\Content\admin_main.css" />
+    <Content Include="Areas\Admin\Content\images\Icons\accept.png" />
+    <Content Include="Areas\Admin\Content\images\Icons\add.png" />
+    <Content Include="Areas\Admin\Content\images\Icons\upgrade.png" />
+    <Content Include="Areas\Admin\Content\images\Icons\arrow_down.png" />
+    <Content Include="Areas\Admin\Content\images\Icons\arrow_up.png" />
+    <Content Include="Areas\Admin\Content\images\Icons\bb_codes.png" />
+    <Content Include="Areas\Admin\Content\images\Icons\cancel.png" />
+    <Content Include="Areas\Admin\Content\images\Icons\configuration.png" />
+    <Content Include="Areas\Admin\Content\images\Icons\delete.png" />
+    <Content Include="Areas\Admin\Content\images\Icons\file_types.png" />
+    <Content Include="Areas\Admin\Content\images\Icons\forums.png" />
+    <Content Include="Areas\Admin\Content\images\Icons\plugins.png" />
+    <Content Include="Areas\Admin\Content\images\Icons\plugin_configurations.png" />
+    <Content Include="Areas\Admin\Content\images\Icons\ranks.png" />
+    <Content Include="Areas\Admin\Content\images\Icons\reported_posts.png" />
+    <Content Include="Areas\Admin\Content\images\Icons\roles.png" />
+    <Content Include="Areas\Admin\Content\images\Icons\smilies.png" />
+    <Content Include="Areas\Admin\Content\images\Icons\summary.png" />
+    <Content Include="Areas\Admin\Content\images\Icons\themes.png" />
+    <Content Include="Areas\Admin\Content\images\Icons\toggle_minus.png" />
+    <Content Include="Areas\Admin\Content\images\Icons\toggle_plus.png" />
+    <Content Include="Areas\Admin\Content\images\Icons\users.png" />
+    <Content Include="Areas\Admin\Content\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Areas\Admin\Content\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Areas\Admin\Content\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Areas\Admin\Content\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Areas\Admin\Content\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Areas\Admin\Content\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Areas\Admin\Content\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Areas\Admin\Content\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Areas\Admin\Content\images\ui-icons_222222_256x240.png" />
+    <Content Include="Areas\Admin\Content\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Areas\Admin\Content\images\ui-icons_454545_256x240.png" />
+    <Content Include="Areas\Admin\Content\images\ui-icons_888888_256x240.png" />
+    <Content Include="Areas\Admin\Content\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Areas\Admin\Content\jquery-1.4.2.min.js" />
+    <Content Include="Areas\Admin\Content\jquery-ui-1.8.6.custom.css" />
+    <Content Include="Areas\Admin\Content\jquery-ui-1.8.6.custom.min.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shAutoloader.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushAppleScript.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushAS3.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushBash.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushColdFusion.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushCpp.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushCSharp.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushCss.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushDelphi.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushDiff.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushErlang.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushGroovy.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushJava.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushJavaFX.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushJScript.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushPerl.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushPhp.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushPlain.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushPowerShell.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushPython.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushRuby.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushSass.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushScala.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushSql.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushVb.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shBrushXml.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shCore.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Scripts\shLegacy.js" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Styles\shCore.css" />
+    <Content Include="Areas\Admin\Content\SyntaxHighlighter\Styles\shThemeDefault.css" />
+    <Content Include="Global.asax" />
+    <Content Include="Images\FileTypes\compress_file.png" />
+    <Content Include="Images\FileTypes\image_file.png" />
+    <Content Include="Images\FileTypes\index.html" />
+    <Content Include="Images\FileTypes\text_file.png" />
+    <Content Include="Images\index.html" />
+    <Content Include="Images\Ranks\administrator.png" />
+    <Content Include="Images\Ranks\index.html" />
+    <Content Include="Images\Ranks\square.png" />
+    <Content Include="Images\Smilies\icon_biggrin.gif" />
+    <Content Include="Images\Smilies\icon_cheesygrin.gif" />
+    <Content Include="Images\Smilies\icon_confused.gif" />
+    <Content Include="Images\Smilies\icon_cool.gif" />
+    <Content Include="Images\Smilies\icon_cry.gif" />
+    <Content Include="Images\Smilies\icon_eek.gif" />
+    <Content Include="Images\Smilies\icon_evil.gif" />
+    <Content Include="Images\Smilies\icon_exclaim.gif" />
+    <Content Include="Images\Smilies\icon_frown.gif" />
+    <Content Include="Images\Smilies\icon_idea.gif" />
+    <Content Include="Images\Smilies\icon_lol.gif" />
+    <Content Include="Images\Smilies\icon_mad.gif" />
+    <Content Include="Images\Smilies\icon_mrgreen.gif" />
+    <Content Include="Images\Smilies\icon_neutral.gif" />
+    <Content Include="Images\Smilies\icon_question.gif" />
+    <Content Include="Images\Smilies\icon_razz.gif" />
+    <Content Include="Images\Smilies\icon_redface.gif" />
+    <Content Include="Images\Smilies\icon_rolleyes.gif" />
+    <Content Include="Images\Smilies\icon_sad.gif" />
+    <Content Include="Images\Smilies\icon_smile.gif" />
+    <Content Include="Images\Smilies\icon_surprised.gif" />
+    <Content Include="Images\Smilies\icon_twisted.gif" />
+    <Content Include="Images\Smilies\icon_wink.gif" />
+    <Content Include="Images\Smilies\index.html" />
+    <Content Include="Images\ThreadImages\arrow_right.png" />
+    <Content Include="Images\ThreadImages\emoticon_happy.png" />
+    <Content Include="Images\ThreadImages\exclamation.png" />
+    <Content Include="Images\ThreadImages\eye.png" />
+    <Content Include="Images\ThreadImages\help.png" />
+    <Content Include="Images\ThreadImages\index.html" />
+    <Content Include="Images\ThreadImages\lifebuoy.png" />
+    <Content Include="Images\ThreadImages\neutral.png" />
+    <Content Include="Images\ThreadImages\nuclear.png" />
+    <Content Include="Images\ThreadImages\rainbow.png" />
+    <Content Include="Images\ThreadImages\traffic.png" />
+    <Content Include="App_Data\mesoBoardFresh.sql" />
+    <Content Include="App_Data\EmailTemplates\EmailChange.html" />
+    <Content Include="App_Data\EmailTemplates\NewMessage.html" />
+    <Content Include="App_Data\EmailTemplates\NewThreadReply.html" />
+    <Content Include="App_Data\EmailTemplates\PasswordChange.html" />
+    <Content Include="App_Data\EmailTemplates\PasswordResetRequest.html" />
+    <Content Include="App_Data\EmailTemplates\Registration.html" />
+    <Content Include="App_Data\EmailTemplates\ResendActivationCode.html" />
+    <Content Include="App_Data\EmailTemplates\Welcome.html" />
+    <Content Include="Error.html" />
+    <Content Include="Themes\Default\Content\Scripts\attachment-inputs.js" />
+    <Content Include="Themes\Default\Content\Scripts\bbcode-set-parsed.js" />
+    <Content Include="Themes\Default\Content\Scripts\bbcode-set.js" />
+    <Content Include="Themes\Default\Content\Scripts\colorpicker.js" />
+    <Content Include="Themes\Default\Content\Scripts\html-set.js" />
+    <Content Include="Themes\Default\Content\Scripts\insertAtCaret.js" />
+    <Content Include="Themes\Default\Content\Scripts\jquery-1.4.2.min.js" />
+    <Content Include="Themes\Default\Content\Scripts\jquery.markitup.pack.js" />
+    <Content Include="Themes\Default\Content\Scripts\labelImageClick.js" />
+    <Content Include="Themes\Default\Content\Styles\theme.css" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shAutoloader.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushAppleScript.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushAS3.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushBash.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushColdFusion.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushCpp.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushCSharp.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushCss.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushDelphi.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushDiff.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushErlang.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushGroovy.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushJava.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushJavaFX.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushJScript.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushPerl.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushPhp.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushPlain.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushPowerShell.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushPython.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushRuby.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushSass.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushScala.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushSql.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushVb.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shBrushXml.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shCore.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Scripts\shLegacy.js" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Styles\shCore.css" />
+    <Content Include="Themes\Default\Content\SyntaxHighlighter\Styles\shThemeDefault.css" />
+    <Content Include="Themes\Default\Images\accept.png" />
+    <Content Include="Themes\Default\Images\add.png" />
+    <Content Include="Themes\Default\Images\admin_cp.png" />
+    <Content Include="Themes\Default\Images\attachment.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\bold.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\clean.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\code.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\colors.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\fonts.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\h1.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\h2.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\h3.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\h4.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\h5.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\h6.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\handle.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\image.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\italic.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\link.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\list-bullet.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\list-item.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\list-numeric.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\menu.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\paragraph.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\picture.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\preview.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\quotes.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\stroke.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\submenu.png" />
+    <Content Include="Themes\Default\Images\bbcode_images\underline.png" />
+    <Content Include="Themes\Default\Images\birthdays.png" />
+    <Content Include="Themes\Default\Images\board_index.png" />
+    <Content Include="Themes\Default\Images\board_stats.png" />
+    <Content Include="Themes\Default\Images\cancel.png" />
+    <Content Include="Themes\Default\Images\ColorPicker\blank.gif" />
+    <Content Include="Themes\Default\Images\ColorPicker\colorpicker_background.png" />
+    <Content Include="Themes\Default\Images\ColorPicker\colorpicker_hex.png" />
+    <Content Include="Themes\Default\Images\ColorPicker\colorpicker_hsb_b.png" />
+    <Content Include="Themes\Default\Images\ColorPicker\colorpicker_hsb_h.png" />
+    <Content Include="Themes\Default\Images\ColorPicker\colorpicker_hsb_s.png" />
+    <Content Include="Themes\Default\Images\ColorPicker\colorpicker_indic.gif" />
+    <Content Include="Themes\Default\Images\ColorPicker\colorpicker_overlay.png" />
+    <Content Include="Themes\Default\Images\ColorPicker\colorpicker_rgb_b.png" />
+    <Content Include="Themes\Default\Images\ColorPicker\colorpicker_rgb_g.png" />
+    <Content Include="Themes\Default\Images\ColorPicker\colorpicker_rgb_r.png" />
+    <Content Include="Themes\Default\Images\ColorPicker\colorpicker_select.gif" />
+    <Content Include="Themes\Default\Images\ColorPicker\colorpicker_submit.png" />
+    <Content Include="Themes\Default\Images\ColorPicker\custom_background.png" />
+    <Content Include="Themes\Default\Images\ColorPicker\custom_hex.png" />
+    <Content Include="Themes\Default\Images\ColorPicker\custom_hsb_b.png" />
+    <Content Include="Themes\Default\Images\ColorPicker\custom_hsb_h.png" />
+    <Content Include="Themes\Default\Images\ColorPicker\custom_hsb_s.png" />
+    <Content Include="Themes\Default\Images\ColorPicker\custom_indic.gif" />
+    <Content Include="Themes\Default\Images\ColorPicker\custom_rgb_b.png" />
+    <Content Include="Themes\Default\Images\ColorPicker\custom_rgb_g.png" />
+    <Content Include="Themes\Default\Images\ColorPicker\custom_rgb_r.png" />
+    <Content Include="Themes\Default\Images\ColorPicker\custom_submit.png" />
+    <Content Include="Themes\Default\Images\ColorPicker\select.png" />
+    <Content Include="Themes\Default\Images\ColorPicker\select2.png" />
+    <Content Include="Themes\Default\Images\ColorPicker\slider.png" />
+    <Content Include="Themes\Default\Images\delete.png" />
+    <Content Include="Themes\Default\Images\favicon.png" />
+    <Content Include="Themes\Default\Images\forum_new_normal.png" />
+    <Content Include="Themes\Default\Images\forum_normal.png" />
+    <Content Include="Themes\Default\Images\groups.png" />
+    <Content Include="Themes\Default\Images\help.png" />
+    <Content Include="Themes\Default\Images\index.html" />
+    <Content Include="Themes\Default\Images\lock.png" />
+    <Content Include="Themes\Default\Images\lock_break.png" />
+    <Content Include="Themes\Default\Images\login.png" />
+    <Content Include="Themes\Default\Images\logo.png" />
+    <Content Include="Themes\Default\Images\logout.png" />
+    <Content Include="Themes\Default\Images\members_list.png" />
+    <Content Include="Themes\Default\Images\messages_inbox.png" />
+    <Content Include="Themes\Default\Images\messages_send.png" />
+    <Content Include="Themes\Default\Images\messages_sent.png" />
+    <Content Include="Themes\Default\Images\message_error.png" />
+    <Content Include="Themes\Default\Images\message_new.png" />
+    <Content Include="Themes\Default\Images\message_notice.png" />
+    <Content Include="Themes\Default\Images\message_success.png" />
+    <Content Include="Themes\Default\Images\poll.png" />
+    <Content Include="Themes\Default\Images\post_create.png" />
+    <Content Include="Themes\Default\Images\post_delete.png" />
+    <Content Include="Themes\Default\Images\post_edit.png" />
+    <Content Include="Themes\Default\Images\post_link.png" />
+    <Content Include="Themes\Default\Images\post_quote.png" />
+    <Content Include="Themes\Default\Images\post_report.png" />
+    <Content Include="Themes\Default\Images\register.png" />
+    <Content Include="Themes\Default\Images\search.png" />
+    <Content Include="Themes\Default\Images\search_results.png" />
+    <Content Include="Themes\Default\Images\subscribed.png" />
+    <Content Include="Themes\Default\Images\subscription_add.png" />
+    <Content Include="Themes\Default\Images\subscription_delete.png" />
+    <Content Include="Themes\Default\Images\thread_announcement.png" />
+    <Content Include="Themes\Default\Images\thread_create.png" />
+    <Content Include="Themes\Default\Images\thread_edit.png" />
+    <Content Include="Themes\Default\Images\thread_new_announcement.png" />
+    <Content Include="Themes\Default\Images\thread_new_normal.png" />
+    <Content Include="Themes\Default\Images\thread_new_sticky.png" />
+    <Content Include="Themes\Default\Images\thread_normal.png" />
+    <Content Include="Themes\Default\Images\thread_sticky.png" />
+    <Content Include="Themes\Default\Images\toggle_minus.png" />
+    <Content Include="Themes\Default\Images\toggle_plus.png" />
+    <Content Include="Themes\Default\Images\user_cp.png" />
+    <Content Include="Themes\Default\Images\user_cp_avatar.png" />
+    <Content Include="Themes\Default\Images\user_cp_edit.png" />
+    <Content Include="Themes\Default\Images\user_cp_email.png" />
+    <Content Include="Themes\Default\Images\user_cp_password.png" />
+    <Content Include="Themes\Default\Images\user_cp_signature.png" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\Attachments\" />
+    <Folder Include="Plugins\" />
+    <Folder Include="Upload\Avatars\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Web.config" />
+    <Content Include="Settings.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Admin\Confirm.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Shared\_Admin.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_PluginMenu.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Index.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Admin\ReportedPosts.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\BBCodes\BBCodes.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\BBCodes\EditBBCode.cshtml" />
+    <Content Include="Areas\Admin\Views\Configs\Config.cshtml" />
+    <Content Include="Areas\Admin\Views\Configs\PluginConfig.cshtml" />
+    <Content Include="Areas\Admin\Views\FileTypes\EditFileType.cshtml" />
+    <Content Include="Areas\Admin\Views\FileTypes\FileTypes.cshtml" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Admin\Views\Forums\CreateCategory.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Forums\CreateForum.cshtml" />
+    <Content Include="Areas\Admin\Views\Forums\CreateForumPermission.cshtml" />
+    <Content Include="Areas\Admin\Views\Forums\EditCategory.cshtml" />
+    <Content Include="Areas\Admin\Views\Forums\EditForum.cshtml" />
+    <Content Include="Areas\Admin\Views\Forums\EditForumPermission.cshtml" />
+    <Content Include="Areas\Admin\Views\Forums\ForumPermissions.cshtml" />
+    <Content Include="Areas\Admin\Views\Forums\Forums.cshtml" />
+    <Content Include="Areas\Admin\Views\Plugins\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Plugins\Install.cshtml" />
+    <Content Include="Areas\Admin\Views\Plugins\PluginInstalled.cshtml" />
+    <Content Include="Areas\Admin\Views\Ranks\CreateRank.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Ranks\EditRank.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Ranks\Ranks.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Roles\RoleDetails.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Roles\Roles.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Smilies\EditSmiley.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Smilies\Smilies.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Themes\CreateTheme.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Themes\EditTheme.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Themes\Themes.cshtml" />
+    <Content Include="Areas\Admin\Views\Upgrade\Confirm.cshtml" />
+    <Content Include="Areas\Admin\Views\Upgrade\Upgrade.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\UserDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Users.cshtml" />
+    <Content Include="Areas\Admin\Views\Forums\_Forums.cshtml" />
+    <Content Include="Areas\Admin\Views\BBCodes\_BBCode.cshtml" />
+    <Content Include="Areas\Admin\Views\FileTypes\_FileType.cshtml" />
+    <Content Include="Areas\Admin\Views\Forums\_Category.cshtml" />
+    <Content Include="Areas\Admin\Views\Forums\_Forum.cshtml" />
+    <Content Include="Areas\Admin\Views\Forums\_ForumPermission.cshtml" />
+    <Content Include="Areas\Admin\Views\Ranks\_Rank.cshtml" />
+    <Content Include="Areas\Admin\Views\Roles\_Role.cshtml" />
+    <Content Include="Areas\Admin\Views\Smilies\_Smiley.cshtml" />
+    <Content Include="Areas\Admin\Views\Themes\_Theme.cshtml" />
+    <Content Include="Areas\Admin\Views\Configs\_Config.cshtml" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Install\Index.cshtml" />
+    <Content Include="Views\Shared\_Footer.cshtml" />
+    <Content Include="Views\Install\Step1.cshtml" />
+    <Content Include="Views\Install\Step2.cshtml" />
+    <Content Include="Views\Install\Step3.cshtml" />
+    <Content Include="Views\Install\InstallationComplete.cshtml" />
+    <Content Include="Views\Install\AlreadyInstalled.cshtml" />
+    <Content Include="Views\Auth\ForgotPassword.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Auth\Login.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Auth\Register.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Auth\ResendActivationCode.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Board\BoardStats.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Board\_ForumPermissions.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Board\_ForumRow.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Board\Index.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Board\_PostRow.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Board\Search.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Board\_ThreadPoll.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Board\_ThreadRow.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Board\ViewForum.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Board\ViewThread.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Members\Groups.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Members\MembersList.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Members\Terms.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Members\UserProfile.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Members\ViewGroup.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Messages\Inbox.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Messages\SendMessage.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Messages\Sentbox.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Messages\ViewMessage.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Shared\_BoardBreadCrumb.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Shared\_BreadCrumb.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Shared\_Header.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Post\_ThreadReview.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Post\_ThreadImages.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Post\_SmiliesTable.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Post\Thread.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Shared\Confirm.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Post\_ThreadEditor.cshtml" />
+    <Content Include="Views\Post\_PostEditor.cshtml" />
+    <Content Include="Views\Post\_PollEditor.cshtml" />
+    <Content Include="Views\Post\_AttachmentsEditor.cshtml" />
+    <Content Include="Views\Post\Post.cshtml" />
+    <Content Include="Views\Board\Offline.cshtml" />
+    <Content Include="Themes\Default\Views\Web.config" />
+    <Content Include="Areas\Admin\Views\Ranks\_Ranks.cshtml" />
+    <Content Include="Areas\Admin\Views\Themes\_Themes.cshtml" />
+    <Content Include="Areas\Admin\Views\BBCodes\_BBCodes.cshtml" />
+    <Content Include="Areas\Admin\Views\FileTypes\_FileTypes.cshtml" />
+    <Content Include="Areas\Admin\Views\Smilies\_Smilies.cshtml" />
+    <Content Include="Views\Shared\_Install.cshtml" />
+    <Content Include="Views\Shared\_Site.cshtml" />
+    <Content Include="Views\Shared\_Posting.cshtml" />
+    <Content Include="Views\Shared\_User.cshtml" />
+    <Content Include="Views\Shared\_Pagination.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\User\_Menu.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\User\Avatar.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\User\Email.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\User\Password.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\User\Profile.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\User\Signature.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\_ViewStart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\mesoBoard.Common\mesoBoard.Common.csproj">
+      <Project>{EE812012-B40A-44B1-9B79-C80FA087462F}</Project>
+      <Name>mesoBoard.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mesoBoard.Data\mesoBoard.Data.csproj">
+      <Project>{59B8C04A-9143-4DF0-85E0-C00C7E504312}</Project>
+      <Name>mesoBoard.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mesoBoard.Framework\mesoBoard.Framework.csproj">
+      <Project>{98C0FD5E-DFD1-4D96-884D-145B081AD708}</Project>
+      <Name>mesoBoard.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mesoBoard.Services\mesoBoard.Services.csproj">
+      <Project>{A0197574-1AB9-4116-9FB1-48E02879D559}</Project>
+      <Name>mesoBoard.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mesoBoard.Web.Helpers\mesoBoard.Web.Helpers.csproj">
+      <Project>{0AEA5054-D5CA-45A8-BC14-0BF2161EB1C8}</Project>
+      <Name>mesoBoard.Web.Helpers</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="App_GlobalResources\Permissions.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Permissions.designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target> -->
+  <!-- To enable MVC area subproject support, uncomment the following two lines:
+  <UsingTask TaskName="Microsoft.Web.Mvc.Build.CreateAreaManifest" AssemblyName="Microsoft.Web.Mvc.Build, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+  <UsingTask TaskName="Microsoft.Web.Mvc.Build.CopyAreaManifests" AssemblyName="Microsoft.Web.Mvc.Build, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+  -->
+  <Target Name="AfterBuild" DependsOnTargets="AfterBuildCompiler">
+    <PropertyGroup>
+      <AreasManifestDir>$(ProjectDir)\..\Manifests</AreasManifestDir>
+    </PropertyGroup>
+    <!-- If this is an area child project, uncomment the following line:
+    <CreateAreaManifest AreaName="$(AssemblyName)" AreaType="Child" AreaPath="$(ProjectDir)" ManifestPath="$(AreasManifestDir)" ContentFiles="@(Content)" />
+    -->
+    <!-- If this is an area parent project, uncomment the following lines:
+    <CreateAreaManifest AreaName="$(AssemblyName)" AreaType="Parent" AreaPath="$(ProjectDir)" ManifestPath="$(AreasManifestDir)" ContentFiles="@(Content)" />
+    <CopyAreaManifests ManifestPath="$(AreasManifestDir)" CrossCopy="false" RenameViews="true" />
+    -->
+  </Target>
+  <Target Name="AfterBuildCompiler" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(ProjectDir)\..\$(ProjectName)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>False</AutoAssignPort>
+          <DevelopmentServerPort>50539</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost/mesoBoard</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

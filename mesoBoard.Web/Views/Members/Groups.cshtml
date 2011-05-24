@@ -1,0 +1,36 @@
+﻿@model IEnumerable<mesoBoard.Data.Role>
+
+@{
+    Layout = "~/Views/Shared/_Site.cshtml";
+}
+<div class="groups section">
+    <h2>Groups</h2>
+        
+    <table>
+        <tr>
+            <th>Group Name</th>
+            <th>Total Members</th>
+        </tr>
+        
+        @{ foreach(var role in Model){ 
+        
+        <tr>
+            <td>@Html.ActionLink(role.Name, "ViewGroup", "Members", new { GroupID = role.RoleID}, role.Rank != null ? new { style= "color:" + role.Rank.Color } : null)  </td>
+            <td>@role.InRoles.Count </td>
+        </tr>
+        
+        } }       
+
+        @if(Model.Count() == 0){ 
+            <tr class="empty">
+                <td colspan="2">No groups</td>            
+            </tr>
+         } 
+    </table>
+    
+     @Html.Partial("_Pagination", ViewData["Pagination"]) 
+    
+</div>
+
+
+

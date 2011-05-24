@@ -1,0 +1,38 @@
+﻿@model IPostEditor
+
+<dt>Attachment</dt>
+
+<dd>
+    <div id="UploadFields">
+        <input type="file" name="PostEditor.Files" /><br />
+        <input type="file" name="PostEditor.Files" /><br />
+    </div>
+    <div id="UploadStatus">
+    </div>
+    <br />
+    <button type="button" id="ExtraUpload">Upload More</button>
+    @Html.ValidationMessageFor(model => model.PostEditor.Files)
+
+    @if (Model.EditorType == EditorType.Edit)
+    {
+        if (Model.PostEditor.Attachments != null && Model.PostEditor.Attachments.Count() > 0)
+        { 
+            <div class="attachments_edit">
+            @foreach (var attachment in Model.PostEditor.Attachments)
+            { 
+                <table>
+                    <tr><th>@Html.FileTypeImage(System.IO.Path.GetExtension(attachment.DownloadName)) @attachment.DownloadName.Shorten(25)</th></tr>
+                    <tr><td>Size: @Html.FriendlyFileSize(attachment.Size)</td></tr>
+                    <tr><td>Downloaded: @attachment.Downloaded times</td></tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="PostEditor.Delete" value="@attachment.AttachmentID " id="attachment@(attachment.AttachmentID)" />
+                            <label for="attachment@(attachment.AttachmentID)" >Delete</label>
+                        </td>
+                    </tr>
+                </table>
+            } 
+            </div>
+        } 
+    }
+</dd>

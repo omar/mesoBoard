@@ -1,0 +1,61 @@
+﻿@model RoleViewModel
+   
+<div class="roles section">
+    <h2>Roles</h2>
+
+    @using(Html.BeginForm("EditRole", "Roles", FormMethod.Post))
+    { 
+        <fieldset>
+            <legend>Edit Role: @Model.Name</legend>
+            @Html.Partial("_Role")
+        </fieldset>
+    } 
+
+    @using(Html.BeginForm("AddToUserRole", "Roles"))
+    { 
+        <fieldset>
+            <legend>Add User to @Model.Name</legend>
+            
+            <dl>
+                <dt>Username</dt>
+                <dd>
+                    @Html.TextBox("Username") 
+
+                </dd>
+                
+                <dt>&nbsp;</dt>
+                <dd>
+                    @Html.HiddenFor(model => model.RoleID)
+                    <input type="submit" value="Add User" />
+                </dd>
+            </dl>
+        </fieldset>
+    } 
+        
+    <table>
+        <tr>
+            <th colspan="2">Users in Role: @Model.Name (@Model.Users.Count() )</th>
+        </tr>
+        <tr>
+            <th class="delete""></th>
+            <th>User</th>
+        </tr>
+
+        @foreach(var user in Model.Users)
+        { 
+            <tr>
+                <td>@Html.ActionLink("Remove", "RemoveFromRole", "Roles", new { UserID = user.UserID, RoleID = Model.RoleID }, null)</td>
+                <td>
+                    @Html.ActionLink(user.Username, "UserDetails", "Users", new { UserID = user.UserID }, null)
+                </td>
+            </tr>
+        }
+
+        @if(Model.Users.Count() == 0)
+        { 
+            <tr class="empty">
+                <td colspan="2">No users in role</td>
+            </tr>
+        }  
+    </table>
+</div>

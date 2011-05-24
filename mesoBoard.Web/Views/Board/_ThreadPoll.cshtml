@@ -1,0 +1,31 @@
+﻿@model mesoBoard.Framework.Models.ThreadPoll    
+
+    @using (Html.BeginForm("CastVote", "Post", new { ThreadID = Model.Poll.PollID, PollID = Model.Poll.PollID }, FormMethod.Post)) 
+    { 
+        @Html.AntiForgeryToken() 
+        <p class="title">
+            @Model.Poll.Question  (@Model.Poll.TotalVotes votes)
+        </p>
+        <dl>
+            @foreach(PollOption po in Model.Poll.PollOptions.OrderBy(item => item.PollOptionID))
+            { 
+                <dt class="option">
+                    @if (Model.CanCastVote) 
+                    { 
+                        <input type="radio" value="@po.PollOptionID " id="pollOption@(po.PollOptionID)" name="PollOptionID" />
+                    } 
+                    <label for="pollOption@(po.PollOptionID)">@po.Text</label>
+                </dt>
+                <dd class="votes">
+                    @Html.VoteBar(po.PollVotes.Count, Model.Poll.TotalVotes)  @po.PollVotes.Count  votes 
+                    (@Html.PercentOfVotes(po.PollVotes.Count, Model.Poll.TotalVotes)%)
+                </dd>
+             } 
+            
+            @if(Model.CanCastVote){ 
+            <dt class="cast_vote">
+                <input type="submit" value="Cast Vote" />
+            </dt>
+             } 
+        </dl>
+     } 

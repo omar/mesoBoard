@@ -1,0 +1,13 @@
+﻿@model RankViewModel
+@{
+    Layout = "_Ranks.cshtml";
+}  
+
+<fieldset>
+    <legend>Edit Rank</legend>
+
+    @using (Html.BeginForm())
+    { 
+        @Html.Partial("_Rank")
+    } 
+</fieldset>

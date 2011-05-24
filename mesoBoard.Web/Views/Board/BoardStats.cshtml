@@ -1,0 +1,55 @@
+﻿@model mesoBoard.Framework.Models.BoardStatsViewModel
+
+<table class="board_stats">
+    <tr class="users">
+        <th></th>
+        <td>
+            <b>@Model.OnlineUsers.Count() </b> registered users and <b>@Model.OnlineGuests.Count() </b> guests online
+
+            <br />
+
+            <b>Online Users:</b>
+            @foreach(var user in Model.OnlineUsers){ 
+                <text>
+                    @Html.ActionLink(user.OnlineUser.User.Username, "UserProfile", "Members", new { UserNameOrID = user.OnlineUser.User.UserID }, new { style = user.Color != null ? string.Format("color:{0}", user.Color) : "" })
+
+                </text>
+             }
+
+            @if(Model.OnlineUsers.Count() == 0 ){
+                <label>No users online</label>
+            } 
+
+            <br />
+            <br />
+
+
+            <b>@Model.TotalRegisteredUsers  registered users</b> have made 
+            <b>@Model.TotalPosts  posts</b> in <b>@Model.TotalThreads threads</b>
+
+            <br />
+
+            <b>@Html.UserProfileLink(Model.NewestUser.Username) </b> is the newest registered user
+        </td>
+    </tr>
+    <tr class="birthdays">
+        <th></th>
+        <td>
+            @if(Model.BirthdayUsers == null || Model.BirthdayUsers.Count() == 0){ 
+                <label>No Birthdays</label>
+             } 
+
+            @foreach(var user in Model.BirthdayUsers) { 
+                <b>
+                    @Html.UserProfileLink(user.Username) 
+                </b> 
+                <label>
+                (@(DateTime.UtcNow.Year - user.UserProfile.Birthdate.Value.Year)) &nbsp;
+                </label>
+             }
+        </td>
+    </tr>
+
+</table>
+
+

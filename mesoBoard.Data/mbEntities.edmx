@@ -1,0 +1,2307 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="mesoBoardModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="mesoBoardModelStoreContainer">
+          <EntitySet Name="Attachments" EntityType="mesoBoardModel.Store.Attachments" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="BBCodes" EntityType="mesoBoardModel.Store.BBCodes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Categories" EntityType="mesoBoardModel.Store.Categories" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Configs" EntityType="mesoBoardModel.Store.Configs" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="FileTypes" EntityType="mesoBoardModel.Store.FileTypes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ForumPermissions" EntityType="mesoBoardModel.Store.ForumPermissions" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Forums" EntityType="mesoBoardModel.Store.Forums" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="InRoles" EntityType="mesoBoardModel.Store.InRoles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Messages" EntityType="mesoBoardModel.Store.Messages" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OnlineGuests" EntityType="mesoBoardModel.Store.OnlineGuests" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OnlineUsers" EntityType="mesoBoardModel.Store.OnlineUsers" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PasswordResetRequests" EntityType="mesoBoardModel.Store.PasswordResetRequests" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PluginConfigs" EntityType="mesoBoardModel.Store.PluginConfigs" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Plugins" EntityType="mesoBoardModel.Store.Plugins" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PollOptions" EntityType="mesoBoardModel.Store.PollOptions" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Polls" EntityType="mesoBoardModel.Store.Polls" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PollVotes" EntityType="mesoBoardModel.Store.PollVotes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Posts" EntityType="mesoBoardModel.Store.Posts" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Ranks" EntityType="mesoBoardModel.Store.Ranks" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ReportedPosts" EntityType="mesoBoardModel.Store.ReportedPosts" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Roles" EntityType="mesoBoardModel.Store.Roles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Smilies" EntityType="mesoBoardModel.Store.Smilies" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Subscriptions" EntityType="mesoBoardModel.Store.Subscriptions" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Themes" EntityType="mesoBoardModel.Store.Themes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Threads" EntityType="mesoBoardModel.Store.Threads" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ThreadViews" EntityType="mesoBoardModel.Store.ThreadViews" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ThreadViewStamps" EntityType="mesoBoardModel.Store.ThreadViewStamps" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserProfiles" EntityType="mesoBoardModel.Store.UserProfiles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Users" EntityType="mesoBoardModel.Store.Users" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Attachments_Posts" Association="mesoBoardModel.Store.FK_Attachments_Posts">
+            <End Role="Posts" EntitySet="Posts" />
+            <End Role="Attachments" EntitySet="Attachments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ForumPermissions_Forums" Association="mesoBoardModel.Store.FK_ForumPermissions_Forums">
+            <End Role="Forums" EntitySet="Forums" />
+            <End Role="ForumPermissions" EntitySet="ForumPermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Forums_Categories" Association="mesoBoardModel.Store.FK_Forums_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Forums" EntitySet="Forums" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InRoles_Roles" Association="mesoBoardModel.Store.FK_InRoles_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="InRoles" EntitySet="InRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InRoles_Users" Association="mesoBoardModel.Store.FK_InRoles_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="InRoles" EntitySet="InRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Messages_FromUser" Association="mesoBoardModel.Store.FK_Messages_FromUser">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Messages" EntitySet="Messages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Messages_ToUser" Association="mesoBoardModel.Store.FK_Messages_ToUser">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Messages" EntitySet="Messages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OnlineUsers_Users" Association="mesoBoardModel.Store.FK_OnlineUsers_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="OnlineUsers" EntitySet="OnlineUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PasswordResetRequests_Users" Association="mesoBoardModel.Store.FK_PasswordResetRequests_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PasswordResetRequests" EntitySet="PasswordResetRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permissions_Roles" Association="mesoBoardModel.Store.FK_Permissions_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="ForumPermissions" EntitySet="ForumPermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PollOptions_Polls" Association="mesoBoardModel.Store.FK_PollOptions_Polls">
+            <End Role="Polls" EntitySet="Polls" />
+            <End Role="PollOptions" EntitySet="PollOptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Polls_Threads" Association="mesoBoardModel.Store.FK_Polls_Threads">
+            <End Role="Threads" EntitySet="Threads" />
+            <End Role="Polls" EntitySet="Polls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PollVotes_PollOptions" Association="mesoBoardModel.Store.FK_PollVotes_PollOptions">
+            <End Role="PollOptions" EntitySet="PollOptions" />
+            <End Role="PollVotes" EntitySet="PollVotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PollVotes_Users" Association="mesoBoardModel.Store.FK_PollVotes_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PollVotes" EntitySet="PollVotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Posts_Threads" Association="mesoBoardModel.Store.FK_Posts_Threads">
+            <End Role="Threads" EntitySet="Threads" />
+            <End Role="Posts" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Posts_Users" Association="mesoBoardModel.Store.FK_Posts_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Posts" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReportedPosts_Posts" Association="mesoBoardModel.Store.FK_ReportedPosts_Posts">
+            <End Role="Posts" EntitySet="Posts" />
+            <End Role="ReportedPosts" EntitySet="ReportedPosts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Roles_Ranks" Association="mesoBoardModel.Store.FK_Roles_Ranks">
+            <End Role="Ranks" EntitySet="Ranks" />
+            <End Role="Roles" EntitySet="Roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subscriptions_Threads" Association="mesoBoardModel.Store.FK_Subscriptions_Threads">
+            <End Role="Threads" EntitySet="Threads" />
+            <End Role="Subscriptions" EntitySet="Subscriptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subscriptions_Users" Association="mesoBoardModel.Store.FK_Subscriptions_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Subscriptions" EntitySet="Subscriptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Threads_Forums" Association="mesoBoardModel.Store.FK_Threads_Forums">
+            <End Role="Forums" EntitySet="Forums" />
+            <End Role="Threads" EntitySet="Threads" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ThreadViews_Threads" Association="mesoBoardModel.Store.FK_ThreadViews_Threads">
+            <End Role="Threads" EntitySet="Threads" />
+            <End Role="ThreadViews" EntitySet="ThreadViews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ThreadViews_Users" Association="mesoBoardModel.Store.FK_ThreadViews_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ThreadViews" EntitySet="ThreadViews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ThreadViewStamp_Threads" Association="mesoBoardModel.Store.FK_ThreadViewStamp_Threads">
+            <End Role="Threads" EntitySet="Threads" />
+            <End Role="ThreadViewStamps" EntitySet="ThreadViewStamps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfiles_Roles" Association="mesoBoardModel.Store.FK_UserProfiles_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfiles_Themes" Association="mesoBoardModel.Store.FK_UserProfiles_Themes">
+            <End Role="Themes" EntitySet="Themes" />
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfiles_Users" Association="mesoBoardModel.Store.FK_UserProfiles_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Views_Users" Association="mesoBoardModel.Store.FK_Views_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ThreadViewStamps" EntitySet="ThreadViewStamps" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Attachments">
+          <Key>
+            <PropertyRef Name="AttachmentID" />
+          </Key>
+          <Property Name="AttachmentID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PostID" Type="int" Nullable="false" />
+          <Property Name="DownloadName" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="SavedName" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="Type" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Size" Type="int" Nullable="false" />
+          <Property Name="Downloaded" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BBCodes">
+          <Key>
+            <PropertyRef Name="BBCodeID" />
+          </Key>
+          <Property Name="BBCodeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Tag" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Parse" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="150" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Order" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Configs">
+          <Key>
+            <PropertyRef Name="ConfigID" />
+          </Key>
+          <Property Name="ConfigID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="150" />
+          <Property Name="Value" Type="nvarchar" Nullable="false" MaxLength="150" />
+          <Property Name="Type" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Group" Type="nvarchar" MaxLength="50" />
+          <Property Name="Note" Type="nvarchar" MaxLength="100" />
+          <Property Name="Options" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="FileTypes">
+          <Key>
+            <PropertyRef Name="FileTypeID" />
+          </Key>
+          <Property Name="FileTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Extension" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Image" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="ForumPermissions">
+          <Key>
+            <PropertyRef Name="ForumPermissionID" />
+          </Key>
+          <Property Name="ForumPermissionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ForumID" Type="int" Nullable="false" />
+          <Property Name="Visibility" Type="int" Nullable="false" />
+          <Property Name="Posting" Type="int" Nullable="false" />
+          <Property Name="Polling" Type="int" Nullable="false" />
+          <Property Name="Attachments" Type="int" Nullable="false" />
+          <Property Name="RoleID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Forums">
+          <Key>
+            <PropertyRef Name="ForumID" />
+          </Key>
+          <Property Name="ForumID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="150" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Order" Type="int" Nullable="false" />
+          <Property Name="VisibleToGuests" Type="bit" Nullable="false" />
+          <Property Name="AllowGuestDownloads" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InRoles">
+          <Key>
+            <PropertyRef Name="InRoleID" />
+          </Key>
+          <Property Name="InRoleID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Messages">
+          <Key>
+            <PropertyRef Name="MessageID" />
+          </Key>
+          <Property Name="MessageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="FromUserID" Type="int" />
+          <Property Name="ToUserID" Type="int" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="100" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsRead" Type="bit" Nullable="false" />
+          <Property Name="DateSent" Type="datetime" Nullable="false" />
+          <Property Name="ToDelete" Type="bit" Nullable="false" />
+          <Property Name="FromDelete" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OnlineGuests">
+          <Key>
+            <PropertyRef Name="OnlineGuestID" />
+          </Key>
+          <Property Name="OnlineGuestID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IP" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OnlineUsers">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PasswordResetRequests">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Token" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PluginConfigs">
+          <Key>
+            <PropertyRef Name="PluginConfigID" />
+          </Key>
+          <Property Name="PluginConfigID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="150" />
+          <Property Name="Value" Type="nvarchar" Nullable="false" MaxLength="150" />
+          <Property Name="Type" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="PluginGroup" Type="nvarchar" MaxLength="50" />
+          <Property Name="Note" Type="nvarchar" MaxLength="100" />
+          <Property Name="Options" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="Plugins">
+          <Key>
+            <PropertyRef Name="PluginID" />
+          </Key>
+          <Property Name="PluginID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="AssemblyName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Installed" Type="bit" Nullable="false" />
+          <Property Name="Version" Type="nvarchar" MaxLength="50" />
+          <Property Name="Author" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Website" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PollOptions">
+          <Key>
+            <PropertyRef Name="PollOptionID" />
+          </Key>
+          <Property Name="PollOptionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PollID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Polls">
+          <Key>
+            <PropertyRef Name="PollID" />
+          </Key>
+          <Property Name="Question" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PollID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PollVotes">
+          <Key>
+            <PropertyRef Name="PollVoteID" />
+          </Key>
+          <Property Name="PollVoteID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PollOptionID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Posts">
+          <Key>
+            <PropertyRef Name="PostID" />
+          </Key>
+          <Property Name="PostID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ThreadID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="UseSignature" Type="bit" Nullable="false" />
+          <Property Name="ParsedText" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TextOnly" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ranks">
+          <Key>
+            <PropertyRef Name="RankID" />
+          </Key>
+          <Property Name="RankID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="PostCount" Type="int" Nullable="false" />
+          <Property Name="Image" Type="nvarchar" MaxLength="50" />
+          <Property Name="Color" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsRoleRank" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReportedPosts">
+          <Key>
+            <PropertyRef Name="PostID" />
+          </Key>
+          <Property Name="PostID" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="RankID" Type="int" />
+          <Property Name="IsGroup" Type="bit" Nullable="false" />
+          <Property Name="SpecialPermissions" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Smilies">
+          <Key>
+            <PropertyRef Name="SmileyID" />
+          </Key>
+          <Property Name="SmileyID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ImageURL" Type="nvarchar" Nullable="false" MaxLength="150" />
+          <Property Name="Code" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Subscriptions">
+          <Key>
+            <PropertyRef Name="SubscriptionID" />
+          </Key>
+          <Property Name="SubscriptionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="ThreadID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Themes">
+          <Key>
+            <PropertyRef Name="ThemeID" />
+          </Key>
+          <Property Name="ThemeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="150" />
+          <Property Name="DisplayName" Type="nvarchar" Nullable="false" MaxLength="150" />
+          <Property Name="VisibleToUsers" Type="bit" Nullable="false" />
+          <Property Name="FolderName" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Threads">
+          <Key>
+            <PropertyRef Name="ThreadID" />
+          </Key>
+          <Property Name="ThreadID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ForumID" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="HasPoll" Type="bit" Nullable="false" />
+          <Property Name="IsLocked" Type="bit" Nullable="false" />
+          <Property Name="Image" Type="nvarchar" MaxLength="50" />
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ThreadViews">
+          <Key>
+            <PropertyRef Name="ThreadViewID" />
+          </Key>
+          <Property Name="ThreadViewID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ThreadID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ThreadViewStamps">
+          <Key>
+            <PropertyRef Name="ViewID" />
+          </Key>
+          <Property Name="ViewID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="ThreadID" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserProfiles">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="Avatar" Type="nvarchar" MaxLength="100" />
+          <Property Name="Signature" Type="nvarchar(max)" />
+          <Property Name="Location" Type="nvarchar" MaxLength="100" />
+          <Property Name="AlwaysShowSignature" Type="bit" Nullable="false" />
+          <Property Name="ThemeID" Type="int" />
+          <Property Name="AvatarType" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="DefaultRole" Type="int" />
+          <Property Name="AIM" Type="nvarchar" MaxLength="200" />
+          <Property Name="ICQ" Type="int" />
+          <Property Name="MSN" Type="nvarchar" MaxLength="200" />
+          <Property Name="Website" Type="nvarchar(max)" />
+          <Property Name="Birthdate" Type="date" />
+          <Property Name="AlwaysSubscribeToThread" Type="bit" Nullable="false" />
+          <Property Name="ParsedSignature" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="PasswordSalt" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="ActivationCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="RegisterDate" Type="datetime" Nullable="false" />
+          <Property Name="RegisterIP" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="LastLoginDate" Type="datetime" Nullable="false" />
+          <Property Name="LastLoginIP" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastLogoutDate" Type="datetime" Nullable="false" />
+          <Property Name="LastPostDate" Type="datetime" />
+          <Property Name="UsernameLower" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Attachments_Posts">
+          <End Role="Posts" Type="mesoBoardModel.Store.Posts" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Attachments" Type="mesoBoardModel.Store.Attachments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Posts">
+              <PropertyRef Name="PostID" />
+            </Principal>
+            <Dependent Role="Attachments">
+              <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ForumPermissions_Forums">
+          <End Role="Forums" Type="mesoBoardModel.Store.Forums" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ForumPermissions" Type="mesoBoardModel.Store.ForumPermissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Forums">
+              <PropertyRef Name="ForumID" />
+            </Principal>
+            <Dependent Role="ForumPermissions">
+              <PropertyRef Name="ForumID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Forums_Categories">
+          <End Role="Categories" Type="mesoBoardModel.Store.Categories" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Forums" Type="mesoBoardModel.Store.Forums" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Forums">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InRoles_Roles">
+          <End Role="Roles" Type="mesoBoardModel.Store.Roles" Multiplicity="1" />
+          <End Role="InRoles" Type="mesoBoardModel.Store.InRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="InRoles">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InRoles_Users">
+          <End Role="Users" Type="mesoBoardModel.Store.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="InRoles" Type="mesoBoardModel.Store.InRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="InRoles">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Messages_FromUser">
+          <End Role="Users" Type="mesoBoardModel.Store.Users" Multiplicity="0..1" />
+          <End Role="Messages" Type="mesoBoardModel.Store.Messages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Messages">
+              <PropertyRef Name="FromUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Messages_ToUser">
+          <End Role="Users" Type="mesoBoardModel.Store.Users" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Messages" Type="mesoBoardModel.Store.Messages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Messages">
+              <PropertyRef Name="ToUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OnlineUsers_Users">
+          <End Role="Users" Type="mesoBoardModel.Store.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="OnlineUsers" Type="mesoBoardModel.Store.OnlineUsers" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="OnlineUsers">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PasswordResetRequests_Users">
+          <End Role="Users" Type="mesoBoardModel.Store.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PasswordResetRequests" Type="mesoBoardModel.Store.PasswordResetRequests" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="PasswordResetRequests">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permissions_Roles">
+          <End Role="Roles" Type="mesoBoardModel.Store.Roles" Multiplicity="1" />
+          <End Role="ForumPermissions" Type="mesoBoardModel.Store.ForumPermissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="ForumPermissions">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PollOptions_Polls">
+          <End Role="Polls" Type="mesoBoardModel.Store.Polls" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PollOptions" Type="mesoBoardModel.Store.PollOptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Polls">
+              <PropertyRef Name="PollID" />
+            </Principal>
+            <Dependent Role="PollOptions">
+              <PropertyRef Name="PollID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Polls_Threads">
+          <End Role="Threads" Type="mesoBoardModel.Store.Threads" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Polls" Type="mesoBoardModel.Store.Polls" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Threads">
+              <PropertyRef Name="ThreadID" />
+            </Principal>
+            <Dependent Role="Polls">
+              <PropertyRef Name="PollID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PollVotes_PollOptions">
+          <End Role="PollOptions" Type="mesoBoardModel.Store.PollOptions" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PollVotes" Type="mesoBoardModel.Store.PollVotes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PollOptions">
+              <PropertyRef Name="PollOptionID" />
+            </Principal>
+            <Dependent Role="PollVotes">
+              <PropertyRef Name="PollOptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PollVotes_Users">
+          <End Role="Users" Type="mesoBoardModel.Store.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PollVotes" Type="mesoBoardModel.Store.PollVotes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="PollVotes">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Posts_Threads">
+          <End Role="Threads" Type="mesoBoardModel.Store.Threads" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Posts" Type="mesoBoardModel.Store.Posts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Threads">
+              <PropertyRef Name="ThreadID" />
+            </Principal>
+            <Dependent Role="Posts">
+              <PropertyRef Name="ThreadID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Posts_Users">
+          <End Role="Users" Type="mesoBoardModel.Store.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Posts" Type="mesoBoardModel.Store.Posts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Posts">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReportedPosts_Posts">
+          <End Role="Posts" Type="mesoBoardModel.Store.Posts" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ReportedPosts" Type="mesoBoardModel.Store.ReportedPosts" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Posts">
+              <PropertyRef Name="PostID" />
+            </Principal>
+            <Dependent Role="ReportedPosts">
+              <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Roles_Ranks">
+          <End Role="Ranks" Type="mesoBoardModel.Store.Ranks" Multiplicity="0..1" />
+          <End Role="Roles" Type="mesoBoardModel.Store.Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ranks">
+              <PropertyRef Name="RankID" />
+            </Principal>
+            <Dependent Role="Roles">
+              <PropertyRef Name="RankID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Subscriptions_Threads">
+          <End Role="Threads" Type="mesoBoardModel.Store.Threads" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Subscriptions" Type="mesoBoardModel.Store.Subscriptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Threads">
+              <PropertyRef Name="ThreadID" />
+            </Principal>
+            <Dependent Role="Subscriptions">
+              <PropertyRef Name="ThreadID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Subscriptions_Users">
+          <End Role="Users" Type="mesoBoardModel.Store.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Subscriptions" Type="mesoBoardModel.Store.Subscriptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Subscriptions">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Threads_Forums">
+          <End Role="Forums" Type="mesoBoardModel.Store.Forums" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Threads" Type="mesoBoardModel.Store.Threads" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Forums">
+              <PropertyRef Name="ForumID" />
+            </Principal>
+            <Dependent Role="Threads">
+              <PropertyRef Name="ForumID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ThreadViews_Threads">
+          <End Role="Threads" Type="mesoBoardModel.Store.Threads" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ThreadViews" Type="mesoBoardModel.Store.ThreadViews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Threads">
+              <PropertyRef Name="ThreadID" />
+            </Principal>
+            <Dependent Role="ThreadViews">
+              <PropertyRef Name="ThreadID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ThreadViews_Users">
+          <End Role="Users" Type="mesoBoardModel.Store.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ThreadViews" Type="mesoBoardModel.Store.ThreadViews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ThreadViews">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ThreadViewStamp_Threads">
+          <End Role="Threads" Type="mesoBoardModel.Store.Threads" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ThreadViewStamps" Type="mesoBoardModel.Store.ThreadViewStamps" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Threads">
+              <PropertyRef Name="ThreadID" />
+            </Principal>
+            <Dependent Role="ThreadViewStamps">
+              <PropertyRef Name="ThreadID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfiles_Roles">
+          <End Role="Roles" Type="mesoBoardModel.Store.Roles" Multiplicity="0..1" />
+          <End Role="UserProfiles" Type="mesoBoardModel.Store.UserProfiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="UserProfiles">
+              <PropertyRef Name="DefaultRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfiles_Themes">
+          <End Role="Themes" Type="mesoBoardModel.Store.Themes" Multiplicity="0..1" />
+          <End Role="UserProfiles" Type="mesoBoardModel.Store.UserProfiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Themes">
+              <PropertyRef Name="ThemeID" />
+            </Principal>
+            <Dependent Role="UserProfiles">
+              <PropertyRef Name="ThemeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfiles_Users">
+          <End Role="Users" Type="mesoBoardModel.Store.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserProfiles" Type="mesoBoardModel.Store.UserProfiles" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserProfiles">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Views_Users">
+          <End Role="Users" Type="mesoBoardModel.Store.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ThreadViewStamps" Type="mesoBoardModel.Store.ThreadViewStamps" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ThreadViewStamps">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="Get_Inactive_OnlineGuests" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Get_Inactive_OnlineUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="mesoBoard.Data" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="mbEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="Get_Inactive_OnlineGuests" EntitySet="OnlineGuests" ReturnType="Collection(mesoBoard.Data.OnlineGuest)" />
+          <FunctionImport Name="Get_Inactive_OnlineUsers" EntitySet="OnlineUsers" ReturnType="Collection(mesoBoard.Data.OnlineUser)" />
+          <EntitySet Name="Attachments" EntityType="mesoBoard.Data.Attachment" />
+          <EntitySet Name="BBCodes" EntityType="mesoBoard.Data.BBCode" />
+          <EntitySet Name="Categories" EntityType="mesoBoard.Data.Category" />
+          <EntitySet Name="Configs" EntityType="mesoBoard.Data.Config" />
+          <EntitySet Name="FileTypes" EntityType="mesoBoard.Data.FileType" />
+          <EntitySet Name="ForumPermissions" EntityType="mesoBoard.Data.ForumPermission" />
+          <EntitySet Name="Forums" EntityType="mesoBoard.Data.Forum" />
+          <EntitySet Name="InRoles" EntityType="mesoBoard.Data.InRole" />
+          <EntitySet Name="OnlineGuests" EntityType="mesoBoard.Data.OnlineGuest" />
+          <EntitySet Name="OnlineUsers" EntityType="mesoBoard.Data.OnlineUser" />
+          <EntitySet Name="PasswordResetRequests" EntityType="mesoBoard.Data.PasswordResetRequest" />
+          <EntitySet Name="PluginConfigs" EntityType="mesoBoard.Data.PluginConfig" />
+          <EntitySet Name="Plugins" EntityType="mesoBoard.Data.Plugin" />
+          <EntitySet Name="PollOptions" EntityType="mesoBoard.Data.PollOption" />
+          <EntitySet Name="Polls" EntityType="mesoBoard.Data.Poll" />
+          <EntitySet Name="PollVotes" EntityType="mesoBoard.Data.PollVote" />
+          <EntitySet Name="Posts" EntityType="mesoBoard.Data.Post" />
+          <EntitySet Name="Ranks" EntityType="mesoBoard.Data.Rank" />
+          <EntitySet Name="ReportedPosts" EntityType="mesoBoard.Data.ReportedPost" />
+          <EntitySet Name="Roles" EntityType="mesoBoard.Data.Role" />
+          <EntitySet Name="Smileys" EntityType="mesoBoard.Data.Smiley" />
+          <EntitySet Name="Themes" EntityType="mesoBoard.Data.Theme" />
+          <EntitySet Name="ThreadViews" EntityType="mesoBoard.Data.ThreadView" />
+          <EntitySet Name="ThreadViewStamps" EntityType="mesoBoard.Data.ThreadViewStamp" />
+          <AssociationSet Name="FK_Attachments_Posts" Association="mesoBoard.Data.FK_Attachments_Posts">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="Attachment" EntitySet="Attachments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Forums_Categories" Association="mesoBoard.Data.FK_Forums_Categories">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Forum" EntitySet="Forums" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ForumPermissions_Forums" Association="mesoBoard.Data.FK_ForumPermissions_Forums">
+            <End Role="Forum" EntitySet="Forums" />
+            <End Role="ForumPermission" EntitySet="ForumPermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permissions_Roles" Association="mesoBoard.Data.FK_Permissions_Roles">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="ForumPermission" EntitySet="ForumPermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InRoles_Roles" Association="mesoBoard.Data.FK_InRoles_Roles">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="InRole" EntitySet="InRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PollOptions_Polls" Association="mesoBoard.Data.FK_PollOptions_Polls">
+            <End Role="Poll" EntitySet="Polls" />
+            <End Role="PollOption" EntitySet="PollOptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PollVotes_PollOptions" Association="mesoBoard.Data.FK_PollVotes_PollOptions">
+            <End Role="PollOption" EntitySet="PollOptions" />
+            <End Role="PollVote" EntitySet="PollVotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReportedPosts_Posts" Association="mesoBoard.Data.FK_ReportedPosts_Posts">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="ReportedPost" EntitySet="ReportedPosts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Roles_Ranks" Association="mesoBoard.Data.FK_Roles_Ranks">
+            <End Role="Rank" EntitySet="Ranks" />
+            <End Role="Role" EntitySet="Roles" />
+          </AssociationSet>
+          <EntitySet Name="Messages" EntityType="mesoBoard.Data.Message" />
+          <EntitySet Name="Users" EntityType="mesoBoard.Data.User" />
+          <AssociationSet Name="FK_InRoles_Users" Association="mesoBoard.Data.FK_InRoles_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="InRole" EntitySet="InRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Messages_FromUser" Association="mesoBoard.Data.FK_Messages_FromUser">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Message" EntitySet="Messages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Messages_ToUser" Association="mesoBoard.Data.FK_Messages_ToUser">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Message" EntitySet="Messages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OnlineUsers_Users" Association="mesoBoard.Data.FK_OnlineUsers_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="OnlineUser" EntitySet="OnlineUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PasswordResetRequests_Users" Association="mesoBoard.Data.FK_PasswordResetRequests_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="PasswordResetRequest" EntitySet="PasswordResetRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PollVotes_Users" Association="mesoBoard.Data.FK_PollVotes_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="PollVote" EntitySet="PollVotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Posts_Users" Association="mesoBoard.Data.FK_Posts_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Post" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ThreadViews_Users" Association="mesoBoard.Data.FK_ThreadViews_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="ThreadView" EntitySet="ThreadViews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Views_Users" Association="mesoBoard.Data.FK_Views_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="ThreadViewStamp" EntitySet="ThreadViewStamps" />
+          </AssociationSet>
+          <EntitySet Name="UserProfiles" EntityType="mesoBoard.Data.UserProfile" />
+          <AssociationSet Name="FK_UserProfiles_Roles" Association="mesoBoard.Data.FK_UserProfiles_Roles">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfiles_Themes" Association="mesoBoard.Data.FK_UserProfiles_Themes">
+            <End Role="Theme" EntitySet="Themes" />
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfiles_Users" Association="mesoBoard.Data.FK_UserProfiles_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+          </AssociationSet>
+          <EntitySet Name="Threads" EntityType="mesoBoard.Data.Thread" />
+          <AssociationSet Name="FK_Threads_Forums" Association="mesoBoard.Data.FK_Threads_Forums">
+            <End Role="Forum" EntitySet="Forums" />
+            <End Role="Thread" EntitySet="Threads" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Polls_Threads" Association="mesoBoard.Data.FK_Polls_Threads">
+            <End Role="Thread" EntitySet="Threads" />
+            <End Role="Poll" EntitySet="Polls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Posts_Threads" Association="mesoBoard.Data.FK_Posts_Threads">
+            <End Role="Thread" EntitySet="Threads" />
+            <End Role="Post" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ThreadViews_Threads" Association="mesoBoard.Data.FK_ThreadViews_Threads">
+            <End Role="Thread" EntitySet="Threads" />
+            <End Role="ThreadView" EntitySet="ThreadViews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ThreadViewStamp_Threads" Association="mesoBoard.Data.FK_ThreadViewStamp_Threads">
+            <End Role="Thread" EntitySet="Threads" />
+            <End Role="ThreadViewStamp" EntitySet="ThreadViewStamps" />
+          </AssociationSet>
+          <EntitySet Name="Subscriptions" EntityType="mesoBoard.Data.Subscription" />
+          <AssociationSet Name="FK_Subscriptions_Threads" Association="mesoBoard.Data.FK_Subscriptions_Threads">
+            <End Role="Thread" EntitySet="Threads" />
+            <End Role="Subscription" EntitySet="Subscriptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subscriptions_Users" Association="mesoBoard.Data.FK_Subscriptions_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Subscription" EntitySet="Subscriptions" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Attachment">
+          <Key>
+            <PropertyRef Name="AttachmentID" />
+          </Key>
+          <Property Type="Int32" Name="AttachmentID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="PostID" Nullable="false" />
+          <Property Type="String" Name="DownloadName" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SavedName" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Type" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Size" Nullable="false" />
+          <Property Type="Int32" Name="Downloaded" Nullable="false" />
+          <NavigationProperty Name="Post" Relationship="mesoBoard.Data.FK_Attachments_Posts" FromRole="Attachment" ToRole="Post" />
+        </EntityType>
+        <EntityType Name="BBCode">
+          <Key>
+            <PropertyRef Name="BBCodeID" />
+          </Key>
+          <Property Type="Int32" Name="BBCodeID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Tag" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Parse" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Type="Int32" Name="CategoryID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Order" Nullable="false" />
+          <NavigationProperty Name="Forums" Relationship="mesoBoard.Data.FK_Forums_Categories" FromRole="Category" ToRole="Forum" />
+        </EntityType>
+        <EntityType Name="Config">
+          <Key>
+            <PropertyRef Name="ConfigID" />
+          </Key>
+          <Property Type="Int32" Name="ConfigID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Value" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Type" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Group" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Note" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Options" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="FileType">
+          <Key>
+            <PropertyRef Name="FileTypeID" />
+          </Key>
+          <Property Type="Int32" Name="FileTypeID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Extension" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Image" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ForumPermission">
+          <Key>
+            <PropertyRef Name="ForumPermissionID" />
+          </Key>
+          <Property Type="Int32" Name="ForumPermissionID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="ForumID" Nullable="false" />
+          <Property Type="Int32" Name="Visibility" Nullable="false" />
+          <Property Type="Int32" Name="Posting" Nullable="false" />
+          <Property Type="Int32" Name="Polling" Nullable="false" />
+          <Property Type="Int32" Name="Attachments" Nullable="false" />
+          <Property Type="Int32" Name="RoleID" Nullable="false" />
+          <NavigationProperty Name="Forum" Relationship="mesoBoard.Data.FK_ForumPermissions_Forums" FromRole="ForumPermission" ToRole="Forum" />
+          <NavigationProperty Name="Role" Relationship="mesoBoard.Data.FK_Permissions_Roles" FromRole="ForumPermission" ToRole="Role" />
+        </EntityType>
+        <EntityType Name="Forum">
+          <Key>
+            <PropertyRef Name="ForumID" />
+          </Key>
+          <Property Type="Int32" Name="ForumID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="CategoryID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Order" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="mesoBoard.Data.FK_Forums_Categories" FromRole="Forum" ToRole="Category" />
+          <NavigationProperty Name="ForumPermissions" Relationship="mesoBoard.Data.FK_ForumPermissions_Forums" FromRole="Forum" ToRole="ForumPermission" />
+          <NavigationProperty Name="Threads" Relationship="mesoBoard.Data.FK_Threads_Forums" FromRole="Forum" ToRole="Thread" />
+          <Property Type="Boolean" Name="VisibleToGuests" Nullable="false" />
+          <Property Type="Boolean" Name="AllowGuestDownloads" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InRole">
+          <Key>
+            <PropertyRef Name="InRoleID" />
+          </Key>
+          <Property Type="Int32" Name="InRoleID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="RoleID" Nullable="false" />
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <NavigationProperty Name="Role" Relationship="mesoBoard.Data.FK_InRoles_Roles" FromRole="InRole" ToRole="Role" />
+          <NavigationProperty Name="User" Relationship="mesoBoard.Data.FK_InRoles_Users" FromRole="InRole" ToRole="User" />
+        </EntityType>
+        <EntityType Name="OnlineGuest">
+          <Key>
+            <PropertyRef Name="OnlineGuestID" />
+          </Key>
+          <Property Type="Int32" Name="OnlineGuestID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="IP" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OnlineUser">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="mesoBoard.Data.FK_OnlineUsers_Users" FromRole="OnlineUser" ToRole="User" />
+        </EntityType>
+        <EntityType Name="PasswordResetRequest">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <Property Type="String" Name="Token" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="User" Relationship="mesoBoard.Data.FK_PasswordResetRequests_Users" FromRole="PasswordResetRequest" ToRole="User" />
+        </EntityType>
+        <EntityType Name="PluginConfig">
+          <Key>
+            <PropertyRef Name="PluginConfigID" />
+          </Key>
+          <Property Type="Int32" Name="PluginConfigID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Value" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Type" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PluginGroup" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Note" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Options" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Plugin">
+          <Key>
+            <PropertyRef Name="PluginID" />
+          </Key>
+          <Property Type="Int32" Name="PluginID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="AssemblyName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="Installed" Nullable="false" />
+          <Property Type="String" Name="Version" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Author" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Email" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Website" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PollOption">
+          <Key>
+            <PropertyRef Name="PollOptionID" />
+          </Key>
+          <Property Type="Int32" Name="PollOptionID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Text" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="PollID" Nullable="false" />
+          <NavigationProperty Name="Poll" Relationship="mesoBoard.Data.FK_PollOptions_Polls" FromRole="PollOption" ToRole="Poll" />
+          <NavigationProperty Name="PollVotes" Relationship="mesoBoard.Data.FK_PollVotes_PollOptions" FromRole="PollOption" ToRole="PollVote" />
+        </EntityType>
+        <EntityType Name="Poll">
+          <Key>
+            <PropertyRef Name="PollID" />
+          </Key>
+          <Property Type="Int32" Name="PollID" Nullable="false" />
+          <Property Type="String" Name="Question" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PollOptions" Relationship="mesoBoard.Data.FK_PollOptions_Polls" FromRole="Poll" ToRole="PollOption" />
+          <NavigationProperty Name="Thread" Relationship="mesoBoard.Data.FK_Polls_Threads" FromRole="Poll" ToRole="Thread" />
+        </EntityType>
+        <EntityType Name="PollVote">
+          <Key>
+            <PropertyRef Name="PollVoteID" />
+          </Key>
+          <Property Type="Int32" Name="PollVoteID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="PollOptionID" Nullable="false" />
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <NavigationProperty Name="PollOption" Relationship="mesoBoard.Data.FK_PollVotes_PollOptions" FromRole="PollVote" ToRole="PollOption" />
+          <NavigationProperty Name="User" Relationship="mesoBoard.Data.FK_PollVotes_Users" FromRole="PollVote" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="PostID" />
+          </Key>
+          <Property Type="Int32" Name="PostID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="ThreadID" Nullable="false" />
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="String" Name="Text" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <Property Type="Boolean" Name="UseSignature" Nullable="false" />
+          <Property Type="String" Name="ParsedText" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TextOnly" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Attachments" Relationship="mesoBoard.Data.FK_Attachments_Posts" FromRole="Post" ToRole="Attachment" />
+          <NavigationProperty Name="ReportedPost" Relationship="mesoBoard.Data.FK_ReportedPosts_Posts" FromRole="Post" ToRole="ReportedPost" />
+          <NavigationProperty Name="User" Relationship="mesoBoard.Data.FK_Posts_Users" FromRole="Post" ToRole="User" />
+          <NavigationProperty Name="Thread" Relationship="mesoBoard.Data.FK_Posts_Threads" FromRole="Post" ToRole="Thread" />
+        </EntityType>
+        <EntityType Name="Rank">
+          <Key>
+            <PropertyRef Name="RankID" />
+          </Key>
+          <Property Type="Int32" Name="RankID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="PostCount" Nullable="false" />
+          <Property Type="String" Name="Image" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Color" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsRoleRank" Nullable="false" />
+          <NavigationProperty Name="Roles" Relationship="mesoBoard.Data.FK_Roles_Ranks" FromRole="Rank" ToRole="Role" />
+        </EntityType>
+        <EntityType Name="ReportedPost">
+          <Key>
+            <PropertyRef Name="PostID" />
+          </Key>
+          <Property Type="Int32" Name="PostID" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <NavigationProperty Name="Post" Relationship="mesoBoard.Data.FK_ReportedPosts_Posts" FromRole="ReportedPost" ToRole="Post" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Type="Int32" Name="RoleID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="RankID" />
+          <Property Type="Boolean" Name="IsGroup" Nullable="false" />
+          <Property Type="Byte" Name="SpecialPermissions" Nullable="false" />
+          <NavigationProperty Name="ForumPermissions" Relationship="mesoBoard.Data.FK_Permissions_Roles" FromRole="Role" ToRole="ForumPermission" />
+          <NavigationProperty Name="InRoles" Relationship="mesoBoard.Data.FK_InRoles_Roles" FromRole="Role" ToRole="InRole" />
+          <NavigationProperty Name="Rank" Relationship="mesoBoard.Data.FK_Roles_Ranks" FromRole="Role" ToRole="Rank" />
+          <NavigationProperty Name="UserProfiles" Relationship="mesoBoard.Data.FK_UserProfiles_Roles" FromRole="Role" ToRole="UserProfile" />
+        </EntityType>
+        <EntityType Name="Smiley">
+          <Key>
+            <PropertyRef Name="SmileyID" />
+          </Key>
+          <Property Type="Int32" Name="SmileyID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="ImageURL" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Title" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Theme">
+          <Key>
+            <PropertyRef Name="ThemeID" />
+          </Key>
+          <Property Type="Int32" Name="ThemeID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DisplayName" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="VisibleToUsers" Nullable="false" />
+          <Property Type="String" Name="FolderName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserProfiles" Relationship="mesoBoard.Data.FK_UserProfiles_Themes" FromRole="Theme" ToRole="UserProfile" />
+        </EntityType>
+        <EntityType Name="ThreadView">
+          <Key>
+            <PropertyRef Name="ThreadViewID" />
+          </Key>
+          <Property Type="Int32" Name="ThreadViewID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="ThreadID" Nullable="false" />
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="mesoBoard.Data.FK_ThreadViews_Users" FromRole="ThreadView" ToRole="User" />
+          <NavigationProperty Name="Thread" Relationship="mesoBoard.Data.FK_ThreadViews_Threads" FromRole="ThreadView" ToRole="Thread" />
+        </EntityType>
+        <EntityType Name="ThreadViewStamp">
+          <Key>
+            <PropertyRef Name="ViewID" />
+          </Key>
+          <Property Type="Int32" Name="ViewID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="Int32" Name="ThreadID" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="mesoBoard.Data.FK_Views_Users" FromRole="ThreadViewStamp" ToRole="User" />
+          <NavigationProperty Name="Thread" Relationship="mesoBoard.Data.FK_ThreadViewStamp_Threads" FromRole="ThreadViewStamp" ToRole="Thread" />
+        </EntityType>
+        <Association Name="FK_Attachments_Posts">
+          <End Type="mesoBoard.Data.Post" Role="Post" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="mesoBoard.Data.Attachment" Role="Attachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="PostID" />
+            </Principal>
+            <Dependent Role="Attachment">
+              <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Forums_Categories">
+          <End Type="mesoBoard.Data.Category" Role="Category" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="mesoBoard.Data.Forum" Role="Forum" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Forum">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ForumPermissions_Forums">
+          <End Type="mesoBoard.Data.Forum" Role="Forum" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="mesoBoard.Data.ForumPermission" Role="ForumPermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Forum">
+              <PropertyRef Name="ForumID" />
+            </Principal>
+            <Dependent Role="ForumPermission">
+              <PropertyRef Name="ForumID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permissions_Roles">
+          <End Type="mesoBoard.Data.Role" Role="Role" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="mesoBoard.Data.ForumPermission" Role="ForumPermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="ForumPermission">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InRoles_Roles">
+          <End Type="mesoBoard.Data.Role" Role="Role" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="mesoBoard.Data.InRole" Role="InRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="InRole">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PollOptions_Polls">
+          <End Type="mesoBoard.Data.Poll" Role="Poll" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="mesoBoard.Data.PollOption" Role="PollOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Poll">
+              <PropertyRef Name="PollID" />
+            </Principal>
+            <Dependent Role="PollOption">
+              <PropertyRef Name="PollID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PollVotes_PollOptions">
+          <End Type="mesoBoard.Data.PollOption" Role="PollOption" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="mesoBoard.Data.PollVote" Role="PollVote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PollOption">
+              <PropertyRef Name="PollOptionID" />
+            </Principal>
+            <Dependent Role="PollVote">
+              <PropertyRef Name="PollOptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReportedPosts_Posts">
+          <End Type="mesoBoard.Data.Post" Role="Post" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="mesoBoard.Data.ReportedPost" Role="ReportedPost" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="PostID" />
+            </Principal>
+            <Dependent Role="ReportedPost">
+              <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Roles_Ranks">
+          <End Type="mesoBoard.Data.Rank" Role="Rank" Multiplicity="0..1" />
+          <End Type="mesoBoard.Data.Role" Role="Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rank">
+              <PropertyRef Name="RankID" />
+            </Principal>
+            <Dependent Role="Role">
+              <PropertyRef Name="RankID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="MessageID" />
+          </Key>
+          <Property Type="Int32" Name="MessageID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="FromUserID" />
+          <Property Type="Int32" Name="ToUserID" />
+          <Property Type="String" Name="Subject" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Text" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsRead" Nullable="false" />
+          <Property Type="DateTime" Name="DateSent" Nullable="false" />
+          <Property Type="Boolean" Name="ToDelete" Nullable="false" />
+          <Property Type="Boolean" Name="FromDelete" Nullable="false" />
+          <NavigationProperty Name="FromUser" Relationship="mesoBoard.Data.FK_Messages_FromUser" FromRole="Message" ToRole="User" />
+          <NavigationProperty Name="ToUser" Relationship="mesoBoard.Data.FK_Messages_ToUser" FromRole="Message" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Type="Int32" Name="UserID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Username" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PasswordSalt" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ActivationCode" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+          <Property Type="DateTime" Name="RegisterDate" Nullable="false" />
+          <Property Type="String" Name="RegisterIP" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="LastLoginDate" Nullable="false" />
+          <Property Type="String" Name="LastLoginIP" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="LastLogoutDate" Nullable="false" />
+          <Property Type="DateTime" Name="LastPostDate" />
+          <Property Type="String" Name="UsernameLower" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="InRoles" Relationship="mesoBoard.Data.FK_InRoles_Users" FromRole="User" ToRole="InRole" />
+          <NavigationProperty Name="MessagesSent" Relationship="mesoBoard.Data.FK_Messages_FromUser" FromRole="User" ToRole="Message" />
+          <NavigationProperty Name="MessagesReceived" Relationship="mesoBoard.Data.FK_Messages_ToUser" FromRole="User" ToRole="Message" />
+          <NavigationProperty Name="OnlineUser" Relationship="mesoBoard.Data.FK_OnlineUsers_Users" FromRole="User" ToRole="OnlineUser" />
+          <NavigationProperty Name="PasswordResetRequest" Relationship="mesoBoard.Data.FK_PasswordResetRequests_Users" FromRole="User" ToRole="PasswordResetRequest" />
+          <NavigationProperty Name="PollVotes" Relationship="mesoBoard.Data.FK_PollVotes_Users" FromRole="User" ToRole="PollVote" />
+          <NavigationProperty Name="Posts" Relationship="mesoBoard.Data.FK_Posts_Users" FromRole="User" ToRole="Post" />
+          <NavigationProperty Name="ThreadViews" Relationship="mesoBoard.Data.FK_ThreadViews_Users" FromRole="User" ToRole="ThreadView" />
+          <NavigationProperty Name="ThreadViewStamps" Relationship="mesoBoard.Data.FK_Views_Users" FromRole="User" ToRole="ThreadViewStamp" />
+          <NavigationProperty Name="UserProfile" Relationship="mesoBoard.Data.FK_UserProfiles_Users" FromRole="User" ToRole="UserProfile" />
+          <NavigationProperty Name="Subscriptions" Relationship="mesoBoard.Data.FK_Subscriptions_Users" FromRole="User" ToRole="Subscription" />
+        </EntityType>
+        <Association Name="FK_InRoles_Users">
+          <End Type="mesoBoard.Data.User" Role="User" Multiplicity="1" />
+          <End Type="mesoBoard.Data.InRole" Role="InRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="InRole">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Messages_FromUser">
+          <End Type="mesoBoard.Data.User" Role="User" Multiplicity="0..1" />
+          <End Type="mesoBoard.Data.Message" Role="Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="FromUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Messages_ToUser">
+          <End Type="mesoBoard.Data.User" Role="User" Multiplicity="0..1" />
+          <End Type="mesoBoard.Data.Message" Role="Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="ToUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OnlineUsers_Users">
+          <End Type="mesoBoard.Data.User" Role="User" Multiplicity="1" />
+          <End Type="mesoBoard.Data.OnlineUser" Role="OnlineUser" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="OnlineUser">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PasswordResetRequests_Users">
+          <End Type="mesoBoard.Data.User" Role="User" Multiplicity="1" />
+          <End Type="mesoBoard.Data.PasswordResetRequest" Role="PasswordResetRequest" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="PasswordResetRequest">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PollVotes_Users">
+          <End Type="mesoBoard.Data.User" Role="User" Multiplicity="1" />
+          <End Type="mesoBoard.Data.PollVote" Role="PollVote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="PollVote">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Posts_Users">
+          <End Type="mesoBoard.Data.User" Role="User" Multiplicity="1" />
+          <End Type="mesoBoard.Data.Post" Role="Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ThreadViews_Users">
+          <End Type="mesoBoard.Data.User" Role="User" Multiplicity="1" />
+          <End Type="mesoBoard.Data.ThreadView" Role="ThreadView" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ThreadView">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Views_Users">
+          <End Type="mesoBoard.Data.User" Role="User" Multiplicity="1" />
+          <End Type="mesoBoard.Data.ThreadViewStamp" Role="ThreadViewStamp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ThreadViewStamp">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="Boolean" Name="AlwaysSubscribeToThread" Nullable="false" />
+          <Property Type="Boolean" Name="AlwaysShowSignature" Nullable="false" />
+          <Property Type="Int32" Name="ThemeID" />
+          <Property Type="String" Name="AvatarType" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Avatar" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Location" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="DefaultRole" />
+          <Property Type="String" Name="AIM" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="ICQ" />
+          <Property Type="String" Name="MSN" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Website" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="Birthdate" />
+          <Property Type="String" Name="Signature" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ParsedSignature" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Role" Relationship="mesoBoard.Data.FK_UserProfiles_Roles" FromRole="UserProfile" ToRole="Role" />
+          <NavigationProperty Name="Theme" Relationship="mesoBoard.Data.FK_UserProfiles_Themes" FromRole="UserProfile" ToRole="Theme" />
+          <NavigationProperty Name="User" Relationship="mesoBoard.Data.FK_UserProfiles_Users" FromRole="UserProfile" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_UserProfiles_Roles">
+          <End Type="mesoBoard.Data.Role" Role="Role" Multiplicity="0..1" />
+          <End Type="mesoBoard.Data.UserProfile" Role="UserProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="UserProfile">
+              <PropertyRef Name="DefaultRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfiles_Themes">
+          <End Type="mesoBoard.Data.Theme" Role="Theme" Multiplicity="0..1" />
+          <End Type="mesoBoard.Data.UserProfile" Role="UserProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Theme">
+              <PropertyRef Name="ThemeID" />
+            </Principal>
+            <Dependent Role="UserProfile">
+              <PropertyRef Name="ThemeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfiles_Users">
+          <End Type="mesoBoard.Data.User" Role="User" Multiplicity="1" />
+          <End Type="mesoBoard.Data.UserProfile" Role="UserProfile" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserProfile">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Thread">
+          <Key>
+            <PropertyRef Name="ThreadID" />
+          </Key>
+          <Property Type="Int32" Name="ThreadID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="ForumID" Nullable="false" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Type" Nullable="false" />
+          <Property Type="Boolean" Name="HasPoll" Nullable="false" />
+          <Property Type="Boolean" Name="IsLocked" Nullable="false" />
+          <Property Type="String" Name="Image" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Forum" Relationship="mesoBoard.Data.FK_Threads_Forums" FromRole="Thread" ToRole="Forum" />
+          <NavigationProperty Name="Poll" Relationship="mesoBoard.Data.FK_Polls_Threads" FromRole="Thread" ToRole="Poll" />
+          <NavigationProperty Name="Posts" Relationship="mesoBoard.Data.FK_Posts_Threads" FromRole="Thread" ToRole="Post" />
+          <NavigationProperty Name="ThreadViews" Relationship="mesoBoard.Data.FK_ThreadViews_Threads" FromRole="Thread" ToRole="ThreadView" />
+          <NavigationProperty Name="ThreadViewStamps" Relationship="mesoBoard.Data.FK_ThreadViewStamp_Threads" FromRole="Thread" ToRole="ThreadViewStamp" />
+          <NavigationProperty Name="Subscriptions" Relationship="mesoBoard.Data.FK_Subscriptions_Threads" FromRole="Thread" ToRole="Subscription" />
+        </EntityType>
+        <Association Name="FK_Threads_Forums">
+          <End Type="mesoBoard.Data.Forum" Role="Forum" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="mesoBoard.Data.Thread" Role="Thread" Multiplicity="*" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Forum">
+              <PropertyRef Name="ForumID" />
+            </Principal>
+            <Dependent Role="Thread">
+              <PropertyRef Name="ForumID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Polls_Threads">
+          <End Type="mesoBoard.Data.Thread" Role="Thread" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="mesoBoard.Data.Poll" Role="Poll" Multiplicity="0..1" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Thread">
+              <PropertyRef Name="ThreadID" />
+            </Principal>
+            <Dependent Role="Poll">
+              <PropertyRef Name="PollID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Posts_Threads">
+          <End Type="mesoBoard.Data.Thread" Role="Thread" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="mesoBoard.Data.Post" Role="Post" Multiplicity="*" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Thread">
+              <PropertyRef Name="ThreadID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="ThreadID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ThreadViews_Threads">
+          <End Type="mesoBoard.Data.Thread" Role="Thread" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="mesoBoard.Data.ThreadView" Role="ThreadView" Multiplicity="*" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Thread">
+              <PropertyRef Name="ThreadID" />
+            </Principal>
+            <Dependent Role="ThreadView">
+              <PropertyRef Name="ThreadID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ThreadViewStamp_Threads">
+          <End Type="mesoBoard.Data.Thread" Role="Thread" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="mesoBoard.Data.ThreadViewStamp" Role="ThreadViewStamp" Multiplicity="*" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Thread">
+              <PropertyRef Name="ThreadID" />
+            </Principal>
+            <Dependent Role="ThreadViewStamp">
+              <PropertyRef Name="ThreadID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Subscription">
+          <Key>
+            <PropertyRef Name="SubscriptionID" />
+          </Key>
+          <Property Type="Int32" Name="SubscriptionID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="Int32" Name="ThreadID" Nullable="false" />
+          <NavigationProperty Name="Thread" Relationship="mesoBoard.Data.FK_Subscriptions_Threads" FromRole="Subscription" ToRole="Thread" />
+          <NavigationProperty Name="User" Relationship="mesoBoard.Data.FK_Subscriptions_Users" FromRole="Subscription" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Subscriptions_Threads">
+          <End Type="mesoBoard.Data.Thread" Role="Thread" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="mesoBoard.Data.Subscription" Role="Subscription" Multiplicity="*" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Thread">
+              <PropertyRef Name="ThreadID" />
+            </Principal>
+            <Dependent Role="Subscription">
+              <PropertyRef Name="ThreadID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Subscriptions_Users">
+          <End Type="mesoBoard.Data.User" Role="User" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="mesoBoard.Data.Subscription" Role="Subscription" Multiplicity="*" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Subscription">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="mesoBoardModelStoreContainer" CdmEntityContainer="mbEntities">
+          <FunctionImportMapping FunctionImportName="Get_Inactive_OnlineGuests" FunctionName="mesoBoardModel.Store.Get_Inactive_OnlineGuests" />
+          <FunctionImportMapping FunctionImportName="Get_Inactive_OnlineUsers" FunctionName="mesoBoardModel.Store.Get_Inactive_OnlineUsers" />
+          <EntitySetMapping Name="Attachments">
+            <EntityTypeMapping TypeName="mesoBoard.Data.Attachment">
+              <MappingFragment StoreEntitySet="Attachments">
+                <ScalarProperty Name="Downloaded" ColumnName="Downloaded" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="SavedName" ColumnName="SavedName" />
+                <ScalarProperty Name="DownloadName" ColumnName="DownloadName" />
+                <ScalarProperty Name="PostID" ColumnName="PostID" />
+                <ScalarProperty Name="AttachmentID" ColumnName="AttachmentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BBCodes">
+            <EntityTypeMapping TypeName="mesoBoard.Data.BBCode">
+              <MappingFragment StoreEntitySet="BBCodes">
+                <ScalarProperty Name="Parse" ColumnName="Parse" />
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+                <ScalarProperty Name="BBCodeID" ColumnName="BBCodeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="mesoBoard.Data.Category">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Configs">
+            <EntityTypeMapping TypeName="mesoBoard.Data.Config">
+              <MappingFragment StoreEntitySet="Configs">
+                <ScalarProperty Name="Options" ColumnName="Options" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Group" ColumnName="Group" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ConfigID" ColumnName="ConfigID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FileTypes">
+            <EntityTypeMapping TypeName="mesoBoard.Data.FileType">
+              <MappingFragment StoreEntitySet="FileTypes">
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+                <ScalarProperty Name="FileTypeID" ColumnName="FileTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ForumPermissions">
+            <EntityTypeMapping TypeName="mesoBoard.Data.ForumPermission">
+              <MappingFragment StoreEntitySet="ForumPermissions">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="Attachments" ColumnName="Attachments" />
+                <ScalarProperty Name="Polling" ColumnName="Polling" />
+                <ScalarProperty Name="Posting" ColumnName="Posting" />
+                <ScalarProperty Name="Visibility" ColumnName="Visibility" />
+                <ScalarProperty Name="ForumID" ColumnName="ForumID" />
+                <ScalarProperty Name="ForumPermissionID" ColumnName="ForumPermissionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Forums">
+            <EntityTypeMapping TypeName="mesoBoard.Data.Forum">
+              <MappingFragment StoreEntitySet="Forums">
+                <ScalarProperty Name="AllowGuestDownloads" ColumnName="AllowGuestDownloads" />
+                <ScalarProperty Name="VisibleToGuests" ColumnName="VisibleToGuests" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="ForumID" ColumnName="ForumID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InRoles">
+            <EntityTypeMapping TypeName="mesoBoard.Data.InRole">
+              <MappingFragment StoreEntitySet="InRoles">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="InRoleID" ColumnName="InRoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OnlineGuests">
+            <EntityTypeMapping TypeName="mesoBoard.Data.OnlineGuest">
+              <MappingFragment StoreEntitySet="OnlineGuests">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="OnlineGuestID" ColumnName="OnlineGuestID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OnlineUsers">
+            <EntityTypeMapping TypeName="mesoBoard.Data.OnlineUser">
+              <MappingFragment StoreEntitySet="OnlineUsers">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PasswordResetRequests">
+            <EntityTypeMapping TypeName="mesoBoard.Data.PasswordResetRequest">
+              <MappingFragment StoreEntitySet="PasswordResetRequests">
+                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PluginConfigs">
+            <EntityTypeMapping TypeName="mesoBoard.Data.PluginConfig">
+              <MappingFragment StoreEntitySet="PluginConfigs">
+                <ScalarProperty Name="Options" ColumnName="Options" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="PluginGroup" ColumnName="PluginGroup" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PluginConfigID" ColumnName="PluginConfigID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Plugins">
+            <EntityTypeMapping TypeName="mesoBoard.Data.Plugin">
+              <MappingFragment StoreEntitySet="Plugins">
+                <ScalarProperty Name="Website" ColumnName="Website" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Installed" ColumnName="Installed" />
+                <ScalarProperty Name="AssemblyName" ColumnName="AssemblyName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PluginID" ColumnName="PluginID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PollOptions">
+            <EntityTypeMapping TypeName="mesoBoard.Data.PollOption">
+              <MappingFragment StoreEntitySet="PollOptions">
+                <ScalarProperty Name="PollID" ColumnName="PollID" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="PollOptionID" ColumnName="PollOptionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Polls">
+            <EntityTypeMapping TypeName="mesoBoard.Data.Poll">
+              <MappingFragment StoreEntitySet="Polls">
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="PollID" ColumnName="PollID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PollVotes">
+            <EntityTypeMapping TypeName="mesoBoard.Data.PollVote">
+              <MappingFragment StoreEntitySet="PollVotes">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="PollOptionID" ColumnName="PollOptionID" />
+                <ScalarProperty Name="PollVoteID" ColumnName="PollVoteID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Posts">
+            <EntityTypeMapping TypeName="mesoBoard.Data.Post">
+              <MappingFragment StoreEntitySet="Posts">
+                <ScalarProperty Name="TextOnly" ColumnName="TextOnly" />
+                <ScalarProperty Name="ParsedText" ColumnName="ParsedText" />
+                <ScalarProperty Name="UseSignature" ColumnName="UseSignature" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ThreadID" ColumnName="ThreadID" />
+                <ScalarProperty Name="PostID" ColumnName="PostID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ranks">
+            <EntityTypeMapping TypeName="mesoBoard.Data.Rank">
+              <MappingFragment StoreEntitySet="Ranks">
+                <ScalarProperty Name="IsRoleRank" ColumnName="IsRoleRank" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="PostCount" ColumnName="PostCount" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="RankID" ColumnName="RankID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportedPosts">
+            <EntityTypeMapping TypeName="mesoBoard.Data.ReportedPost">
+              <MappingFragment StoreEntitySet="ReportedPosts">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="PostID" ColumnName="PostID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="mesoBoard.Data.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="SpecialPermissions" ColumnName="SpecialPermissions" />
+                <ScalarProperty Name="IsGroup" ColumnName="IsGroup" />
+                <ScalarProperty Name="RankID" ColumnName="RankID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Smileys">
+            <EntityTypeMapping TypeName="mesoBoard.Data.Smiley">
+              <MappingFragment StoreEntitySet="Smilies">
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+                <ScalarProperty Name="SmileyID" ColumnName="SmileyID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Themes">
+            <EntityTypeMapping TypeName="mesoBoard.Data.Theme">
+              <MappingFragment StoreEntitySet="Themes">
+                <ScalarProperty Name="FolderName" ColumnName="FolderName" />
+                <ScalarProperty Name="VisibleToUsers" ColumnName="VisibleToUsers" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ThemeID" ColumnName="ThemeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ThreadViews">
+            <EntityTypeMapping TypeName="mesoBoard.Data.ThreadView">
+              <MappingFragment StoreEntitySet="ThreadViews">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ThreadID" ColumnName="ThreadID" />
+                <ScalarProperty Name="ThreadViewID" ColumnName="ThreadViewID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ThreadViewStamps">
+            <EntityTypeMapping TypeName="mesoBoard.Data.ThreadViewStamp">
+              <MappingFragment StoreEntitySet="ThreadViewStamps">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ThreadID" ColumnName="ThreadID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ViewID" ColumnName="ViewID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Messages">
+            <EntityTypeMapping TypeName="mesoBoard.Data.Message">
+              <MappingFragment StoreEntitySet="Messages">
+                <ScalarProperty Name="FromDelete" ColumnName="FromDelete" />
+                <ScalarProperty Name="ToDelete" ColumnName="ToDelete" />
+                <ScalarProperty Name="DateSent" ColumnName="DateSent" />
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="ToUserID" ColumnName="ToUserID" />
+                <ScalarProperty Name="FromUserID" ColumnName="FromUserID" />
+                <ScalarProperty Name="MessageID" ColumnName="MessageID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="mesoBoard.Data.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UsernameLower" ColumnName="UsernameLower" />
+                <ScalarProperty Name="LastPostDate" ColumnName="LastPostDate" />
+                <ScalarProperty Name="LastLogoutDate" ColumnName="LastLogoutDate" />
+                <ScalarProperty Name="LastLoginIP" ColumnName="LastLoginIP" />
+                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+                <ScalarProperty Name="RegisterIP" ColumnName="RegisterIP" />
+                <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ActivationCode" ColumnName="ActivationCode" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserProfiles">
+            <EntityTypeMapping TypeName="mesoBoard.Data.UserProfile">
+              <MappingFragment StoreEntitySet="UserProfiles">
+                <ScalarProperty Name="ParsedSignature" ColumnName="ParsedSignature" />
+                <ScalarProperty Name="Signature" ColumnName="Signature" />
+                <ScalarProperty Name="Birthdate" ColumnName="Birthdate" />
+                <ScalarProperty Name="Website" ColumnName="Website" />
+                <ScalarProperty Name="MSN" ColumnName="MSN" />
+                <ScalarProperty Name="ICQ" ColumnName="ICQ" />
+                <ScalarProperty Name="AIM" ColumnName="AIM" />
+                <ScalarProperty Name="DefaultRole" ColumnName="DefaultRole" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
+                <ScalarProperty Name="AvatarType" ColumnName="AvatarType" />
+                <ScalarProperty Name="ThemeID" ColumnName="ThemeID" />
+                <ScalarProperty Name="AlwaysShowSignature" ColumnName="AlwaysShowSignature" />
+                <ScalarProperty Name="AlwaysSubscribeToThread" ColumnName="AlwaysSubscribeToThread" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Threads">
+            <EntityTypeMapping TypeName="mesoBoard.Data.Thread">
+              <MappingFragment StoreEntitySet="Threads">
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+                <ScalarProperty Name="HasPoll" ColumnName="HasPoll" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ForumID" ColumnName="ForumID" />
+                <ScalarProperty Name="ThreadID" ColumnName="ThreadID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subscriptions">
+            <EntityTypeMapping TypeName="mesoBoard.Data.Subscription">
+              <MappingFragment StoreEntitySet="Subscriptions">
+                <ScalarProperty Name="ThreadID" ColumnName="ThreadID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="SubscriptionID" ColumnName="SubscriptionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Default" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="mesoBoardEntities" ZoomLevel="82">
+        <EntityTypeShape EntityType="mesoBoard.Data.Attachment" Width="1.5" PointX="6.375" PointY="0.75" Height="2.5571907552083246" />
+        <EntityTypeShape EntityType="mesoBoard.Data.BBCode" Width="1.5" PointX="16.875" PointY="2.5" Height="1.5956835937500102" />
+        <EntityTypeShape EntityType="mesoBoard.Data.Category" Width="1.5" PointX="4.25" PointY="0.625" Height="1.9802864583333246" />
+        <EntityTypeShape EntityType="mesoBoard.Data.Config" Width="1.5" PointX="16.875" PointY="6.25" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="mesoBoard.Data.FileType" Width="1.5" PointX="16.875" PointY="0.75" Height="1.5956835937500102" />
+        <EntityTypeShape EntityType="mesoBoard.Data.ForumPermission" Width="1.5" PointX="12.75" PointY="0.75" Height="2.7494921874999996" />
+        <EntityTypeShape EntityType="mesoBoard.Data.Forum" Width="1.5" PointX="1.375" PointY="0.875" Height="2.5571907552083246" />
+        <EntityTypeShape EntityType="mesoBoard.Data.InRole" Width="1.5" PointX="9" PointY="6.125" Height="1.9802864583333388" />
+        <EntityTypeShape EntityType="mesoBoard.Data.OnlineGuest" Width="1.5" PointX="15.125" PointY="6.75" Height="1.5956835937500102" />
+        <EntityTypeShape EntityType="mesoBoard.Data.OnlineUser" Width="1.5" PointX="3.75" PointY="14" Height="1.595683593749996" />
+        <EntityTypeShape EntityType="mesoBoard.Data.PasswordResetRequest" Width="1.5" PointX="1.625" PointY="16" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="mesoBoard.Data.PluginConfig" Width="1.5" PointX="15.125" PointY="0.75" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="mesoBoard.Data.Plugin" Width="1.5" PointX="15.125" PointY="3.75" Height="2.7494921875000102" />
+        <EntityTypeShape EntityType="mesoBoard.Data.PollOption" Width="1.5" PointX="6.875" PointY="14.25" Height="1.9802864583333246" />
+        <EntityTypeShape EntityType="mesoBoard.Data.Poll" Width="1.5" PointX="4.375" PointY="17" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="mesoBoard.Data.PollVote" Width="1.5" PointX="8.375" PointY="9.5" Height="1.9802864583333246" />
+        <EntityTypeShape EntityType="mesoBoard.Data.Post" Width="1.5" PointX="6.25" PointY="4.25" Height="3.3263964843749996" />
+        <EntityTypeShape EntityType="mesoBoard.Data.Rank" Width="1.5" PointX="8.25" PointY="0.875" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="mesoBoard.Data.ReportedPost" Width="1.5" PointX="9" PointY="4" Height="1.5956835937499818" />
+        <EntityTypeShape EntityType="mesoBoard.Data.Role" Width="1.5" PointX="10.5" PointY="0.625" Height="2.7494921874999818" />
+        <EntityTypeShape EntityType="mesoBoard.Data.Smiley" Width="1.5" PointX="16.875" PointY="4.25" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="mesoBoard.Data.Theme" Width="1.5" PointX="13.5" PointY="11.25" Height="2.1725878906249818" />
+        <EntityTypeShape EntityType="mesoBoard.Data.ThreadView" Width="1.5" PointX="4" PointY="4.5" Height="1.9802864583333246" />
+        <EntityTypeShape EntityType="mesoBoard.Data.ThreadViewStamp" Width="1.5" PointX="10.5" PointY="9.875" Height="2.1725878906249818" />
+        <AssociationConnector Association="mesoBoard.Data.FK_Attachments_Posts" >
+          <ConnectorPoint PointX="7.0625" PointY="4.25" />
+          <ConnectorPoint PointX="7.0625" PointY="3.3071907552083246" />
+        </AssociationConnector>
+        <AssociationConnector Association="mesoBoard.Data.FK_Forums_Categories" >
+          <ConnectorPoint PointX="4.25" PointY="1.7401432291666623" />
+          <ConnectorPoint PointX="4.083333333333333" PointY="1.7401432291666616" />
+          <ConnectorPoint PointX="3.9166666666666665" PointY="1.7401432291666623" />
+          <ConnectorPoint PointX="2.875" PointY="1.7401432291666623" />
+        </AssociationConnector>
+        <AssociationConnector Association="mesoBoard.Data.FK_ForumPermissions_Forums" >
+          <ConnectorPoint PointX="2.125" PointY="0.875" />
+          <ConnectorPoint PointX="2.125" PointY="0.625" />
+          <ConnectorPoint PointX="4" PointY="0.625" />
+          <ConnectorPoint PointX="4" PointY="3.6244921874999818" />
+          <ConnectorPoint PointX="6.979166666666667" PointY="3.6244921874999814" />
+          <ConnectorPoint PointX="7.145833333333333" PointY="3.6244921874999818" />
+          <ConnectorPoint PointX="10.822916666666666" PointY="3.6244921874999814" />
+          <ConnectorPoint PointX="10.989583333333334" PointY="3.6244921874999818" />
+          <ConnectorPoint PointX="11.197916666666666" PointY="3.6244921874999814" />
+          <ConnectorPoint PointX="11.364583333333334" PointY="3.6244921874999818" />
+          <ConnectorPoint PointX="12.375" PointY="3.6244921874999818" />
+          <ConnectorPoint PointX="12.375" PointY="2.8173065417598195" />
+          <ConnectorPoint PointX="12.75" PointY="2.8173065417598195" />
+        </AssociationConnector>
+        <AssociationConnector Association="mesoBoard.Data.FK_Permissions_Roles" >
+          <ConnectorPoint PointX="12" PointY="1.7211532708799098" />
+          <ConnectorPoint PointX="12.75" PointY="1.7211532708799098" />
+        </AssociationConnector>
+        <AssociationConnector Association="mesoBoard.Data.FK_InRoles_Roles" >
+          <ConnectorPoint PointX="11.28125" PointY="3.3744921875" />
+          <ConnectorPoint PointX="11.28125" PointY="7.1151432291666694" />
+          <ConnectorPoint PointX="10.5" PointY="7.1151432291666694" />
+        </AssociationConnector>
+        <AssociationConnector Association="mesoBoard.Data.FK_PollOptions_Polls" >
+          <ConnectorPoint PointX="5.59375" PointY="17" />
+          <ConnectorPoint PointX="5.59375" PointY="15.94423502604166" />
+          <ConnectorPoint PointX="5.6822941666666669" PointY="15.94423502604166" />
+          <ConnectorPoint PointX="5.8489608333333329" PointY="15.94423502604166" />
+          <ConnectorPoint PointX="6.875" PointY="15.94423502604166" />
+        </AssociationConnector>
+        <AssociationConnector Association="mesoBoard.Data.FK_PollVotes_PollOptions" >
+          <ConnectorPoint PointX="8" PointY="14.25" />
+          <ConnectorPoint PointX="8" PointY="9.53125" />
+          <ConnectorPoint PointX="8.375" PointY="9.53125" />
+        </AssociationConnector>
+        <AssociationConnector Association="mesoBoard.Data.FK_ReportedPosts_Posts" >
+          <ConnectorPoint PointX="7.75" PointY="4.9228417968749909" />
+          <ConnectorPoint PointX="9" PointY="4.9228417968749909" />
+        </AssociationConnector>
+        <AssociationConnector Association="mesoBoard.Data.FK_Roles_Ranks" >
+          <ConnectorPoint PointX="9.75" PointY="2.0574446614583337" />
+          <ConnectorPoint PointX="10.5" PointY="2.0574446614583337" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="mesoBoard.Data.Message" Width="1.5" PointX="3" PointY="9.5" Height="3.1340950520833388" />
+        <EntityTypeShape EntityType="mesoBoard.Data.User" Width="1.5" PointX="0.75" PointY="9.125" Height="5.8263151041666674" />
+        <AssociationConnector Association="mesoBoard.Data.FK_InRoles_Users" >
+          <ConnectorPoint PointX="0.7734375" PointY="9.125" />
+          <ConnectorPoint PointX="0.7734375" PointY="7.9057421875000022" />
+          <ConnectorPoint PointX="3.6666666666666665" PointY="7.9057421875000014" />
+          <ConnectorPoint PointX="3.8333333333333335" PointY="7.9057421875000022" />
+          <ConnectorPoint PointX="5.322916666666667" PointY="7.9057421875000014" />
+          <ConnectorPoint PointX="5.489583333333333" PointY="7.9057421875000022" />
+          <ConnectorPoint PointX="5.6822941666666669" PointY="7.9057421875000014" />
+          <ConnectorPoint PointX="6.00398763020833" PointY="7.9057421875000022" />
+          <ConnectorPoint PointX="6.072916666666667" PointY="7.9057421875000014" />
+          <ConnectorPoint PointX="6.239583333333333" PointY="7.9057421875000022" />
+          <ConnectorPoint PointX="9" PointY="7.9057421875000022" />
+        </AssociationConnector>
+        <AssociationConnector Association="mesoBoard.Data.FK_Messages_FromUser" >
+          <ConnectorPoint PointX="2.25" PointY="11.628860181172692" />
+          <ConnectorPoint PointX="3" PointY="11.628860181172692" />
+        </AssociationConnector>
+        <AssociationConnector Association="mesoBoard.Data.FK_Messages_ToUser" >
+          <ConnectorPoint PointX="2.25" PointY="10.501930090586345" />
+          <ConnectorPoint PointX="3" PointY="10.501930090586345" />
+        </AssociationConnector>
+        <AssociationConnector Association="mesoBoard.Data.FK_OnlineUsers_Users" >
+          <ConnectorPoint PointX="2.25" PointY="14.475657552083334" />
+          <ConnectorPoint PointX="3.75" PointY="14.475657552083334" />
+        </AssociationConnector>
+        <AssociationConnector Association="mesoBoard.Data.FK_PasswordResetRequests_Users" >
+          <ConnectorPoint PointX="1.9375" PointY="14.951315104166666" />
+          <ConnectorPoint PointX="1.9375" PointY="16" />
+        </AssociationConnector>
+        <AssociationConnector Association="mesoBoard.Data.FK_PollVotes_Users" >
+          <ConnectorPoint PointX="2.25" PointY="12.99521936793257" />
+          <ConnectorPoint PointX="5.322916666666667" PointY="12.99521936793257" />
+          <ConnectorPoint PointX="5.489583333333333" PointY="12.99521936793257" />
+          <ConnectorPoint PointX="5.6822941666666669" PointY="12.99521936793257" />
+          <ConnectorPoint PointX="5.8489608333333329" PointY="12.99521936793257" />
+          <ConnectorPoint PointX="7.916666666666667" PointY="12.99521936793257" />
+          <ConnectorPoint PointX="8.0833333333333339" PointY="12.99521936793257" />
+          <ConnectorPoint PointX="9.15625" PointY="12.99521936793257" />
+          <ConnectorPoint PointX="9.15625" PointY="11.480286458333325" />
+        </AssociationConnector>
+        <AssociationConnector Association="mesoBoard.Data.FK_Posts_Users" >
+          <ConnectorPoint PointX="2.25" PointY="9.1261528461538468" />
+          <ConnectorPoint PointX="2.625" PointY="8.7511528461538468" />
+          <ConnectorPoint PointX="2.625" PointY="8.076396484375" />
+          <ConnectorPoint PointX="3.6666666666666665" PointY="8.076396484375" />
+          <ConnectorPoint PointX="3.8333333333333335" PointY="8.076396484375" />
+          <ConnectorPoint PointX="5.322916666666667" PointY="8.076396484375" />
+          <ConnectorPoint PointX="5.489583333333333" PointY="8.076396484375" />
+          <ConnectorPoint PointX="5.75" PointY="8.076396484375" />
+          <ConnectorPoint PointX="6.0973244349011209" PointY="7.7290720494738778" />
+          <ConnectorPoint PointX="6.2151755650988791" PointY="7.61122091927612" />
+          <ConnectorPoint PointX="6.25" PointY="7.576396484375" />
+        </AssociationConnector>
+        <AssociationConnector Association="mesoBoard.Data.FK_ThreadViews_Users" >
+          <ConnectorPoint PointX="2.25" PointY="13.336698104911729" />
+          <ConnectorPoint PointX="5.40625" PointY="13.336698104911729" />
+          <ConnectorPoint PointX="5.40625" PointY="6.4802864583333246" />
+        </AssociationConnector>
+        <AssociationConnector Association="mesoBoard.Data.FK_Views_Users" >
+          <ConnectorPoint PointX="2.25" PointY="13.678176841890888" />
+          <ConnectorPoint PointX="5.6822941666666669" PointY="13.678176841890888" />
+          <ConnectorPoint PointX="5.8489608333333329" PointY="13.678176841890888" />
+          <ConnectorPoint PointX="7.916666666666667" PointY="13.678176841890888" />
+          <ConnectorPoint PointX="8.0833333333333339" PointY="13.678176841890888" />
+          <ConnectorPoint PointX="11.25" PointY="13.678176841890888" />
+          <ConnectorPoint PointX="11.25" PointY="12.047587890624982" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="mesoBoard.Data.UserProfile" Width="1.5" PointX="12.375" PointY="5.25" Height="4.48020507812501" />
+        <AssociationConnector Association="mesoBoard.Data.FK_UserProfiles_Roles" >
+          <ConnectorPoint PointX="10.90625" PointY="3.3744921875" />
+          <ConnectorPoint PointX="10.90625" PointY="6.1513191145833339" />
+          <ConnectorPoint PointX="11.197916666666666" PointY="6.151319114583333" />
+          <ConnectorPoint PointX="11.364583333333334" PointY="6.1513191145833339" />
+          <ConnectorPoint PointX="12.375" PointY="6.1513191145833339" />
+        </AssociationConnector>
+        <AssociationConnector Association="mesoBoard.Data.FK_UserProfiles_Themes" >
+          <ConnectorPoint PointX="13.6875" PointY="11.25" />
+          <ConnectorPoint PointX="13.6875" PointY="9.73020507812501" />
+        </AssociationConnector>
+        <AssociationConnector Association="mesoBoard.Data.FK_UserProfiles_Users" >
+          <ConnectorPoint PointX="2.25" PointY="13.839090920945438" />
+          <ConnectorPoint PointX="5.6822941666666669" PointY="13.839090920945438" />
+          <ConnectorPoint PointX="5.8489608333333329" PointY="13.839090920945438" />
+          <ConnectorPoint PointX="7.916666666666667" PointY="13.839090920945438" />
+          <ConnectorPoint PointX="8.0833333333333339" PointY="13.839090920945438" />
+          <ConnectorPoint PointX="12.90625" PointY="13.839090920945438" />
+          <ConnectorPoint PointX="12.90625" PointY="9.73020507812501" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="mesoBoard.Data.Thread" Width="1.5" PointX="0.875" PointY="4.125" Height="3.5186979166666674" />
+        <AssociationConnector Association="mesoBoard.Data.FK_Threads_Forums" >
+          <ConnectorPoint PointX="1.875" PointY="3.8167936197916665" />
+          <ConnectorPoint PointX="1.875" PointY="4.125" />
+        </AssociationConnector>
+        <AssociationConnector Association="mesoBoard.Data.FK_Polls_Threads" >
+          <ConnectorPoint PointX="2.375" PointY="7.2729281129121963" />
+          <ConnectorPoint PointX="3.6666666666666665" PointY="7.2729281129121954" />
+          <ConnectorPoint PointX="3.8333333333333335" PointY="7.2729281129121963" />
+          <ConnectorPoint PointX="5.322916666666667" PointY="7.2729281129121954" />
+          <ConnectorPoint PointX="5.489583333333333" PointY="7.2729281129121963" />
+          <ConnectorPoint PointX="5.7656275" PointY="7.2729281129121963" />
+          <ConnectorPoint PointX="5.7656275" PointY="17" />
+        </AssociationConnector>
+        <AssociationConnector Association="mesoBoard.Data.FK_Posts_Threads" >
+          <ConnectorPoint PointX="2.375" PointY="6.83965330915774" />
+          <ConnectorPoint PointX="3.6666666666666665" PointY="6.8396533091577387" />
+          <ConnectorPoint PointX="3.8333333333333335" PointY="6.83965330915774" />
+          <ConnectorPoint PointX="5.322916666666667" PointY="6.8396533091577387" />
+          <ConnectorPoint PointX="5.489583333333333" PointY="6.83965330915774" />
+          <ConnectorPoint PointX="6.072916666666667" PointY="6.8396533091577387" />
+          <ConnectorPoint PointX="6.239583333333333" PointY="6.83965330915774" />
+          <ConnectorPoint PointX="6.25" PointY="6.83965330915774" />
+        </AssociationConnector>
+        <AssociationConnector Association="mesoBoard.Data.FK_ThreadViews_Threads" >
+          <ConnectorPoint PointX="2.375" PointY="5.7409679882812483" />
+          <ConnectorPoint PointX="3.6666666666666665" PointY="5.7409679882812474" />
+          <ConnectorPoint PointX="3.8333333333333335" PointY="5.7409679882812483" />
+          <ConnectorPoint PointX="4" PointY="5.7409679882812483" />
+        </AssociationConnector>
+        <AssociationConnector Association="mesoBoard.Data.FK_ThreadViewStamp_Threads" >
+          <ConnectorPoint PointX="2.375" PointY="4.901731994140631" />
+          <ConnectorPoint PointX="3.75" PointY="4.901731994140631" />
+          <ConnectorPoint PointX="3.75" PointY="8.3552864583333388" />
+          <ConnectorPoint PointX="5.322916666666667" PointY="8.3552864583333388" />
+          <ConnectorPoint PointX="5.489583333333333" PointY="8.3552864583333388" />
+          <ConnectorPoint PointX="5.6822941666666669" PointY="8.3552864583333388" />
+          <ConnectorPoint PointX="5.8489608333333329" PointY="8.3552864583333388" />
+          <ConnectorPoint PointX="6.072916666666667" PointY="8.3552864583333388" />
+          <ConnectorPoint PointX="6.239583333333333" PointY="8.3552864583333388" />
+          <ConnectorPoint PointX="11.25" PointY="8.3552864583333388" />
+          <ConnectorPoint PointX="11.25" PointY="9.875" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="mesoBoard.Data.Subscription" Width="1.5" PointX="6.125" PointY="9.625" Height="1.9802864583333388" />
+        <AssociationConnector Association="mesoBoard.Data.FK_Subscriptions_Threads" >
+          <ConnectorPoint PointX="2.375" PointY="4.15625" />
+          <ConnectorPoint PointX="6.15625" PointY="4.15625" />
+          <ConnectorPoint PointX="6.15625" PointY="9.625" />
+        </AssociationConnector>
+        <AssociationConnector Association="mesoBoard.Data.FK_Subscriptions_Users" >
+          <ConnectorPoint PointX="2.25" PointY="12.814654710007961" />
+          <ConnectorPoint PointX="5.322916666666667" PointY="12.814654710007961" />
+          <ConnectorPoint PointX="5.489583333333333" PointY="12.814654710007961" />
+          <ConnectorPoint PointX="5.6822941666666669" PointY="12.814654710007961" />
+          <ConnectorPoint PointX="5.8489608333333329" PointY="12.814654710007961" />
+          <ConnectorPoint PointX="6.46875" PointY="12.814654710007961" />
+          <ConnectorPoint PointX="6.46875" PointY="11.605286458333339" />
+        </AssociationConnector>
+        </Diagram></Diagrams>
+  </Designer>
+</edmx:Edmx>
