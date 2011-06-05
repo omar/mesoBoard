@@ -11,12 +11,17 @@ using mesoBoard.Data;
 
 namespace mesoBoard.Services
 {
-    public class FileServices
+    public class FileServices : BaseService
     {
         IRepository<Attachment> _attachmentRepository;
         IRepository<FileType> _fileTypeRepository;
 
-        public FileServices(IRepository<Attachment> attachmentRepository, IRepository<FileType> fileTypeRepository, IRepository<UserProfile> userProfileRepository)
+        public FileServices(
+            IRepository<Attachment> attachmentRepository, 
+            IRepository<FileType> fileTypeRepository, 
+            IRepository<UserProfile> userProfileRepository,
+            IUnitOfWork unitOfWork)
+            : base(unitOfWork)
         {
             _attachmentRepository = attachmentRepository;
             _fileTypeRepository = fileTypeRepository;
@@ -35,42 +40,12 @@ namespace mesoBoard.Services
             return fileType != null;
         }
 
-        public List<FileInfo> GetFileTypeImages()
-        {
-            DirectoryInfo fileTypeImagesDirectory = new DirectoryInfo(HostingEnvironment.MapPath(DirectoryPaths.FileTypes));
-            List<FileInfo> fileTypeImages = new List<FileInfo>();
-            string[] fileExtensions = { ".png", ".gif" };
-
-            foreach (string e in fileExtensions)
-            {
-                fileTypeImages.AddRange(fileTypeImagesDirectory.GetFiles("*" + e));
-            }
-
-            return fileTypeImages;
-        }
-
-
         public void LogAttachmentDownload(int attachmentID)
         {
             Attachment attachment = _attachmentRepository.Get(attachmentID);
             attachment.Downloaded++;
             _attachmentRepository.Update(attachment);
-        }
-
-        public void CreateAttachment(HttpPostedFileBase file, int PostID)
-        {
-            string savedName = UploadFile(file);
-
-            var attachment = new Attachment
-            {
-                Downloaded = 0,
-                SavedName = savedName,
-                DownloadName = file.FileName,
-                PostID = PostID,
-                Size = file.ContentLength,
-                Type = file.ContentType
-            };
-            _attachmentRepository.Add(attachment);
+            _unitOfWork.Commit();
         }
 
         public IEnumerable<Attachment> GetPostAttachments(int postID)
@@ -112,6 +87,23 @@ namespace mesoBoard.Services
             }
         }
 
+        public void CreateAttachment(HttpPostedFileBase file, int PostID)
+        {
+            string savedName = UploadFile(file);
+
+            var attachment = new Attachment
+            {
+                Downloaded = 0,
+                SavedName = savedName,
+                DownloadName = file.FileName,
+                PostID = PostID,
+                Size = file.ContentLength,
+                Type = file.ContentType
+            };
+            _attachmentRepository.Add(attachment);
+            _unitOfWork.Commit();
+        }
+
         public void DeleteAttachments(IEnumerable<Attachment> attachments)
         {
             var items = attachments.ToList();
@@ -119,14 +111,6 @@ namespace mesoBoard.Services
             {
                 DeleteAttachment(attachment);
             }
-        }
-
-        public void DeleteAttachment(Attachment attachment)
-        {
-            string filePath = Path.Combine(HostingEnvironment.MapPath(DirectoryPaths.Attachments), attachment.SavedName);
-            if (System.IO.File.Exists(filePath))
-                System.IO.File.Delete(filePath);
-            _attachmentRepository.Delete(attachment.AttachmentID);
         }
 
         public void DeleteAttachment(int attachmentID)
@@ -139,6 +123,15 @@ namespace mesoBoard.Services
         {
             foreach (int i in attachmentIDs)
                 DeleteAttachment(i);
+        }
+
+        public void DeleteAttachment(Attachment attachment)
+        {
+            string filePath = Path.Combine(HostingEnvironment.MapPath(DirectoryPaths.Attachments), attachment.SavedName);
+            if (System.IO.File.Exists(filePath))
+                System.IO.File.Delete(filePath);
+            _attachmentRepository.Delete(attachment.AttachmentID);
+            _unitOfWork.Commit();
         }
 
         public string UploadAvatar(HttpPostedFileBase avatar)

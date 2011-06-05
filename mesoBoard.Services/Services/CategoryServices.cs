@@ -5,11 +5,14 @@ using mesoBoard.Data;
 
 namespace mesoBoard.Services
 {
-    public class CategoryServices
+    public class CategoryServices : BaseService
     {
         IRepository<Category> _categoryRepository;
 
-        public CategoryServices(IRepository<Category> categoryRepository)
+        public CategoryServices(
+            IRepository<Category> categoryRepository,
+            IUnitOfWork unitOfWork)
+            : base(unitOfWork)
         {
             _categoryRepository = categoryRepository;
         }
@@ -25,6 +28,7 @@ namespace mesoBoard.Services
             };
 
             _categoryRepository.Add(category);
+            _unitOfWork.Commit();
             return category;
         }
 

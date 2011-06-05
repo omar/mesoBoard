@@ -1,12 +1,14 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Web.Hosting;
+using mesoBoard.Common;
 
 namespace mesoBoard.Services
 {
-    public class ThreadImageServices 
+    public class ThreadImageServices : BaseService
     {
-        public ThreadImageServices()
+        public ThreadImageServices(IUnitOfWork unitOfWork) 
+            : base(unitOfWork)
         {
         }
 

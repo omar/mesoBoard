@@ -9,11 +9,14 @@ using System.Data.Common;
 
 namespace mesoBoard.Services
 {
-    public class SearchServices 
+    public class SearchServices : BaseService
     {
         private mbEntities _dataContext;
 
-        public SearchServices(mbEntities dataContext)
+        public SearchServices(
+            mbEntities dataContext,
+            IUnitOfWork unitOfWork)
+            : base(unitOfWork)
         {
             _dataContext = dataContext;
         }
@@ -26,7 +29,7 @@ namespace mesoBoard.Services
                                    WHERE FREETEXT(Posts.TextOnly, @keyword)";
 
             var parameter = new SqlParameter() { ParameterName = "keyword", Value = keywords };
-            var results = _dataContext.ExecuteStoreQuery<Post>(searchQuery, "Posts", MergeOption.AppendOnly, parameter);
+            var results = _dataContext.Posts.SqlQuery(searchQuery, parameter);
             return results;
         }
     }

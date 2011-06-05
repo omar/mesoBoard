@@ -16,36 +16,32 @@ namespace mesoBoard.Tests.Services
     {
         ParseServices _parseServices;
         
-        IQueryable<BBCode> _bbCodes = new List<BBCode>()
+        List<BBCode> _bbCodes = new List<BBCode>()
         {
             new BBCode(){ Tag = "i", Parse = "<i>{1}</i>" },
             new BBCode(){ Tag = "b", Parse = "<b>{1}</b>" },
             new BBCode(){ Tag = "url", Parse = "<a href=\"{1}\">{2}</a>" },
             new BBCode(){ Tag = "code", Parse = "<pre class=\"{1}\">{2}</pre>" }
-        }.AsQueryable();
+        };
 
-        IQueryable<Smiley> _smilies = new List<Smiley>()
+        List<Smiley> _smilies = new List<Smiley>()
         {
             new Smiley() { Code = ":)", ImageURL = "smile.png", Title = "smile" },
             new Smiley() { Code = ":(", ImageURL = "frown.png", Title = "frown" }
-        }.AsQueryable();
+        };
 
 
         [SetUp]
         public void Initialize()
         {
-            var smileyRepository = new Mock<IRepository<Smiley>>();
-            smileyRepository.Setup(x => x.First(TestHelpers.RepositoryIsAny<Smiley>()))
-                .Returns<Expression<Func<Smiley, bool>>>(predicate => _smilies.First(predicate));
-            smileyRepository.Setup(x => x.Get()).Returns(_smilies);
-
-            var bbCodeRepository = new Mock<IRepository<BBCode>>();
-            bbCodeRepository.Setup(x => x.First(TestHelpers.RepositoryIsAny<BBCode>()))
-                .Returns<Expression<Func<BBCode, bool>>>(predicate => _bbCodes.First(predicate));
+            var smileyRepository = TestHelpers.MockRepository<Smiley>(_smilies);
+            var bbCodeRepository = TestHelpers.MockRepository<BBCode>(_bbCodes);
+            var unitOfWork = TestHelpers.MockUnitOfWork();
 
             _parseServices = new ParseServices(
                 bbCodeRepository.Object, 
-                smileyRepository.Object);
+                smileyRepository.Object,
+                unitOfWork.Object);
         }
 
         [Test]

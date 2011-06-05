@@ -14,11 +14,16 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
     {
         IRepository<FileType> _fileTypeRepository;
         FileServices _fileServices;
+        FileTypeServices _fileTypeServices;
 
-        public FileTypesController(IRepository<FileType> fileTypeRepository, FileServices fileServices)
+        public FileTypesController(
+            IRepository<FileType> fileTypeRepository, 
+            FileServices fileServices,
+            FileTypeServices fileTypeServices)
         {
             _fileTypeRepository = fileTypeRepository;
             _fileServices = fileServices;
+            _fileTypeServices = fileTypeServices;
             SetCrumb("File Types");
         }
 
@@ -26,7 +31,7 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
         public ActionResult FileTypes()
         {
             IEnumerable<FileType> fileTypes = _fileTypeRepository.Get();
-            List<FileInfo> fileTypeImages = _fileServices.GetFileTypeImages();
+            List<FileInfo> fileTypeImages = _fileTypeServices.GetFileTypeImages();
 
             FileTypeViewModel model = new FileTypeViewModel()
             {
@@ -66,7 +71,7 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult EditFileType(int FileTypeID)
         {
-            List<FileInfo> fileTypeImages = _fileServices.GetFileTypeImages();
+            List<FileInfo> fileTypeImages = _fileTypeServices.GetFileTypeImages();
             FileType fileType = _fileTypeRepository.Get(FileTypeID);
 
             FileTypeViewModel model = new FileTypeViewModel()

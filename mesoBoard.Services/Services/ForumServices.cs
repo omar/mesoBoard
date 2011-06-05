@@ -6,7 +6,7 @@ using System;
 
 namespace mesoBoard.Services
 {
-    public class ForumServices 
+    public class ForumServices : BaseService 
     {
         IRepository<Thread> _threadRepository;
         IRepository<Category> _categoryRepository;
@@ -25,7 +25,9 @@ namespace mesoBoard.Services
             ThreadServices threadServices,
             IRepository<ThreadViewStamp> threadViewStampRepository,
             PermissionServices permissionServices,
-            IRepository<User> userRepository)
+            IRepository<User> userRepository,
+            IUnitOfWork unitOfWork)
+            : base(unitOfWork)
         {
             _threadRepository = threads;
             _categoryRepository = categories;
@@ -50,6 +52,7 @@ namespace mesoBoard.Services
                 AllowGuestDownloads = allowGuestDownloads
             };
             _forumRepository.Add(forum);
+            _unitOfWork.Commit();
             return forum;
         }
 
@@ -85,6 +88,7 @@ namespace mesoBoard.Services
 
             _forumRepository.Update(forum);
             _forumRepository.Update(displaced);
+            _unitOfWork.Commit();
         }
 
         public void ChangeCategoryOrder(int categoryID, int direction)
@@ -110,6 +114,7 @@ namespace mesoBoard.Services
 
             _categoryRepository.Update(category);
             _categoryRepository.Update(displaced);
+            _unitOfWork.Commit();
         }
 
         public Forum GetForum(int forumID)

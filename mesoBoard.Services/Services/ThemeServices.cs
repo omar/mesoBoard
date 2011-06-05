@@ -4,12 +4,16 @@ using mesoBoard.Data;
 
 namespace mesoBoard.Services
 {
-    public class ThemeServices 
+    public class ThemeServices : BaseService
     {
         IRepository<Theme> _themeRepository;
         IRepository<Config> _configRepository;
 
-        public ThemeServices(IRepository<Theme> themeRepository, IRepository<Config> configRepository)
+        public ThemeServices(
+            IRepository<Theme> themeRepository, 
+            IRepository<Config> configRepository,
+            IUnitOfWork unitOfWork)
+            : base(unitOfWork)
         {
             this._themeRepository = themeRepository;
             this._configRepository = configRepository;
@@ -44,6 +48,7 @@ namespace mesoBoard.Services
             Config boardTheme = _configRepository.Get(SiteConfig.BoardTheme.ConfigID);
             boardTheme.Value = themeID.ToString();
             _configRepository.Update(boardTheme);
+            _unitOfWork.Commit();
             SiteConfig.UpdateCache();
         }
     }

@@ -61,6 +61,7 @@
     <Compile Include="Enums\Permissions\PermissionCollection.cs" />
     <Compile Include="Enums\Permissions\PermissionsBase.cs" />
     <Compile Include="Extensions\ModelStateDictionary.cs" />
+    <Compile Include="Repository\IUnitOfWork.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Models\UserPermissions.cs" />
     <Compile Include="StringKeys\CacheKeys.cs" />

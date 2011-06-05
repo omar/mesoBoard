@@ -5,7 +5,7 @@ using mesoBoard.Data;
 
 namespace mesoBoard.Services
 {
-    public class RoleServices 
+    public class RoleServices : BaseService
     {
         IRepository<Config> _configRepository;
         IRepository<InRole> _inRoleRepository;
@@ -14,7 +14,9 @@ namespace mesoBoard.Services
         public RoleServices(
             IRepository<Config> configRepository, 
             IRepository<InRole> inRoleRepository, 
-            IRepository<User> userRepository)   
+            IRepository<User> userRepository,
+            IUnitOfWork unitOfWork)
+            : base(unitOfWork)
         {
             _configRepository = configRepository;
             _inRoleRepository = inRoleRepository;
@@ -45,6 +47,7 @@ namespace mesoBoard.Services
             Config registrationRole = _configRepository.Get(SiteConfig.RegistrationRole.ConfigID);
             registrationRole.Value = roleID.ToString();
             _configRepository.Update(registrationRole);
+            _unitOfWork.Commit();
             SiteConfig.UpdateCache();
         }
     }

@@ -61,7 +61,8 @@ namespace mesoBoard.Services
 
         private mbEntities _dataContext;
 
-        public UpgradeServices(mbEntities dataContext)
+        public UpgradeServices(
+            mbEntities dataContext)
         {
             _dataContext = dataContext;
         }
@@ -155,7 +156,7 @@ namespace mesoBoard.Services
                 var user = _dataContext.Users.FirstOrDefault(item => item.UserID == subscription.UserID);
                 if (user == null || thread == null)
                 {
-                    _dataContext.DeleteObject(subscription);
+                    _dataContext.Subscriptions.Remove(subscription);
                 }
             }
 

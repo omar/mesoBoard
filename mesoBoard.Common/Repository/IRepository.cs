@@ -58,10 +58,5 @@ namespace mesoBoard.Common
         /// </summary>
         /// <param name="entity">Entity to update.</param>
         T Update(T entity);
-
-        /// <summary>
-        /// Saves changes made to the data context through this repository.
-        /// </summary>
-        void SaveChanges();
     }
 }

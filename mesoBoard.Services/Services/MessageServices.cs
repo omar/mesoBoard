@@ -5,11 +5,14 @@ using System;
 
 namespace mesoBoard.Services
 {
-    public class MessageServices 
+    public class MessageServices : BaseService 
     {
         IRepository<Message> _messageRepository;
 
-        public MessageServices(IRepository<Message> messageRepository)
+        public MessageServices(
+            IRepository<Message> messageRepository,
+            IUnitOfWork unitOfWork)
+            : base(unitOfWork)
         {
             _messageRepository = messageRepository;
         }
@@ -40,6 +43,7 @@ namespace mesoBoard.Services
             };
 
             _messageRepository.Add(message);
+            _unitOfWork.Commit();
             return message;
         }
 
@@ -68,11 +72,13 @@ namespace mesoBoard.Services
             var message = _messageRepository.Get(messageID);
             message.IsRead = true;
             _messageRepository.Update(message);
+            _unitOfWork.Commit();
         }
 
         public void DeleteMessage(int messageID)
         {
             _messageRepository.Delete(messageID);
+            _unitOfWork.Commit();
         }
     }
 }

@@ -9,7 +9,7 @@ using mesoBoard.Data;
 
 namespace mesoBoard.Services
 {
-    public class PostServices
+    public class PostServices : BaseService
     {
         IRepository<Attachment> _attachmentRepository;
         IRepository<Post> _postRepository;
@@ -23,10 +23,11 @@ namespace mesoBoard.Services
             IRepository<Attachment> attachmentRepository,
             IRepository<Post> postRepository,
             IRepository<ReportedPost> reportedPostRepository,
-
             FileServices fileServices,
             ParseServices parseServices,
-            RoleServices roleServices)
+            RoleServices roleServices,
+            IUnitOfWork unitOfWork)
+            : base(unitOfWork)
         {
             _postRepository = postRepository;
             _attachmentRepository = attachmentRepository;
@@ -53,7 +54,7 @@ namespace mesoBoard.Services
             _postRepository.Add(post);
             if(files != null)
                 _fileServices.CreateAttachments(files, post.PostID);
-
+            _unitOfWork.Commit();
             return post;
         }
 
@@ -74,7 +75,7 @@ namespace mesoBoard.Services
             post.ParsedText = _parseServices.ParseBBCodeText(text);
             post.TextOnly = _parseServices.GetTextOnly(text);
             _postRepository.Update(post);
-
+            _unitOfWork.Commit();
             _fileServices.CreateAttachments(files, post.PostID);
         }
 
@@ -110,8 +111,8 @@ namespace mesoBoard.Services
         {
             var attachments = _attachmentRepository.Where(item => item.PostID == postID);
             _fileServices.DeleteAttachments(attachments);
-
             _postRepository.Delete(postID);
+            _unitOfWork.Commit();
         }
 
         public bool CanDeletePost(int postID, int userID)
@@ -131,6 +132,7 @@ namespace mesoBoard.Services
             };
 
             _reportedPostRepository.Add(reportedPost);
+            _unitOfWork.Commit();
             return reportedPost;
         }
     }

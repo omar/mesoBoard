@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace mesoBoard.Services
 {
-    public class ParseServices
+    public class ParseServices : BaseService
     {
         string _bbCodePattern = @"\[(\w+)\b([^\]]*)\](.*?)\[/\1\]";
         IRepository<BBCode> _bbCodeRepository;
@@ -18,7 +18,9 @@ namespace mesoBoard.Services
 
         public ParseServices(
             IRepository<BBCode> bbCodeRepository, 
-            IRepository<Smiley> smilieRepository)
+            IRepository<Smiley> smilieRepository,
+            IUnitOfWork unitOfWork)
+            : base(unitOfWork)
         {
             _bbCodeRepository = bbCodeRepository;
             _smilieRepository = smilieRepository;

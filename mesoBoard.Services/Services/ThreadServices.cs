@@ -10,7 +10,7 @@ using mesoBoard.Data;
 
 namespace mesoBoard.Services
 {
-    public class ThreadServices 
+    public class ThreadServices : BaseService
     {
         IRepository<Thread> _threadRepository;
         IRepository<ThreadView> _threadViewRepository;
@@ -35,7 +35,9 @@ namespace mesoBoard.Services
             PollServices pollServices,
             FileServices fileServices,
             ParseServices parseServices,
-            RoleServices roleServices)
+            RoleServices roleServices,
+            IUnitOfWork unitOfWork)
+            : base(unitOfWork)
         {
             _threadRepository = threadRepository;
             _threadViewRepository = threadViewRepository;
@@ -72,6 +74,7 @@ namespace mesoBoard.Services
             thread.Type = (int)threadType;
             thread.Image = image;
             _threadRepository.Update(thread);
+            _unitOfWork.Commit();
         }
 
         public void ThreadViewed(int threadID, int userID)
@@ -97,6 +100,7 @@ namespace mesoBoard.Services
                     ThreadID  = threadID
                 });
             }
+            _unitOfWork.Commit();
         }
 
         public Thread CreateThread(
@@ -171,6 +175,7 @@ namespace mesoBoard.Services
                 }
             }
             _threadRepository.Add(thread);
+            _unitOfWork.Commit();
             return thread;
         }
 
@@ -208,12 +213,14 @@ namespace mesoBoard.Services
                 ThreadID = threadID,
                 UserID = userID,
             });
+            _unitOfWork.Commit();
         }
 
         public void Unsubscribe(int threadID, int userID)
         {
             Subscription subscription = _subscriptionRepository.First(item => item.ThreadID == threadID && item.UserID == userID);
             _subscriptionRepository.Delete(subscription);
+            _unitOfWork.Commit();
         }
 
         /// <summary>
@@ -226,8 +233,8 @@ namespace mesoBoard.Services
             Thread thread = GetThread(threadID);
             thread.IsLocked = !thread.IsLocked;
             _threadRepository.Update(thread);
+            _unitOfWork.Commit();
             return thread.IsLocked;
-
         }
 
         public void Lock(int threadID)
@@ -235,6 +242,7 @@ namespace mesoBoard.Services
             Thread thread = _threadRepository.Get(threadID);
             thread.IsLocked = true;
             _threadRepository.Update(thread);
+            _unitOfWork.Commit();
         }
 
         public void Unlock(int threadID)
@@ -242,6 +250,7 @@ namespace mesoBoard.Services
             Thread thread = _threadRepository.Get(threadID);
             thread.IsLocked = false;
             _threadRepository.Update(thread);
+            _unitOfWork.Commit();
         }
 
         public IEnumerable<Thread> GetPagedThreads(int forumID, int pageNumber, int pageSize, OrderBy orderBy = OrderBy.Date, Direction direction = Direction.Descending)
@@ -298,6 +307,7 @@ namespace mesoBoard.Services
             _fileServices.DeleteAttachments(attachments);
             var posts = thread.Posts.ToList();
             _threadRepository.Delete(threadID);
+            _unitOfWork.Commit();
         }
 
         public bool CanLock(User user)
@@ -321,7 +331,6 @@ namespace mesoBoard.Services
             if (userID == 0)
                 return false;
             IEnumerable<Subscription> subscriptions = _subscriptionRepository.Where(item => item.ThreadID.Equals(threadID));
-            
             return subscriptions.FirstOrDefault(x => x.ThreadID == threadID && x.UserID == userID) != null;
         }
     }

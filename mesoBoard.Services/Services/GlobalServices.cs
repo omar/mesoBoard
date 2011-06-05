@@ -6,7 +6,7 @@ using mesoBoard.Data.Repositories;
 
 namespace mesoBoard.Services
 {
-    public class GlobalServices 
+    public class GlobalServices : BaseService 
     {
         IRepository<OnlineGuest> _onlineGuestRepository;
         IRepository<OnlineUser> _onlineUserRepository;
@@ -15,7 +15,9 @@ namespace mesoBoard.Services
         public GlobalServices(
             IRepository<OnlineGuest> onlineGuests, 
             IRepository<OnlineUser> onlineUsers, 
-            StoredProcedures storedProcedures)
+            StoredProcedures storedProcedures,
+            IUnitOfWork unitOfWork)
+            : base(unitOfWork)
         {
             _onlineGuestRepository = onlineGuests;
             _onlineUserRepository = onlineUsers;
@@ -26,12 +28,14 @@ namespace mesoBoard.Services
         {
             IEnumerable<OnlineGuest> guests = _storedProcedures.Get_Inactive_OnlineGuests();
             _onlineGuestRepository.Delete(guests);
+            _unitOfWork.Commit();
         }
 
         public void PruneOnlineUsers()
         {
             IEnumerable<OnlineUser> users = _storedProcedures.Get_Inactive_OnlineUsers();
             _onlineUserRepository.Delete(users);
+            _unitOfWork.Commit();
         }
 
 
@@ -80,6 +84,7 @@ namespace mesoBoard.Services
                 }
             }
 
+            _unitOfWork.Commit();
         }
     }
 }

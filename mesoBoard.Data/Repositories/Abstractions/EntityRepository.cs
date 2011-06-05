@@ -6,42 +6,30 @@ using System.Data.Objects.DataClasses;
 using System.Linq;
 using System.Linq.Expressions;
 using mesoBoard.Common;
+using System.Data.Entity;
 
 namespace mesoBoard.Data.Repositories
 {
-    public class EntityRepository<T> : IRepository<T> where T : EntityObject
+    public class EntityRepository<T> : IRepository<T> where T : class
     {
-        protected ObjectSet<T> _table;
-        protected ObjectContext _context;
+        protected DbSet<T> _table;
+        protected DbContext _context;
 
         public EntityRepository(mbEntities mbentities)
         {
             _context = mbentities;
-            _table = _context.CreateObjectSet<T>();
+            _table = _context.Set<T>();
         }
 
-        public EntityRepository(ObjectContext objectContext)
+        public EntityRepository(DbContext dbContext)
         {
-            _context = objectContext;
-            _table = _context.CreateObjectSet<T>();
-        }
-
-        public void Detach(T entity)
-        {
-            _table.Detach(entity);
+            _context = dbContext;
+            _table = _context.Set<T>();
         }
 
         public T Get(int id)
         {
-            string entitySetName = _context.DefaultContainerName + "." + _table.EntitySet.Name;
-            string keyName = _table.EntitySet.ElementType.KeyMembers[0].ToString();
-            EntityKey key = new EntityKey(entitySetName, new[] { new EntityKeyMember(keyName, id) });
-
-            object found;
-            if (_context.TryGetObjectByKey(key, out found))
-                return (T)found;
-            else
-                return null;
+            return _table.Find(id);
         }
 
         public IEnumerable<T> Get()
@@ -51,28 +39,19 @@ namespace mesoBoard.Data.Repositories
 
         public T Add(T entity)
         {
-            _table.AddObject(entity);
-           SaveChanges();
+            _table.Add(entity);
             return entity;
         }
 
         public void Delete(T entity)
         {
-            _table.DeleteObject(entity);
-           SaveChanges();
+            _table.Remove(entity);
         }
 
         public T Update(T entity)
         {
-            if (entity.EntityState == EntityState.Detached)
-            {
-                _table.Attach(entity);
-            }
-            
-            _table.Context.ObjectStateManager.ChangeObjectState(entity, System.Data.EntityState.Modified);
-
-           SaveChanges();
-
+            var entityEntry = _context.Entry(entity);
+            entityEntry.State = EntityState.Modified;
             return entity;
         }
 
@@ -89,24 +68,15 @@ namespace mesoBoard.Data.Repositories
         public void Delete(int id)
         {
             var entity = Get(id);
-            _table.DeleteObject(entity);
-           SaveChanges();            
+            Delete(entity);
         }
 
         public void Delete(IEnumerable<T> entities)
         {
             foreach (T entity in entities)
             {
-                _table.DeleteObject(entity);
+                _table.Remove(entity);
             }
-
-           SaveChanges();
-        }
-
-
-        public void SaveChanges()
-        {
-            _table.Context.SaveChanges();
         }
     }
 

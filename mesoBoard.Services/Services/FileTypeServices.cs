@@ -6,11 +6,14 @@ using mesoBoard.Data;
 
 namespace mesoBoard.Services
 {
-    public class FileTypeServices 
+    public class FileTypeServices : BaseService 
     {
         IRepository<FileType> FileTypes;
 
-        public FileTypeServices(IRepository<FileType> fileTypes)
+        public FileTypeServices(
+            IRepository<FileType> fileTypes,
+            IUnitOfWork unitOfWork)
+            : base(unitOfWork)
         {
             FileTypes = fileTypes;
         }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace mesoBoard.Services
 {
-    public class PermissionServices 
+    public class PermissionServices : BaseService
     {
         IRepository<Thread> _threadRepository;
         IRepository<User> _userRepository;
@@ -20,7 +20,9 @@ namespace mesoBoard.Services
             IRepository<Forum> forums,
             IRepository<ForumPermission> forumPermissions,
             ThreadServices threadServices,
-            RoleServices rolesService)
+            RoleServices rolesService,
+            IUnitOfWork unitOfWork)
+            : base(unitOfWork)
         {
             _threadRepository = threads;
             _userRepository = users;
@@ -121,7 +123,6 @@ namespace mesoBoard.Services
         public int GetPermissionValue(int forumID, int userID, Permission permissionType)
         {
             Forum forum = _forumRepository.Get(forumID);
-
 
             if (userID == 0)
             {

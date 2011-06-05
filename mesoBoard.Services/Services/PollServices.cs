@@ -6,7 +6,7 @@ using mesoBoard.Data;
 
 namespace mesoBoard.Services
 {
-    public class PollServices 
+    public class PollServices : BaseService 
     {
         IRepository<PollVote> _pollVoteRepository;
         IRepository<Poll> _pollRepository;
@@ -15,7 +15,9 @@ namespace mesoBoard.Services
         public PollServices(
             IRepository<PollVote> pollVoteRepository,
             IRepository<Poll> pollRepository,
-            IRepository<Thread> threadRepository)
+            IRepository<Thread> threadRepository,
+            IUnitOfWork unitOfWork)
+            : base(unitOfWork)
         {
             _pollVoteRepository = pollVoteRepository;
             _pollRepository = pollRepository;
@@ -25,7 +27,6 @@ namespace mesoBoard.Services
         public bool HasVoted(int pollID, int userID)
         {
             IEnumerable<PollVote> votes = _pollVoteRepository.Where(item => item.PollOption.PollID.Equals(pollID));
-
             return votes.Any(x => x.PollOption.PollID == pollID && x.UserID == userID);
         }
 
@@ -35,12 +36,7 @@ namespace mesoBoard.Services
             Thread thread = _threadRepository.Get(PollID);
             thread.HasPoll = false;
             _threadRepository.Update(thread);
-        }
-
-        public void CreatePoll(string pollQuestion, string pollOptions, int threadID)
-        {
-            string[] splitOptions = pollOptions.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-            CreatePoll(pollQuestion, splitOptions, threadID);
+            _unitOfWork.Commit();
         }
 
         public Poll GetPoll(int pollID)
@@ -56,7 +52,14 @@ namespace mesoBoard.Services
                 UserID = userID
             };
             _pollVoteRepository.Add(vote);
+            _unitOfWork.Commit();
             return vote;
+        }
+
+        public void CreatePoll(string pollQuestion, string pollOptions, int threadID)
+        {
+            string[] splitOptions = pollOptions.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            CreatePoll(pollQuestion, splitOptions, threadID);
         }
 
         public void CreatePoll(string pollQuestion, string[] pollOptions, int threadID)
@@ -84,25 +87,7 @@ namespace mesoBoard.Services
             Thread thread = _threadRepository.Get(threadID);
             thread.HasPoll = true;
             _threadRepository.Update(thread);
+            _unitOfWork.Commit();
         }
-
-        //public bool CanCastVote(int pollID, int userID)
-        //{
-        //    var poll = _pollRepository.Get(pollID);
-
-        //    var pollingPermissions = _permissionServices.(poll.Thread.ForumID, userID, Permission.Polling);
-        //    if(pollingPermissions 
-
-        //    var pollVote = _pollVoteRepository.First(item => item.PollOption.PollID == pollID && item.UserID == userID);
-        //    if (pollVote != null)
-        //        return false;
-
-            
-
-        //    if (poll.Thread.IsLocked)
-        //        return false;
-
-            
-        //}
     }
 }

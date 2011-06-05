@@ -8,7 +8,7 @@ using mesoBoard.Data;
 
 namespace mesoBoard.Services
 {
-    public class UserServices 
+    public class UserServices : BaseService 
     {
         IRepository<User> _userRepository;
         IRepository<Message> _messageRepository;
@@ -28,7 +28,9 @@ namespace mesoBoard.Services
             IRepository<UserProfile> userProfileRepository,
             IRepository<PasswordResetRequest> passwordResetRequestRepository,
             IRepository<InRole> inRolesRepository,
-            ParseServices parseServices)
+            ParseServices parseServices,
+            IUnitOfWork unitOfWork)
+            : base(unitOfWork)
         {
             _userRepository = userRepository;
             _messageRepository = messageRepository;
@@ -59,6 +61,7 @@ namespace mesoBoard.Services
             {
                 user.ActivationCode = string.Empty;
                 _userRepository.Update(user);
+                _unitOfWork.Commit();
                 return true;
             }
             else
@@ -131,6 +134,7 @@ namespace mesoBoard.Services
             }
             IEnumerable<ThreadViewStamp> views = _threadViewStampRepository.Where(item => item.UserID.Equals(user.UserID));
             _threadViewStampRepository.Delete(views);
+            _unitOfWork.Commit();
         }
 
         public void LogoutRoutine(int userID)
@@ -142,6 +146,7 @@ namespace mesoBoard.Services
             User user = GetUser(userID);
             user.LastLogoutDate = DateTime.UtcNow;
             _userRepository.Update(user);
+            _unitOfWork.Commit();
         }
 
         public User GetUser(int userID)
@@ -169,7 +174,7 @@ namespace mesoBoard.Services
             user.PasswordSalt = salt;
 
             _userRepository.Update(user);
-
+            _unitOfWork.Commit();
             return newPass;
         }
 
@@ -184,7 +189,7 @@ namespace mesoBoard.Services
             user.PasswordSalt = newSalt;
 
             _userRepository.Update(user);
-
+            _unitOfWork.Commit();
             return user;
         }
 
@@ -194,6 +199,7 @@ namespace mesoBoard.Services
             userProfile.Signature = signature;
             userProfile.ParsedSignature = _parseServices.ParseBBCodeText(signature);
             _userProfileRepository.Update(userProfile);
+            _unitOfWork.Commit();
             return userProfile;
         }
 
@@ -202,6 +208,7 @@ namespace mesoBoard.Services
             var user= _userRepository.Get(userID);
             user.Email = newEmail;
             _userRepository.Update(user);
+            _unitOfWork.Commit();
             return user;
         }
 
@@ -226,6 +233,7 @@ namespace mesoBoard.Services
             userProfile.AvatarType = avatarType;
             userProfile.Avatar = avatar;
             _userProfileRepository.Update(userProfile);
+            _unitOfWork.Commit();
             return userProfile;
         }
 
@@ -254,6 +262,7 @@ namespace mesoBoard.Services
             userProfile.Birthdate = birthdate;
             userProfile.AlwaysSubscribeToThread = alwaysSubscribeToThread;
             _userProfileRepository.Update(userProfile);
+            _unitOfWork.Commit();
         }
 
         public User Register(string username, string password, string email)
@@ -296,7 +305,7 @@ namespace mesoBoard.Services
             user.InRoles.Add(inRole);
 
             _userRepository.Add(user);
-
+            _unitOfWork.Commit();
             return user;
         }
 
@@ -314,7 +323,7 @@ namespace mesoBoard.Services
             };
 
             _passwordResetRequestRepository.Add(pwrr);
-
+            _unitOfWork.Commit();
             string token = userID.ToString() + "-" + pwrr.Token;
 
             return token;
@@ -364,11 +373,13 @@ namespace mesoBoard.Services
             }
 
             _userRepository.Delete(userID);
+            _unitOfWork.Commit();
         }
 
         public void DeletePasswordResetRequest(int userID)
         {
             _passwordResetRequestRepository.Delete(userID);
+            _unitOfWork.Commit();
         }
     }
 }

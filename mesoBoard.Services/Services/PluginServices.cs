@@ -7,11 +7,14 @@ using mesoBoard.Data;
 
 namespace mesoBoard.Services
 {
-    public class PluginServices 
+    public class PluginServices : BaseService
     {
         private IRepository<Plugin> Plugins;
 
-        public PluginServices(IRepository<Plugin> plugins)            
+        public PluginServices(
+            IRepository<Plugin> plugins,
+            IUnitOfWork unitOfWork)
+            : base(unitOfWork)
         {
             this.Plugins = plugins;
         }
