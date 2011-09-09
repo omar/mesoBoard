@@ -182,9 +182,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Entities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Entities.Context.cs</LastGenOutput>
