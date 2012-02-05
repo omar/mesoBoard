@@ -23,7 +23,7 @@ namespace mesoBoard
             MultipleActiveResultSets=True";
 
         public static readonly string EntityConnectionStringTemplate = @"
-            metadata=res://*/mbEntities.csdl|res://*/mbEntities.ssdl|res://*/mbEntities.msl;
+            metadata=res://*/Entities.SqlServer.csdl|res://*/Entities.SqlServer.ssdl|res://*/Entities.SqlServer.msl;
             provider=System.Data.SqlClient;
             provider connection string='{CONNECTIONSTRING}'";
 

@@ -96,7 +96,7 @@ namespace mesoBoard.Web.Controllers
             try
             {
                 connection.Open();
-                string sql = System.IO.File.ReadAllText(Server.MapPath("~/App_Data/mesoBoardFresh.sql"));
+                string sql = System.IO.File.ReadAllText(Server.MapPath("~/App_Data/Install/mesoBoard.SqlServer.sql"));
 
                 string[] cmds = sql.Split(new string[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
 

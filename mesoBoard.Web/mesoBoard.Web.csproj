@@ -47,7 +47,10 @@
     <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
+    <Reference Include="EntityFramework, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.4.2.0.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -312,7 +315,7 @@
     <Content Include="Images\ThreadImages\nuclear.png" />
     <Content Include="Images\ThreadImages\rainbow.png" />
     <Content Include="Images\ThreadImages\traffic.png" />
-    <Content Include="App_Data\mesoBoardFresh.sql" />
+    <Content Include="App_Data\Install\mesoBoard.SqlServer.sql" />
     <Content Include="App_Data\EmailTemplates\EmailChange.html" />
     <Content Include="App_Data\EmailTemplates\NewMessage.html" />
     <Content Include="App_Data\EmailTemplates\NewThreadReply.html" />
