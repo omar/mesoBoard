@@ -61,15 +61,15 @@ namespace mesoBoard.Web.Controllers
         public ActionResult Groups(int Page=1, int PageSize=10)
         {
             SetBreadCrumb("Groups");
-            IEnumerable<Role> AllGroups = _roleRepository.Where(x => x.IsGroup == true);
+            IEnumerable<Role> groups = _roleRepository.Where(x => x.IsGroup == true).ToList();
 
-            int MemberCount = AllGroups.Count();
+            int MemberCount = groups.Count();
 
-            AllGroups = AllGroups.TakePage(Page, PageSize);
+            groups = groups.TakePage(Page, PageSize);
 
             ViewData["Pagination"] = new Pagination(Page, MemberCount, PageSize, "Groups", "Members");
 
-            return View(AllGroups);
+            return View(groups);
         }
 
         [DefaultAction]
@@ -87,7 +87,7 @@ namespace mesoBoard.Web.Controllers
 
             ViewData["Pagination"] = new Pagination(Page, MemberCount, PageSize, "MembersList", "Members", new { Letter = Letter });
 
-            return View(Members);
+            return View(Members.ToList());
         }
 
         public ActionResult UserProfile(string UserNameOrID)

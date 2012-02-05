@@ -26,7 +26,7 @@ namespace mesoBoard.Services
 
         public bool HasVoted(int pollID, int userID)
         {
-            IEnumerable<PollVote> votes = _pollVoteRepository.Where(item => item.PollOption.PollID.Equals(pollID));
+            IEnumerable<PollVote> votes = _pollVoteRepository.Where(item => item.PollOption.PollID.Equals(pollID)).ToList();
             return votes.Any(x => x.PollOption.PollID == pollID && x.UserID == userID);
         }
 

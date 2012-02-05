@@ -50,7 +50,7 @@ namespace mesoBoard.Services
 
         public IEnumerable<Attachment> GetPostAttachments(int postID)
         {
-            return _attachmentRepository.Where(item => item.PostID.Equals(postID));
+            return _attachmentRepository.Where(item => item.PostID.Equals(postID)).ToList();
         }
 
         public string UploadFile(HttpPostedFileBase file)

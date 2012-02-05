@@ -44,7 +44,7 @@ namespace mesoBoard.Services
 
         public IEnumerable<User> GetBirthdays(DateTime date)
         {
-            return _userProfileRepository.Where(item => item.Birthdate.HasValue && item.Birthdate.Value.Month == date.Month && item.Birthdate.Value.Day == date.Day).Select(item => item.User);
+            return _userProfileRepository.Where(item => item.Birthdate.HasValue && item.Birthdate.Value.Month == date.Month && item.Birthdate.Value.Day == date.Day).Select(item => item.User).ToList();
         }
 
         public bool ActivateUser(string userName, string activationCode)

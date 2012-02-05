@@ -122,14 +122,14 @@ namespace mesoBoard.Services
             return _forumRepository.Get(forumID);
         }
 
-        public IEnumerable<Forum> GetForumsByCategory(int categoryID)
+        public List<Forum> GetForumsByCategory(int categoryID)
         {
-            return _forumRepository.Get().Where(x => x.CategoryID == categoryID);
+            return _forumRepository.Get().Where(x => x.CategoryID == categoryID).ToList();
         }
 
-        public IEnumerable<Forum> GetViewableForums(int userID)
+        public List<Forum> GetViewableForums(int userID)
         {
-            IEnumerable<Forum> forums = _forumRepository.Get().Where(x => _permissionServices.CanView(x.ForumID, userID));
+            var forums = _forumRepository.Get().ToList().Where(x => _permissionServices.CanView(x.ForumID, userID)).ToList();
             return forums;
         }
 

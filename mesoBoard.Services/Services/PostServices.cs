@@ -84,7 +84,7 @@ namespace mesoBoard.Services
             IEnumerable<Post> posts = _postRepository.Where(item => item.ThreadID == threadID);
             posts = posts.OrderBy(x => x.Date);
             posts = posts.TakePage(page, pageSize);
-            return posts;
+            return posts.ToList();
         }
 
 

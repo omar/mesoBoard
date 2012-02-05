@@ -11,7 +11,7 @@ namespace mesoBoard.Services
         IRepository<Config> _configRepository;
 
         public ThemeServices(
-            IRepository<Theme> themeRepository,
+            IRepository<Theme> themeRepository, 
             IRepository<Config> configRepository,
             IUnitOfWork unitOfWork)
             : base(unitOfWork)

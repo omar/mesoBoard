@@ -64,7 +64,7 @@ namespace mesoBoard.Services
 
         public IEnumerable<Thread> GetGlobalAnnouncements()
         {
-            return _threadRepository.Where(item => item.Type == (int)ThreadType.GlobalAnnouncement);
+            return _threadRepository.Where(item => item.Type == (int)ThreadType.GlobalAnnouncement).ToList();
         }
 
         public void UpdateThread(int threadID, string title, ThreadType threadType, string image)
@@ -181,7 +181,7 @@ namespace mesoBoard.Services
 
         public IEnumerable<Post> GetPosts(int threadID)
         {
-            return _postRepository.Where(item => item.ThreadID.Equals(threadID));
+            return _postRepository.Where(item => item.ThreadID.Equals(threadID)).ToList();
         }
 
         /// <summary>
@@ -262,9 +262,9 @@ namespace mesoBoard.Services
             if (direction == Direction.Ascending)
                 forumThreads.Reverse();
 
-            forumThreads = forumThreads.TakePage(pageNumber, pageSize); 
+            forumThreads = forumThreads.TakePage(pageNumber, pageSize);
 
-            return forumThreads;
+            return forumThreads.ToList();
         }
 
         public bool HasAttachment(int threadID)

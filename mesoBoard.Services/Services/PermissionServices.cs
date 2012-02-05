@@ -80,7 +80,7 @@ namespace mesoBoard.Services
             if (userID == 0)
                 return false;
 
-            IEnumerable<Thread> thread = _threadRepository.Where(item => item.ForumID.Equals(forumID));
+            IEnumerable<Thread> thread = _threadRepository.Where(item => item.ForumID.Equals(forumID)).ToList();
 
             return thread.Any(x => _threadServices.HasNewPost(x.ThreadID, userID));
         }
@@ -140,7 +140,7 @@ namespace mesoBoard.Services
             }
             else
             {
-                IEnumerable<ForumPermission> forumPermissions = _forumPermissionRepository.Where(item => item.ForumID == forumID);
+                IEnumerable<ForumPermission> forumPermissions = _forumPermissionRepository.Where(item => item.ForumID == forumID).ToList();
 
                 if (_roleServices.UserHasSpecialPermissions(userID, SpecialPermissionValue.Administrator))
                     return 10;

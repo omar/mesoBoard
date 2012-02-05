@@ -98,7 +98,7 @@ namespace mesoBoard.Services
             smileyImage.Attributes.Add("alt", string.Empty);
             smileyImage.Attributes.Add("title", string.Empty);
 
-            foreach (Smiley smiley in _smilieRepository.Get())
+            foreach (Smiley smiley in _smilieRepository.Get().ToList())
             {
                 string imageUrl = string.Format("{0}/{1}", DirectoryPaths.Smilies.TrimStart('~').TrimEnd('/'), smiley.ImageURL);
                 smileyImage.Attributes["src"] = imageUrl;

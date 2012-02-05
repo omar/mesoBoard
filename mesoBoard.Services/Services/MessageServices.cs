@@ -2,6 +2,7 @@
 using mesoBoard.Common;
 using mesoBoard.Data;
 using System;
+using System.Linq;
 
 namespace mesoBoard.Services
 {
@@ -49,22 +50,22 @@ namespace mesoBoard.Services
 
         public IEnumerable<Message> GetUnreadMessages(int userID)
         {
-            return _messageRepository.Where(item => item.ToUserID == userID && item.IsRead == false && item.ToDelete == false);
+            return _messageRepository.Where(item => item.ToUserID == userID && item.IsRead == false && item.ToDelete == false).ToList();
         }
 
         public IEnumerable<Message> GetSentMessages(int userID)
         {
-            return _messageRepository.Where(item => item.FromUserID == userID && item.FromDelete == false);
+            return _messageRepository.Where(item => item.FromUserID == userID && item.FromDelete == false).ToList();
         }
 
         public IEnumerable<Message> GetReceivedMessages(int userID)
         {
-            return _messageRepository.Where(item => item.ToUserID == userID && item.ToDelete == false);
+            return _messageRepository.Where(item => item.ToUserID == userID && item.ToDelete == false).ToList();
         }
 
         public IEnumerable<Message> GetReadMessages(int userID)
         {
-            return _messageRepository.Where(item => item.ToUserID == userID && item.IsRead == true && item.ToDelete == false);
+            return _messageRepository.Where(item => item.ToUserID == userID && item.IsRead == true && item.ToDelete == false).ToList();
         }
 
         public void MarkAsRead(int messageID)

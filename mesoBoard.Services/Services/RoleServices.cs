@@ -25,14 +25,14 @@ namespace mesoBoard.Services
 
         public IEnumerable<Role> GetUserRoleRanks(int userID)
         {
-            return _inRoleRepository.Where(item => item.UserID.Equals(userID)).Select(item => item.Role).Where(item => item.RankID.HasValue);
+            return _inRoleRepository.Where(item => item.UserID == userID).Select(item => item.Role).Where(item => item.RankID.HasValue).ToList();
         }
 
         public bool UserHasSpecialPermissions(int userID, params SpecialPermissionValue[] permission)
         {
             User user = _userRepository.Get(userID);
 
-            IEnumerable<InRole> userInRoles = _inRoleRepository.Where(item => item.UserID.Equals(userID));
+            var userInRoles = _inRoleRepository.Where(item => item.UserID.Equals(userID)).ToList();
 
             foreach (var perm in permission)
             {
