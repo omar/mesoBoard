@@ -8,38 +8,29 @@ using Ninject;
 
 namespace mesoBoard.Framework
 {
-    public class TrackActivityAttribute : ActionFilterAttribute
+    public class TrackActivityFilter : IActionFilter
     {
+        IRepository<User> _userRepository;        
+        GlobalServices _globalServices;
 
-        public IRepository<User> UserRepository
+        public TrackActivityFilter(IRepository<User> userRepository, GlobalServices globalServices)
         {
-            get
-            {
-                return ServiceLocator.Kernel.Get<IRepository<User>>();
-            }
-        }
-
-
-        public GlobalServices GlobalServices
-        {
-            get
-            {
-                return ServiceLocator.Kernel.Get<GlobalServices>();
-            }
+            _userRepository = userRepository;
+            _globalServices = globalServices;
         }
 
         private void UpdateUser(ActionExecutingContext filterContext)
         {
             if (filterContext.HttpContext.User.Identity.IsAuthenticated)
             {
-                var user = UserRepository.Get(int.Parse(filterContext.HttpContext.User.Identity.Name));
-                GlobalServices.OnlineUserRoutine(user, filterContext.HttpContext.Request.UserHostAddress);
+                var user = _userRepository.Get(int.Parse(filterContext.HttpContext.User.Identity.Name));
+                _globalServices.OnlineUserRoutine(user, filterContext.HttpContext.Request.UserHostAddress);
             }
             else
-                GlobalServices.OnlineUserRoutine(null, filterContext.HttpContext.Request.UserHostAddress);
+                _globalServices.OnlineUserRoutine(null, filterContext.HttpContext.Request.UserHostAddress);
         }
 
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        public void OnActionExecuting(ActionExecutingContext filterContext)
         {
             DateTime? date = (DateTime?)filterContext.HttpContext.Session[SessionKeys.LastActivityUpdate];
 
@@ -58,6 +49,10 @@ namespace mesoBoard.Framework
                 UpdateUser(filterContext);
                 filterContext.HttpContext.Session[SessionKeys.LastActivityUpdate] = DateTime.UtcNow;
             }
+        }
+
+        public void OnActionExecuted(ActionExecutedContext filterContext)
+        {
         }
     }
 }

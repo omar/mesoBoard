@@ -32,8 +32,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.2.2.1.4\lib\net40-Full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Conventions">
+      <HintPath>..\packages\Ninject.Extensions.Conventions.2.2.0.5\lib\net40-Full\Ninject.Extensions.Conventions.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Mvc">
+      <HintPath>..\packages\Ninject.MVC3.2.2.2.0\lib\net40-Full\Ninject.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -50,22 +60,26 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WebActivator">
+      <HintPath>..\packages\WebActivator.1.4.4\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\AllowOfflineAttribute.cs" />
     <Compile Include="Attributes\CaptchaVerify.cs" />
     <Compile Include="Attributes\DefaultActionAttribute.cs" />
+    <Compile Include="Attributes\Indicators\PermissionAuthorizeAttribute.cs" />
+    <Compile Include="Attributes\Indicators\TrackActivityAttribute.cs" />
     <Compile Include="Attributes\InstalledCheckAttribute.cs" />
     <Compile Include="Attributes\OfflineCheckAttribute.cs" />
-    <Compile Include="Attributes\PermissionAuthorizeAttribute.cs" />
+    <Compile Include="Attributes\PermissionAuthorizeFilter.cs" />
     <Compile Include="Attributes\RelatedFieldAttribute.cs" />
-    <Compile Include="Attributes\TrackActivityAttribute.cs" />
+    <Compile Include="Attributes\TrackActivityFilter.cs" />
     <Compile Include="Core\BaseAdminController.cs" />
     <Compile Include="Core\BaseController.cs" />
     <Compile Include="Core\BasePluginController.cs" />
     <Compile Include="Core\Captcha.cs" />
     <Compile Include="Core\ControllerFactory.cs" />
-    <Compile Include="Core\ServiceLocator.cs" />
     <Compile Include="Core\StaticResources.cs" />
     <Compile Include="Core\ViewEngine.cs" />
     <Compile Include="Core\WebModule.cs" />

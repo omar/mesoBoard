@@ -13,6 +13,7 @@ using Ninject;
 using Ninject.Modules;
 using Ninject.Web.Mvc;
 using System.Collections.Generic;
+using System.Web.Security;
 using Ninject.Infrastructure;
 
 namespace mesoBoard.Web
@@ -48,29 +49,18 @@ namespace mesoBoard.Web
 
         protected void Application_Start()
         {
-            RegisterRoutes(RouteTable.Routes);
             RegisterGlobalFilters(GlobalFilters.Filters);
-            System.Web.Mvc.ViewEngines.Engines.Clear();
-            System.Web.Mvc.ViewEngines.Engines.Add(new ViewEngine());
-            ControllerBuilder.Current.SetControllerFactory(new ControllerFactory(MvcApplication.Kernel));
-
-            string conn = Settings.EntityConnectionString;
-
-            ServiceLocator.Initialize(MvcApplication.Kernel);
+            RegisterRoutes(RouteTable.Routes);
 
             if (Settings.IsInstalled)
             {
                 SiteConfig.UpdateCache();
 
-                var globalServices = Kernel.Get<GlobalServices>();
-                globalServices.PruneOnlineGuests();
-                globalServices.PruneOnlineUsers();
                 //LoadPlugins();
             }
             var version = Assembly.GetExecutingAssembly().GetName().Version;
             string versionFormat = string.Format("{0}.{1}.{2}", version.Major, version.Minor, version.Build);
             HttpContext.Current.Cache["mesoBoardVersion"] = versionFormat;
-
         }
 
         private void LoadPlugins()
@@ -89,14 +79,14 @@ namespace mesoBoard.Web
 
             string[] pluginFiles = Directory.GetFiles(pluginsPath, "*.dll");
             var assemblies = pluginFiles.Select(item => Assembly.LoadFrom(item));
-            ServiceLocator.Kernel.Load(assemblies);
+            Kernel.Load(assemblies);
 
             var pluginRepository = Kernel.Get<IRepository<Plugin>>();
 
             RouteValueDictionary defaultRoute = null;
             List<RouteBase> routeCollection = new List<RouteBase>();
 
-            foreach (var plugin in pluginRepository.Get())
+            foreach (var plugin in pluginRepository.Get().ToList())
             {
                 var pluginDetails = Kernel.TryGet<IPluginDetails>(plugin.Name);
                 if (pluginDetails != null)
@@ -117,8 +107,64 @@ namespace mesoBoard.Web
 
         }
 
+        public void Application_AuthenticateRequest(object sender, EventArgs e)
+        {
+            var context = HttpContext.Current;
+
+            var userServices = Kernel.Get<UserServices>();
+            User currentUser;
+            if (context.User != null && context.User.Identity.IsAuthenticated)
+            {
+                currentUser = userServices.GetUser(int.Parse(context.User.Identity.Name));
+                if (currentUser == null)
+                {
+                    currentUser = new Data.User { UserID = 0 };
+                    FormsAuthentication.SignOut();
+                }
+            }
+            else
+                currentUser = new Data.User { UserID = 0 };
+
+            context.Items[HttpContextItemKeys.CurrentUser] = currentUser;
+
+            var themeServices = Kernel.Get<ThemeServices>();
+            RouteData routeData = RouteTable.Routes.GetRouteData(new HttpContextWrapper(HttpContext.Current));
+            if (routeData != null)
+            {
+                string controllerName = routeData.GetRequiredString("controller");
+
+                string previewTheme = context.Session != null ? (string)context.Session["ptheme"] : string.Empty;
+                Theme currentTheme;
+                if (routeData.GetAreaName() == "Admin")
+                    currentTheme = themeServices.GetAdminTheme();
+                else
+                    currentTheme = themeServices.GetTheme(currentUser, controllerName, previewTheme);
+
+                context.Items[HttpContextItemKeys.ThemeFolder] = currentTheme.FolderName;
+                context.Items[HttpContextItemKeys.CurrentTheme] = currentTheme;
+            }
+        }
+
         public void Application_BeginRequest(object sender, EventArgs e)
         {
+            var context = HttpContext.Current;
+
+            var themeServices = Kernel.Get<ThemeServices>();
+            RouteData routeData = RouteTable.Routes.GetRouteData(new HttpContextWrapper(HttpContext.Current));
+            if (routeData != null)
+            {
+                string controllerName = routeData.GetRequiredString("controller");
+
+                string previewTheme = context.Session != null ? (string)context.Session["ptheme"] : string.Empty;
+                Theme currentTheme;
+                if (routeData.GetAreaName() == "Admin")
+                    currentTheme = themeServices.GetAdminTheme();
+                else
+                    currentTheme = themeServices.GetDefaultTheme();
+
+                context.Items[HttpContextItemKeys.ThemeFolder] = currentTheme.FolderName;
+                context.Items[HttpContextItemKeys.CurrentTheme] = currentTheme;
+            }
         }
 
         public void Session_Start(object sender, EventArgs e)
@@ -147,7 +193,6 @@ namespace mesoBoard.Web
                 if (guest != null)
                     onlineGuests.Delete(guest.OnlineGuestID);
             }
-
         }
     }
 }

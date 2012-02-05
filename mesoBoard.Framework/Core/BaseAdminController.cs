@@ -3,7 +3,6 @@ using mesoBoard.Common;
 
 namespace mesoBoard.Framework.Core
 {
-    
     [ValidateInput(false)]
     [AllowOffline]
     [PermissionAuthorize(SpecialPermissionValue.Administrator)]

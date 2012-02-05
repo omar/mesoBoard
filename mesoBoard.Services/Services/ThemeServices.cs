@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using mesoBoard.Common;
 using mesoBoard.Data;
+using System.Linq;
 
 namespace mesoBoard.Services
 {
@@ -10,7 +11,7 @@ namespace mesoBoard.Services
         IRepository<Config> _configRepository;
 
         public ThemeServices(
-            IRepository<Theme> themeRepository, 
+            IRepository<Theme> themeRepository,
             IRepository<Config> configRepository,
             IUnitOfWork unitOfWork)
             : base(unitOfWork)
@@ -24,11 +25,17 @@ namespace mesoBoard.Services
             return _themeRepository.First(item => item.FolderName == "Default");
         }
 
+        public Theme GetDefaultTheme()
+        {
+            var theme = _themeRepository.Get(int.Parse(SiteConfig.BoardTheme.Value));
+            return theme;
+        }
+
         public Theme GetTheme(User currentUser, string controllerName, string previewTheme)
         {
             Theme theme;
 
-            if (previewTheme != null)
+            if (!string.IsNullOrWhiteSpace(previewTheme))
                 theme = _themeRepository.Get(int.Parse(previewTheme));
             else if (bool.Parse(SiteConfig.OverrideUserTheme.Value) || currentUser == null || currentUser.UserID == 0 || !currentUser.UserProfile.ThemeID.HasValue)
                 theme = _themeRepository.Get(int.Parse(SiteConfig.BoardTheme.Value));
@@ -40,7 +47,7 @@ namespace mesoBoard.Services
 
         public IEnumerable<Theme> GetVisibleThemes()
         {
-            return _themeRepository.Where(y => y.VisibleToUsers == true);
+            return _themeRepository.Where(y => y.VisibleToUsers == true).ToList();
         }
 
         public void ChangeDefaultTheme(int themeID)

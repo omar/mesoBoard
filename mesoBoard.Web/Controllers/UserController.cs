@@ -21,7 +21,8 @@ namespace mesoBoard.Web.Controllers
         MessageServices _messageServices;
         EmailServices _emailServices;
         FileServices _fileServices;
-        RoleServices _roleServices;        
+        RoleServices _roleServices;
+        User _currentUser;
 
         public UserController(
             ThemeServices themes,
@@ -30,7 +31,8 @@ namespace mesoBoard.Web.Controllers
             MessageServices messageServices,
             EmailServices emailServices,
             FileServices fileServices,
-            RoleServices roleServices)
+            RoleServices roleServices,
+            User currentUser)
         {
             _themeServices = themes;
             _userServices = users;
@@ -39,6 +41,7 @@ namespace mesoBoard.Web.Controllers
             _emailServices = emailServices;
             _fileServices = fileServices;
             _roleServices = roleServices;
+            _currentUser = currentUser;
             SetTopBreadCrumb("User CP");
             SetBreadCrumb("User CP");
         }
@@ -46,7 +49,7 @@ namespace mesoBoard.Web.Controllers
         [ChildActionOnly]
         public ActionResult Menu()
         {
-            int messageCount = Request.IsAuthenticated ? _messageServices.GetUnreadMessages(CurrentUser.UserID).Count() : 0;
+            int messageCount = Request.IsAuthenticated ? _messageServices.GetUnreadMessages(_currentUser.UserID).Count() : 0;
             ViewData["NewMessagesCount"] = messageCount;
             return View("_Menu");
         }
@@ -57,7 +60,7 @@ namespace mesoBoard.Web.Controllers
         {
             SetBreadCrumb("Modify Profile");
 
-            var profile = CurrentUser.UserProfile;
+            var profile = _currentUser.UserProfile;
 
             // WTB Automapper 5k gold
             var model = new ProfileViewModel()
@@ -74,7 +77,7 @@ namespace mesoBoard.Web.Controllers
                 ICQ = profile.ICQ,
                 Location = profile.Location,
                 MSN = profile.MSN,
-                RankRoles = _roleServices.GetUserRoleRanks(CurrentUser.UserID),
+                RankRoles = _roleServices.GetUserRoleRanks(_currentUser.UserID),
                 ThemeID = profile.ThemeID,
                 Themes = _themeServices.GetVisibleThemes(),
                 Website = profile.Website,
@@ -114,7 +117,7 @@ namespace mesoBoard.Web.Controllers
 
             if (model.DefaultRankRole.HasValue)
             {
-                var roles = _roleServices.GetUserRoleRanks(CurrentUser.UserID);
+                var roles = _roleServices.GetUserRoleRanks(_currentUser.UserID);
                 if (roles.FirstOrDefault(item => item.RoleID == model.DefaultRankRole) == null)
                     ModelState.AddModelError("DefaultRankRole", "Invalid role");
             }
@@ -123,7 +126,7 @@ namespace mesoBoard.Web.Controllers
             {
                 SetSuccess("Profile updated");
                 _userServices.UpdateProfile(
-                    CurrentUser.UserID, 
+                    _currentUser.UserID, 
                     model.AlwaysShowSignature, 
                     model.AlwaysSubscribeToThread,
                     model.Location,
@@ -144,7 +147,7 @@ namespace mesoBoard.Web.Controllers
         {
             SetBreadCrumb("Signature");
 
-            var userProfile = CurrentUser.UserProfile;
+            var userProfile = _currentUser.UserProfile;
             var model = new SignatureViewModel()
             {
                 ParsedSignature = userProfile.ParsedSignature,
@@ -167,9 +170,9 @@ namespace mesoBoard.Web.Controllers
         {
             if (!model.Preview.HasValue)
             {
-                CurrentUser.UserProfile.Signature = model.Signature;
-                CurrentUser.UserProfile.ParsedSignature = _parseServices.ParseBBCodeText(model.Signature);
-                _userServices.UpdateSignature(CurrentUser.UserID, model.Signature);
+                _currentUser.UserProfile.Signature = model.Signature;
+                _currentUser.UserProfile.ParsedSignature = _parseServices.ParseBBCodeText(model.Signature);
+                _userServices.UpdateSignature(_currentUser.UserID, model.Signature);
                 SetSuccess("Signature Saved");
             }
             else
@@ -198,13 +201,13 @@ namespace mesoBoard.Web.Controllers
         {
             SetBreadCrumb("Password");
 
-            if (!_userServices.ValidatePassword(CurrentUser, model.CurrentPassword))
+            if (!_userServices.ValidatePassword(_currentUser, model.CurrentPassword))
                 ModelState.AddModelError("CurrentPassword", "Invalid password.");
 
             if (IsModelValidAndPersistErrors())
             {
-                _userServices.UpdatePassword(CurrentUser.UserID, NewPassword);
-                _emailServices.PasswordChanged(CurrentUser, NewPassword);
+                _userServices.UpdatePassword(_currentUser.UserID, NewPassword);
+                _emailServices.PasswordChanged(_currentUser, NewPassword);
                 SetSuccess("Password changed. An email confirmation has been sent");
             }
 
@@ -217,7 +220,7 @@ namespace mesoBoard.Web.Controllers
             SetBreadCrumb("Email");
             var model = new EmailViewModel()
             {
-                CurrentEmail = CurrentUser.Email
+                CurrentEmail = _currentUser.Email
             };
             return View(model);
         }
@@ -232,8 +235,8 @@ namespace mesoBoard.Web.Controllers
             
             if (IsModelValidAndPersistErrors())
             {
-                CurrentUser.Email = model.NewEmail;
-                _userServices.UpdateEmail(CurrentUser.UserID, model.NewEmail);
+                _currentUser.Email = model.NewEmail;
+                _userServices.UpdateEmail(_currentUser.UserID, model.NewEmail);
                 SetSuccess("Email changed");
             }
 
@@ -250,14 +253,14 @@ namespace mesoBoard.Web.Controllers
                 HeightMax = SiteConfig.AvatarHeight.ToInt(),
                 WidthMax = SiteConfig.AvatarWidth.ToInt()
             };
-            switch (CurrentUser.UserProfile.AvatarType)
+            switch (_currentUser.UserProfile.AvatarType)
             {
                 case "Upload":
                     model.AvatarType = AvatarType.Upload;
                     break;
                 case "Url":
                     model.AvatarType = AvatarType.Url;
-                    model.Url = CurrentUser.UserProfile.Avatar;
+                    model.Url = _currentUser.UserProfile.Avatar;
                     break;
                 case "None":
                 default:
@@ -304,14 +307,14 @@ namespace mesoBoard.Web.Controllers
                 {
                     case AvatarType.Upload:
                         string uploadedFileName = _fileServices.UploadAvatar(model.Image);
-                        _userServices.UpdateAvatarToUpload(CurrentUser.UserID, uploadedFileName);
+                        _userServices.UpdateAvatarToUpload(_currentUser.UserID, uploadedFileName);
                         break;
                     case AvatarType.Url:
-                        _userServices.UpdateAvatarToUrl(CurrentUser.UserID, model.Url);
+                        _userServices.UpdateAvatarToUrl(_currentUser.UserID, model.Url);
                         break;
                     case AvatarType.None:
                     default:
-                        _userServices.UpdateAvatarToNone(CurrentUser.UserID);
+                        _userServices.UpdateAvatarToNone(_currentUser.UserID);
                         break;
                 }
                 SetSuccess("Profile Settings Updated");

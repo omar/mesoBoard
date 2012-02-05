@@ -16,31 +16,34 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
         IRepository<InRole> _inRoleRepository;
         IRepository<User> _userRepository;
         IRepository<Rank> _rankRepository;
+        User _currentUser;
 
         public RolesController(
             RoleServices roleServices,
             IRepository<Role> roleRepository,
             IRepository<InRole> inRoleRepository,
             IRepository<User> userRepository,
-            IRepository<Rank> rankRepository)
+            IRepository<Rank> rankRepository,
+            User currentUser)
         {
             _roleServices = roleServices;
             _roleRepository = roleRepository;
             _inRoleRepository = inRoleRepository;
             _userRepository = userRepository;
             _rankRepository = rankRepository;
+            _currentUser = currentUser;
             SetCrumb("Roles");
         }
 
         public ActionResult Roles()
         {
-            IEnumerable<Role> roles = _roleRepository.Get();
+            IEnumerable<Role> roles = _roleRepository.Get().ToList();
             RolesViewer model = new RolesViewer()
             {
                 Roles = roles,
                 RoleViewModel = new RoleViewModel()
                 {
-                    Ranks = _rankRepository.Where(x => x.IsRoleRank == true)
+                    Ranks = _rankRepository.Where(x => x.IsRoleRank == true).ToList()
                 }
             };
             return View(model);
@@ -48,7 +51,7 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
 
         public ActionResult RoleDetails(int RoleID)
         {
-            IEnumerable<User> users = _inRoleRepository.Where(item => item.RoleID.Equals(RoleID)).Select(item => item.User);
+            IEnumerable<User> users = _inRoleRepository.Where(item => item.RoleID.Equals(RoleID)).Select(item => item.User).ToList();
             Role role = _roleRepository.Get(RoleID);
             RoleViewModel model = new RoleViewModel()
             {
@@ -56,7 +59,7 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
                 Name = role.Name,
                 RankID = role.RankID,
                 RoleID = role.RoleID,
-                Ranks = _rankRepository.Where(x => x.IsRoleRank == true),
+                Ranks = _rankRepository.Where(x => x.IsRoleRank == true).ToList(),
                 SpecialPermissions = role.SpecialPermissions,
                 Users = users
             };
@@ -92,7 +95,7 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
         public ActionResult RemoveFromRole(int UserID, int RoleID)
         {
             InRole inRole = _inRoleRepository.First(item => item.UserID.Equals(UserID) && item.RoleID.Equals(RoleID));
-            if (inRole.UserID == CurrentUser.UserID && inRole.Role.SpecialPermissions == (byte)SpecialPermissionValue.Administrator)
+            if (inRole.UserID == _currentUser.UserID && inRole.Role.SpecialPermissions == (byte)SpecialPermissionValue.Administrator)
             {
                 SetError("You can't remove your self from an administrator role");
             }
@@ -152,7 +155,7 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
                 if (roleTest.SpecialPermissions == (byte)SpecialPermissionValue.Administrator && model.SpecialPermissions != (byte)SpecialPermissionValue.Administrator)
                 {
                     // Get all the roles that grant the user administrator permissions
-                    IEnumerable<Role> administratorRoles = CurrentUser.InRoles.Where(item => item.Role.SpecialPermissions == (byte)SpecialPermissionValue.Administrator).Select(item => item.Role);
+                    IEnumerable<Role> administratorRoles = _currentUser.InRoles.Where(item => item.Role.SpecialPermissions == (byte)SpecialPermissionValue.Administrator).Select(item => item.Role);
 
                     // If there are multiple roles, the user can still access the admin cp
                     if (administratorRoles.Count() == 1)

@@ -24,7 +24,6 @@ namespace mesoBoard.Framework.Core
 
             var controllers = _kernel.GetAll<IController>().ToList();
 
-
             var controller =  _kernel.TryGet<IController>(controllerName + "Controller");
             
             if(controller == null)
@@ -32,11 +31,8 @@ namespace mesoBoard.Framework.Core
             else if (controller is IPluginController)
             {
                 IPluginController pluginController = (IPluginController)controller;
-
-                if (requestContext.HttpContext.Items.Contains(HttpContextItemKeys.PluginFolder))
+                requestContext.HttpContext.Items[HttpContextItemKeys.PluginFolder] = pluginController.FolderName;
                     requestContext.HttpContext.Items.Remove(HttpContextItemKeys.PluginFolder);
-
-                requestContext.HttpContext.Items.Add(HttpContextItemKeys.PluginFolder, pluginController.FolderName);
             }
 
             return controller.GetType();   

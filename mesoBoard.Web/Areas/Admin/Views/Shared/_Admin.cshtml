@@ -172,7 +172,7 @@
                     </li>
                 </ul>
                  
-                @Html.Partial("~/Areas/Admin/Views/Shared/_PluginMenu.cshtml", mesoBoard.Web.Menus.PluginsAdminCP())
+                @Html.Action("PluginsMenu", "Admin")
             </div>
                  
             <div id="admin_content">

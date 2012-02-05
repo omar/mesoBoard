@@ -19,8 +19,14 @@ namespace mesoBoard.Web.Controllers
 {
     public class InstallController : Controller
     {
-        private static string SessionSqlInfoKey = "mbSqlInfoKey";
-        private static string SessionMailInfoKey = "mbMailInfoKey";
+        IRepository<User> _userRepository;
+        static string SessionSqlInfoKey = "mbSqlInfoKey";
+        static string SessionMailInfoKey = "mbMailInfoKey";
+
+        public InstallController(IRepository<User> userRepository)
+        {
+            _userRepository = userRepository;
+        }
 
         protected override void ExecuteCore()
         {
@@ -41,7 +47,7 @@ namespace mesoBoard.Web.Controllers
         {
             ViewData["BreadCurmb"] = "Welcome";
 
-            return View();            
+            return View();
         }
 
 
@@ -52,7 +58,7 @@ namespace mesoBoard.Web.Controllers
             SQLInstallViewModel model = new SQLInstallViewModel
             {
                 DatabaseServer = "localhost",
-                UseIntegratedSecurity = false,                
+                UseIntegratedSecurity = false,
             };
 
             return View(model);
@@ -126,7 +132,7 @@ namespace mesoBoard.Web.Controllers
         {
             ViewData["StepNumber"] = 2;
 
-            if(Session[SessionSqlInfoKey] != null)
+            if (Session[SessionSqlInfoKey] != null)
                 ViewData[ViewDataKeys.GlobalMessages.Success] = "Successfully connected to database and created tables";
 
             MailInstallViewModel model = new MailInstallViewModel
@@ -135,7 +141,7 @@ namespace mesoBoard.Web.Controllers
                 MailUseDefaultCredentials = false,
                 PortNumber = 25
             };
-            
+
             return View(model);
         }
 
@@ -159,7 +165,7 @@ namespace mesoBoard.Web.Controllers
             smtpClient.UseDefaultCredentials = info.MailUseDefaultCredentials;
             if (!info.MailUseDefaultCredentials)
                 smtpClient.Credentials = new NetworkCredential(info.MailLogin, info.MailPassword);
-            
+
             try
             {
                 smtpClient.Send("no-reply@" + Request.Url.Host, "test@" + smtpClient.Host, "", "");
@@ -178,7 +184,7 @@ namespace mesoBoard.Web.Controllers
         [HttpGet]
         public ActionResult Step3()
         {
-            if(Session[SessionMailInfoKey] != null)
+            if (Session[SessionMailInfoKey] != null)
                 ViewData[ViewDataKeys.GlobalMessages.Success] = "Successfully connected to mail server";
 
 
@@ -194,7 +200,7 @@ namespace mesoBoard.Web.Controllers
                     Settings.DatabasePassword = sqlInfo.DatabasePassword;
                 }
 
-                string connectionString = 
+                string connectionString =
                     Settings.ConnectionStringTemplate
                             .Replace("{dbserver}", sqlInfo.DatabaseServer)
                             .Replace("{integratedsecurity}", sqlInfo.UseIntegratedSecurity.ToString())
@@ -250,11 +256,10 @@ namespace mesoBoard.Web.Controllers
             string connectionString = Settings.EntityConnectionString;
             var param = new Ninject.Parameters.Parameter("connectionString", connectionString, false);
 
-            IRepository<User> usersRepository = ServiceLocator.Get<IRepository<User>>();
             var date = DateTime.UtcNow;
             string ipAddress = HttpContext.Request.UserHostAddress;
 
-            User adminUser = usersRepository.Get().FirstOrDefault();
+            User adminUser = _userRepository.Get().FirstOrDefault();
 
             adminUser.Email = email;
             adminUser.LastLoginIP = ipAddress;
@@ -264,7 +269,7 @@ namespace mesoBoard.Web.Controllers
             adminUser.UsernameLower = username.ToLower();
             adminUser.RegisterIP = ipAddress;
 
-            usersRepository.Update(adminUser);
+            _userRepository.Update(adminUser);
 
 
             // If the Smtp server is 'mail.yourdomain.com', that means the user didn't specify mail settings
@@ -275,11 +280,11 @@ namespace mesoBoard.Web.Controllers
                 {
                     try
                     {
-                        smtp.Send("no-reply@"+Request.Url.Host,
+                        smtp.Send("no-reply@" + Request.Url.Host,
                             email,
                             "mesoBoard Installation Complete",
                             "Admin user created" + Environment.NewLine +
-                            "Username: " + username + 
+                            "Username: " + username +
                             Environment.NewLine +
                             "Password: " + password);
                     }

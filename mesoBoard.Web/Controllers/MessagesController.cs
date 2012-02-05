@@ -14,23 +14,25 @@ namespace mesoBoard.Web.Controllers
     [Authorize]
     public class MessagesController : BaseController
     {
-        private UserServices _userServices;
-        private MessageServices _messageServices;
-        private ParseServices _parseServices;
-        private EmailServices _emailServices;
-        
+        UserServices _userServices;
+        MessageServices _messageServices;
+        ParseServices _parseServices;
+        EmailServices _emailServices;
+        User _currentUser;
 
         public MessagesController(
             UserServices userServices,
             MessageServices messageServicess,
             IRepository<Message> messageRepository,
             ParseServices parseServices,
-            EmailServices emailServices)
+            EmailServices emailServices,
+            User currentUser)
         {
             _userServices = userServices;
             _messageServices = messageServicess;
             _parseServices = parseServices;
             _emailServices = emailServices;
+            _currentUser = currentUser;
             SetCrumbs("User CP", "User CP");
         }
 
@@ -49,12 +51,12 @@ namespace mesoBoard.Web.Controllers
 
             if (user == null)
                 ModelState.AddModelError("Username", "User doesn't exist.");
-            else if (user.UserID == CurrentUser.UserID)
+            else if (user.UserID == _currentUser.UserID)
                 ModelState.AddModelError("Username", "You can't send a message to yourself!");
 
             if (IsModelValidAndPersistErrors())
             {
-                var message = _messageServices.SendMessage(CurrentUser.UserID, user.UserID, SendMessageViewModel.Subject, SendMessageViewModel.Message);
+                var message = _messageServices.SendMessage(_currentUser.UserID, user.UserID, SendMessageViewModel.Subject, SendMessageViewModel.Message);
                 SetSuccess("Message sent to <b>" + user.Username + "</b>");
                 string messageURL = Url.Action("ViewMessage", "Messages", new { MessageID = message.MessageID });
                 _emailServices.NewMessage(message, user, messageURL);
@@ -70,13 +72,13 @@ namespace mesoBoard.Web.Controllers
         [HttpGet]
         public ActionResult ViewMessage(int messageID)
         {
-            if (!_messageServices.CanViewMessage(CurrentUser.UserID, messageID))
+            if (!_messageServices.CanViewMessage(_currentUser.UserID, messageID))
                 return RedirectToAction("Inbox");
 
             SetBreadCrumb("View Message");
             Message message = _messageServices.GetMessage(messageID);
 
-            if (message.ToUserID == CurrentUser.UserID && !message.IsRead)
+            if (message.ToUserID == _currentUser.UserID && !message.IsRead)
             {
                 _messageServices.MarkAsRead(messageID);
             }
@@ -101,13 +103,13 @@ namespace mesoBoard.Web.Controllers
             if (Box == "Sent")
             {
                 SetBreadCrumb("Sentbox");
-                messages = _messageServices.GetSentMessages(CurrentUser.UserID).OrderByDescending(x => x.DateSent);
+                messages = _messageServices.GetSentMessages(_currentUser.UserID).OrderByDescending(x => x.DateSent);
                 view = "Sentbox";
             }
             else
             {
                 SetBreadCrumb("Inbox");
-                messages = _messageServices.GetReceivedMessages(CurrentUser.UserID).OrderBy(item => item.IsRead).ThenByDescending(x => x.DateSent);
+                messages = _messageServices.GetReceivedMessages(_currentUser.UserID).OrderBy(item => item.IsRead).ThenByDescending(x => x.DateSent);
                 view = "Inbox";
             }
 
@@ -138,7 +140,7 @@ namespace mesoBoard.Web.Controllers
             {
                 foreach (int mid in msgID)
                 {
-                    if(_messageServices.CanViewMessage(CurrentUser.UserID, mid))
+                    if(_messageServices.CanViewMessage(_currentUser.UserID, mid))
                         _messageServices.DeleteMessage(mid);
                 }
 
@@ -148,7 +150,7 @@ namespace mesoBoard.Web.Controllers
             {
                 foreach (int mid in msgID)
                 {
-                    if (_messageServices.CanViewMessage(CurrentUser.UserID, mid))
+                    if (_messageServices.CanViewMessage(_currentUser.UserID, mid))
                         _messageServices.MarkAsRead(mid);
                 }
 

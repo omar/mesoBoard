@@ -12,13 +12,16 @@ namespace mesoBoard.Web.Controllers
     {
         UserServices _userServices;
         EmailServices _emailServices;
+        User _currentUser;
 
         public AuthController(
             UserServices userServices, 
-            EmailServices emailServices)
+            EmailServices emailServices,
+            User currentUser)
         {
             _userServices = userServices;
             _emailServices = emailServices;
+            _currentUser = currentUser;
         }
 
         public ActionResult ActivateUser(string uname, string code)
@@ -48,6 +51,31 @@ namespace mesoBoard.Web.Controllers
         [HttpPost]
         public ActionResult Register(RegisterViewModel model)
         {
+            int usernameMin = SiteConfig.UsernameMin.ToInt();
+            int usernameMax = SiteConfig.UsernameMax.ToInt();
+            int passwordMinimum = SiteConfig.PasswordMin.ToInt();
+
+            if (model.Username == null || model.Username.Length > usernameMax || model.Username.Length < usernameMin)
+            {
+                string message = string.Format("Username length must be between {0} and {1} characters long", usernameMin, usernameMax);
+                ModelState.AddModelErrorFor<RegisterViewModel>(m => m.Username, message);
+            }
+            else if (_userServices.GetUser(model.Username) != null)
+            {
+                ModelState.AddModelErrorFor<RegisterViewModel>(m => m.Username, "Username already taken");
+            }
+
+            if (_userServices.EmailInUse(model.Email))
+            {
+                ModelState.AddModelErrorFor<RegisterViewModel>(m => m.Email, "Email is already in use by another user");
+            }
+
+            if (model.Password == null || model.Password.Length < passwordMinimum)
+            {
+                string message = string.Format("Password must be at least {0}", passwordMinimum);
+                ModelState.AddModelErrorFor<RegisterViewModel>(m => m.Password, message);
+            }
+
             if (IsModelValidAndPersistErrors())
             {
                 string ActivationType =  SiteConfig.AccountActivation.Value;
@@ -124,7 +152,7 @@ namespace mesoBoard.Web.Controllers
         [AllowOffline]
         public ActionResult Logout()
         {
-            _userServices.LogoutRoutine(CurrentUser.UserID);
+            _userServices.LogoutRoutine(_currentUser.UserID);
             Session.Remove(SessionKeys.LastActivityUpdate);
             Session.Remove(SessionKeys.UserID);
             FormsAuthentication.SignOut();

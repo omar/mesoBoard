@@ -33,6 +33,8 @@ namespace mesoBoard.Web.Controllers
         MessageServices _messageServices;
         PermissionServices _permissionServices;
         FileServices _fileServices;
+        User _currentUser;
+        Theme _currentTheme;
 
         public BoardController(
             ForumServices forumServices,
@@ -48,7 +50,9 @@ namespace mesoBoard.Web.Controllers
             RoleServices roleServices,
             MessageServices messageServices,
             PermissionServices permissionServices,
-            FileServices fileServices)
+            FileServices fileServices,
+            User currentUser,
+            Theme currentTheme)
         {
             _forumServices = forumServices;
             _searchServices = searchServices;
@@ -63,7 +67,8 @@ namespace mesoBoard.Web.Controllers
             _messageServices = messageServices;
             _permissionServices = permissionServices;
             _fileServices = fileServices;
-
+            _currentUser = currentUser;
+            _currentTheme = currentTheme;
             SetTopBreadCrumb("Board");
         }
 
@@ -72,12 +77,12 @@ namespace mesoBoard.Web.Controllers
         {
             SetBreadCrumb("Board Index");
 
-            IEnumerable<Forum> forums = _forumServices.GetViewableForums(CurrentUser.UserID);
+            IEnumerable<Forum> forums = _forumServices.GetViewableForums(_currentUser.UserID);
 
             IEnumerable<ForumRow> forumRows = forums.Select(x => new ForumRow
             {
                 Forum = x,
-                HasNewPost = _forumServices.HasNewPost(x.ForumID, CurrentUser.UserID),
+                HasNewPost = _forumServices.HasNewPost(x.ForumID, _currentUser.UserID),
                 LastPost = _forumServices.GetLastPost(x.ForumID)
             });
 
@@ -126,7 +131,7 @@ namespace mesoBoard.Web.Controllers
         public ActionResult ViewForum(int ForumID, int Page = 1, bool LastPost = false)
         {
             Forum forum = _forumServices.GetForum(ForumID);
-            UserPermissions userPermissions = _permissionServices.GetUserPermissions(forum.ForumID, CurrentUser.UserID);
+            UserPermissions userPermissions = _permissionServices.GetUserPermissions(forum.ForumID, _currentUser.UserID);
 
             if (!userPermissions.Visible)
             {
@@ -154,9 +159,9 @@ namespace mesoBoard.Web.Controllers
                 TotalPosts = thread.Posts.Count,
                 FirstPost = thread.FirstPost,
                 LastPost = thread.Posts.OrderByDescending(post => post.Date).FirstOrDefault(),
-                CurrentUser = CurrentUser,
-                HasNewPost = Request.IsAuthenticated ? _threadServices.HasNewPost(thread.ThreadID, CurrentUser.UserID) : false,
-                IsSubscribed = Request.IsAuthenticated ? _threadServices.IsSubscribed(thread.ThreadID, CurrentUser.UserID) : false,
+                CurrentUser = _currentUser,
+                HasNewPost = Request.IsAuthenticated ? _threadServices.HasNewPost(thread.ThreadID, _currentUser.UserID) : false,
+                IsSubscribed = Request.IsAuthenticated ? _threadServices.IsSubscribed(thread.ThreadID, _currentUser.UserID) : false,
                 HasAttachment = _threadServices.HasAttachment(thread.ThreadID)
             });
 
@@ -169,9 +174,9 @@ namespace mesoBoard.Web.Controllers
                 TotalPosts = thread.Posts.Count,
                 FirstPost = thread.FirstPost,
                 LastPost = thread.Posts.OrderByDescending(post => post.Date).FirstOrDefault(),
-                CurrentUser = CurrentUser,
-                HasNewPost = Request.IsAuthenticated ? _threadServices.HasNewPost(thread.ThreadID, CurrentUser.UserID) : false,
-                IsSubscribed = Request.IsAuthenticated ? _threadServices.IsSubscribed(thread.ThreadID, CurrentUser.UserID) : false
+                CurrentUser = _currentUser,
+                HasNewPost = Request.IsAuthenticated ? _threadServices.HasNewPost(thread.ThreadID, _currentUser.UserID) : false,
+                IsSubscribed = Request.IsAuthenticated ? _threadServices.IsSubscribed(thread.ThreadID, _currentUser.UserID) : false
             });
 
             ViewForumViewModel viewForum = new ViewForumViewModel()
@@ -190,14 +195,14 @@ namespace mesoBoard.Web.Controllers
         {
             Thread thread = _threadServices.GetThread(ThreadID);
 
-            if (!_permissionServices.CanView(thread.ForumID, CurrentUser.UserID) && thread.Type != 4)
+            if (!_permissionServices.CanView(thread.ForumID, _currentUser.UserID) && thread.Type != 4)
             {
                 SetNotice("You can't view this forum");
                 return RedirectToAction("Index");
             }
 
             if (User.Identity.IsAuthenticated)
-                _threadServices.ThreadViewed(ThreadID, CurrentUser.UserID);
+                _threadServices.ThreadViewed(ThreadID, _currentUser.UserID);
 
             int PostCount = thread.Posts.Count;
             int PageSize = int.Parse(SiteConfig.PostsPerPage.Value);
@@ -220,20 +225,20 @@ namespace mesoBoard.Web.Controllers
 
             IEnumerable<Post> PagedPosts = _postServices.GetPagedPosts(ThreadID, CurrentPage, PageSize);
 
-            bool hasPermissions = _roleServices.UserHasSpecialPermissions(CurrentUser.UserID, SpecialPermissionValue.Administrator, SpecialPermissionValue.Moderator);
-            bool canReply = _permissionServices.CanReply(thread.ForumID, CurrentUser.UserID);
+            bool hasPermissions = _roleServices.UserHasSpecialPermissions(_currentUser.UserID, SpecialPermissionValue.Administrator, SpecialPermissionValue.Moderator);
+            bool canReply = _permissionServices.CanReply(thread.ForumID, _currentUser.UserID);
 
             IEnumerable<PostRow> postRows = PagedPosts.Select((x,i) => new PostRow
             {
                 Post = x,
-                CurrentUser = CurrentUser,
+                CurrentUser = _currentUser,
                 Thread = thread,
-                CanEdit = hasPermissions ? true : (x.UserID == CurrentUser.UserID ? _postServices.CanEditPost(x.PostID, CurrentUser.UserID) : false),
-                CanDelete = hasPermissions ? true : (x.UserID == CurrentUser.UserID ? _postServices.CanDeletePost(x.PostID, CurrentUser.UserID) : false),
+                CanEdit = hasPermissions ? true : (x.UserID == _currentUser.UserID ? _postServices.CanEditPost(x.PostID, _currentUser.UserID) : false),
+                CanDelete = hasPermissions ? true : (x.UserID == _currentUser.UserID ? _postServices.CanDeletePost(x.PostID, _currentUser.UserID) : false),
                 CanPost = canReply,
                 IsLastPost = x.PostID == lastPostId,
                 IsOdd = i % 2 != 0,
-                CurrentTheme = CurrentTheme,
+                CurrentTheme = _currentTheme,
                 IsAuthenticated = User.Identity.IsAuthenticated
             });
             
@@ -242,16 +247,16 @@ namespace mesoBoard.Web.Controllers
                 Thread = thread,
                 Posts = postRows,
                 Pagination = Pagination,
-                CanCastVote = _permissionServices.CanCastVote(thread.ForumID, CurrentUser.UserID),
-                HasVoted = _pollServices.HasVoted(thread.ThreadID, CurrentUser.UserID),
-                IsSubscribed = _threadServices.IsSubscribed(thread.ThreadID, CurrentUser.UserID),
+                CanCastVote = _permissionServices.CanCastVote(thread.ForumID, _currentUser.UserID),
+                HasVoted = _pollServices.HasVoted(thread.ThreadID, _currentUser.UserID),
+                IsSubscribed = _threadServices.IsSubscribed(thread.ThreadID, _currentUser.UserID),
                 ThreadActions = new ThreadActions
                 {
-                    CanLock = _permissionServices.CanLock(thread.ThreadID, CurrentUser.UserID),
-                    CurrentUser = CurrentUser,
+                    CanLock = _permissionServices.CanLock(thread.ThreadID, _currentUser.UserID),
+                    CurrentUser = _currentUser,
                     Thread = thread
                 },
-                CurrentUser = CurrentUser,
+                CurrentUser = _currentUser,
             };
 
             if (thread.HasPoll)
@@ -259,7 +264,7 @@ namespace mesoBoard.Web.Controllers
                 var threadPoll = new ThreadPoll()
                 {
                     CanCastVote = model.CanCastVote && !model.HasVoted && !thread.IsLocked,
-                    CurrentUser =  CurrentUser,
+                    CurrentUser =  _currentUser,
                     Poll = thread.Poll
                 };
 
@@ -274,12 +279,12 @@ namespace mesoBoard.Web.Controllers
         {
             Thread thread = _threadServices.GetThread(threadID);
 
-            if (!_permissionServices.CanView(thread.ForumID, CurrentUser.UserID) && thread.Type != 4)
+            if (!_permissionServices.CanView(thread.ForumID, _currentUser.UserID) && thread.Type != 4)
             {
                 return RedirectToAction("Index", "Board");
             }
 
-            if(_threadServices.ToggleThreadSubscription(threadID, CurrentUser.UserID))
+            if(_threadServices.ToggleThreadSubscription(threadID, _currentUser.UserID))
                 SetSuccess("You have subscribed to thread");
             else
                 SetSuccess("You have unsubscribed to thread");
@@ -304,9 +309,9 @@ namespace mesoBoard.Web.Controllers
                 new OnlineUserDetails(){
                     DefaultRole = item.User.UserProfile.DefaultRole.HasValue ? item.User.UserProfile.Role : null, 
                     OnlineUser = item
-                });
+                }).ToList();
 
-            IEnumerable<OnlineGuest> onlineGuests = _onlineGuestRepository.Get();
+            IEnumerable<OnlineGuest> onlineGuests = _onlineGuestRepository.Get().ToList();
 
             var newestUser = _userRepository.Get().OrderByDescending(item => item.RegisterDate).First();
             var birthdays = _userServices.GetBirthdays(DateTime.UtcNow);
@@ -331,7 +336,7 @@ namespace mesoBoard.Web.Controllers
             string path = Server.MapPath(Path.Combine(DirectoryPaths.Attachments, attachment.SavedName));
             if (System.IO.File.Exists(path))
             {
-                if (!_permissionServices.CanDownloadAttachment(attachment.Post.Thread.ForumID, CurrentUser.UserID))
+                if (!_permissionServices.CanDownloadAttachment(attachment.Post.Thread.ForumID, _currentUser.UserID))
                 {
                     SetNotice("You don't have permission to download this file");
                     return RedirectToAction("ViewThread", "Board", new { ThreadID = attachment.Post.ThreadID });
@@ -358,8 +363,9 @@ namespace mesoBoard.Web.Controllers
         {
             HeaderViewModel model = new HeaderViewModel()
             {
-                NewMessagesCount = Request.IsAuthenticated ? _messageServices.GetUnreadMessages(CurrentUser.UserID).Count() : 0,
-                IsAdministrator = Request.IsAuthenticated ? _roleServices.UserHasSpecialPermissions(CurrentUser.UserID, SpecialPermissionValue.Administrator) : false
+                CurrentUser = _currentUser,
+                NewMessagesCount = Request.IsAuthenticated ? _messageServices.GetUnreadMessages(_currentUser.UserID).Count() : 0,
+                IsAdministrator = Request.IsAuthenticated ? _roleServices.UserHasSpecialPermissions(_currentUser.UserID, SpecialPermissionValue.Administrator) : false
             };
 
             return View("_Header", model);

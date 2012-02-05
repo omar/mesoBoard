@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using System.Web.Security;
 using mesoBoard.Data;
 using mesoBoard.Services;
@@ -8,32 +9,17 @@ using System.Collections.Generic;
 
 namespace mesoBoard.Framework.Core
 {
-    
     [InstalledCheck]
     [OfflineCheck]
     [TrackActivity]
     public abstract class BaseController : Controller
     {
-        public Theme CurrentTheme { get; set; }
-        public User CurrentUser { get; private set; }
-
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             base.OnActionExecuted(filterContext);
 
             var result = filterContext.Result as ViewResultBase;
-            if (result != null)
-            {
-                var model = filterContext.Controller.ViewData.Model as BaseViewModel;
-                
-                if (model != null)
-                {
-                    model.CurrentTheme = CurrentTheme;
-                    model.CurrentUser = CurrentUser;
-                    model.IsAuthenticated = filterContext.HttpContext.User.Identity.IsAuthenticated;
-                }
-            }
-
+            
             if (TempData["ModelState"] != null && !ModelState.Equals(TempData["ModelState"]))
                 ModelState.Merge((ModelStateDictionary)TempData["ModelState"]);
         }
@@ -41,65 +27,33 @@ namespace mesoBoard.Framework.Core
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)
         {
             base.Initialize(requestContext);
-
+            
             if (!Settings.IsInstalled)
                 return;
 
-            var userServices = ServiceLocator.Get<UserServices>();
-            var themeServices = ServiceLocator.Get<ThemeServices>();
-            var globalServices = ServiceLocator.Get<GlobalServices>();
-
-            bool isAuthenticated = requestContext.HttpContext.User.Identity.IsAuthenticated;
-            string controllerName = requestContext.RouteData.GetRequiredString("controller");
-            string ipAddress = requestContext.HttpContext.Request.UserHostAddress;
-
             var timeZoneOffset = SiteConfig.TimeOffset.ToInt();
-            ViewData[ViewDataKeys.TimeZoneOffset] = timeZoneOffset;
-
-            if (isAuthenticated)
-            {
-                this.CurrentUser = userServices.GetUser(int.Parse(requestContext.HttpContext.User.Identity.Name));
-                if (CurrentUser == null)
-                {
-                    this.CurrentUser = new Data.User { UserID = 0 };
-                    FormsAuthentication.SignOut();
-                    isAuthenticated = false;
-                }
-                else
-                {
-                    ViewData[ViewDataKeys.CurrentUser] = CurrentUser;
-                }
-            }
-            else
-                this.CurrentUser = new Data.User { UserID = 0 };
-
-            
-            string previewTheme = (string)requestContext.HttpContext.Session["ptheme"];
-
-            if (requestContext.RouteData.GetAreaName() == "Admin")
-                CurrentTheme = themeServices.GetAdminTheme();
-            else
-                CurrentTheme = themeServices.GetTheme(CurrentUser, controllerName, previewTheme);
-
-            requestContext.HttpContext.Items[HttpContextItemKeys.ThemeFolder] = CurrentTheme.FolderName;
+            ViewData[ViewDataKeys.TimeZoneOffset] = timeZoneOffset;           
         }
 
-        public void SetError(string msg)
+        public void SetError(string message)
         {
-            ViewData[ViewDataKeys.GlobalMessages.Error] = msg;
-            TempData[ViewDataKeys.GlobalMessages.Error] = msg;
+            SetMessage(ViewDataKeys.GlobalMessages.Error, message);
         }
 
-        public void SetSuccess(string msg)
+        public void SetSuccess(string message)
         {
-            TempData[ViewDataKeys.GlobalMessages.Success] = msg;
-            ViewData[ViewDataKeys.GlobalMessages.Success] = msg;
+            SetMessage(ViewDataKeys.GlobalMessages.Success, message);
         }
 
-        public void SetNotice(string msg)
+        public void SetNotice(string message)
         {
-            TempData[ViewDataKeys.GlobalMessages.Notice] = msg;
-            ViewData[ViewDataKeys.GlobalMessages.Notice] = msg;
+            SetMessage(ViewDataKeys.GlobalMessages.Notice, message);
+        }
+
+        private void SetMessage(string key, string message)
+        {
+            TempData[key] = message;
+            ViewData[key] = message;
         }
 
         public void SetCrumbs(string BreadCrumb, string TopBreadCrumb)
@@ -130,7 +84,7 @@ namespace mesoBoard.Framework.Core
             string action = (string)this.ControllerContext.RouteData.Values["action"];
             routeData.Add("controller", controller);
             routeData.Add("action", action);
-
+            
             return RedirectToRoute(routeData);
         }
 

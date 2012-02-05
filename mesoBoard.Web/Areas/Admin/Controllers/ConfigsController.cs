@@ -19,19 +19,22 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
         IRepository<Role> _roleRepository;
         IRepository<Theme> _themeRepository;
         ThemeServices _themeServices;
+        Theme _currentTheme;
 
         public ConfigsController(
             IRepository<Config> configRepository,
             IRepository<PluginConfig> pluginConfigRepository,
             IRepository<Role> roleRepository,
             IRepository<Theme> themeRepository,
-            ThemeServices themeServices)
+            ThemeServices themeServices,
+            Theme currentTheme)
         {
             _configRepository = configRepository;
             _pluginConfigRepository = pluginConfigRepository;
             _roleRepository = roleRepository;
             _themeRepository = themeRepository;
             _themeServices = themeServices;
+            _currentTheme = currentTheme;
         }
 
         private class ConfigValidation
@@ -76,7 +79,8 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
         public ActionResult Config()
         {
             SetBreadCrumb("Configuration");
-            IEnumerable<Config> configs = _configRepository.Get().Where(item => item.Name != "BoardCreateDate");
+            var configs = _configRepository.Get().Where(item => item.Name != "BoardCreateDate").ToList();
+
             IEnumerable<ConfigViewModel> configViewModels = configs.Select(item => new ConfigViewModel()
             {
                 ConfigID = item.ConfigID,
@@ -87,8 +91,8 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
                 Value = item.Value,
                 Options = item.Options
             });
-            IEnumerable<Theme> themes = _themeRepository.Get();
-            IEnumerable<Role> roles = _roleRepository.Get();
+            var themes = _themeRepository.Get().ToList();
+            var roles = _roleRepository.Get().ToList();
             ConfigViewer model = new ConfigViewer()
             {
                 ConfigGroups = configs.Select(item => item.Group).Distinct().ToArray(),
@@ -150,7 +154,7 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
                 SetError(errors + " config errors. See the messages below");
 
             SiteConfig.UpdateCache();
-            Misc.ParseBBCodeScriptFile(CurrentTheme);
+            Misc.ParseBBCodeScriptFile(_currentTheme);
             PersistModelState();
             return RedirectToSelf();
         }
@@ -204,11 +208,13 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
             if (errors != null)
                 ViewData = (ViewDataDictionary)errors;
             SetBreadCrumb("Plugin Configs");
-            IEnumerable<PluginConfig> configs = _pluginConfigRepository.Get();
+
+            var configs = _pluginConfigRepository.Get().ToList();
+            var configGroups = configs.Select(item => item.PluginGroup).Distinct().ToArray();
 
             var model = new PluginConfigsViewModel()
             {
-                ConfigGroups = configs.Select(item => item.PluginGroup).Distinct().ToArray(),
+                ConfigGroups = configGroups,
                 Configs = configs
             };
             return View(model);

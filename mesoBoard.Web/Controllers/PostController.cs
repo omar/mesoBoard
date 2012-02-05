@@ -26,6 +26,7 @@ namespace mesoBoard.Web.Controllers
         EmailServices _emailServices;
         PermissionServices _permissionServices;
         ParseServices _parseServices;
+        User _currentUser;
 
         public PostController(
             IRepository<Smiley> smileyRepository, 
@@ -36,7 +37,8 @@ namespace mesoBoard.Web.Controllers
             PollServices pollServices,
             EmailServices emailServices,
             PermissionServices permissionServices,
-            ParseServices parseServices)
+            ParseServices parseServices,
+            User currentUser)
         {
             _smileyRepository = smileyRepository;
             _forumServices = forumServices;
@@ -47,13 +49,14 @@ namespace mesoBoard.Web.Controllers
             _emailServices = emailServices;
             _permissionServices = permissionServices;
             _parseServices = parseServices;
+            _currentUser = currentUser;
         }
 
         public ActionResult GetSmilies(int x, int z)
         {
             ViewData["x"] = x;
             ViewData["z"] = z;
-            IEnumerable<Smiley> smilies = _smileyRepository.Get();
+            IEnumerable<Smiley> smilies = _smileyRepository.Get().ToList();
             if (smilies.Count() < z)
             {
                 ViewData["z"] = smilies.Count();
@@ -68,7 +71,7 @@ namespace mesoBoard.Web.Controllers
         [HttpGet]
         public ActionResult CreateThread(int ForumID)
         {
-            if (!_permissionServices.CanCreateThread(ForumID, CurrentUser.UserID))
+            if (!_permissionServices.CanCreateThread(ForumID, _currentUser.UserID))
             {
                 SetNotice("You don't have permission to create a thread in this forum");
                 return RedirectToAction("ViewForum", "Board", new { ForumID = ForumID });
@@ -85,7 +88,7 @@ namespace mesoBoard.Web.Controllers
             Thread thread = _threadServices.GetThread(ThreadID);
             Post post = thread.FirstPost;
 
-            if (!_postServices.CanEditPost(post.PostID, CurrentUser.UserID))
+            if (!_postServices.CanEditPost(post.PostID, _currentUser.UserID))
             {
                 SetError("You can't edit this post");
                 return RedirectToAction("ViewThread", "Board", new { ThreadID = thread.ThreadID });
@@ -110,7 +113,7 @@ namespace mesoBoard.Web.Controllers
 
             if (editorType == EditorType.Create)
             {
-                if (!_permissionServices.CanCreateThread(model.ForumID, CurrentUser.UserID))
+                if (!_permissionServices.CanCreateThread(model.ForumID, _currentUser.UserID))
                 {
                     SetNotice("You don't have permission to create a thread in this forum");
                     return RedirectToAction("ViewForum", "Board", new { ForumID = model.ForumID });
@@ -118,23 +121,23 @@ namespace mesoBoard.Web.Controllers
             }
             else
             {
-                if (!_postServices.CanEditPost(model.PostEditor.PostID, CurrentUser.UserID))
+                if (!_postServices.CanEditPost(model.PostEditor.PostID, _currentUser.UserID))
                 {
                     SetError("You can't edit this post");
                     return RedirectToAction("ViewThread", "Board", new { ThreadID = model.ThreadEditor.ThreadID });
                 }
             }
 
-            if (!_permissionServices.CanCreateThreadType(model.ForumID, CurrentUser.UserID, (ThreadType)model.ThreadEditor.ThreadType))
+            if (!_permissionServices.CanCreateThreadType(model.ForumID, _currentUser.UserID, (ThreadType)model.ThreadEditor.ThreadType))
             {
                 model.ThreadEditor.ThreadType = (int)ThreadType.Regular;
                 ModelState.AddModelError("ThreadEditor.ThreadType", "You don't have permission to create a thread of this type");
             }
 
-            if (!model.Preview.HasValue && CurrentUser.LastPostDate.HasValue)
+            if (!model.Preview.HasValue && _currentUser.LastPostDate.HasValue)
             {
                 int MinTimeLimit = int.Parse(SiteConfig.TimeBetweenPosts.Value);
-                double ValToCompare = (DateTime.UtcNow - CurrentUser.LastPostDate.Value).TotalSeconds;
+                double ValToCompare = (DateTime.UtcNow - _currentUser.LastPostDate.Value).TotalSeconds;
                 if (ValToCompare < MinTimeLimit)
                     ModelState.AddModelError("TimeBetweenPosts", "You may only create new posts every " + MinTimeLimit + " seconds (" + Math.Round((MinTimeLimit - ValToCompare)) + " seconds remaining)");
             }
@@ -143,7 +146,7 @@ namespace mesoBoard.Web.Controllers
             ValidateThreadImage(model.ThreadEditor.Image);
             HttpPostedFileBase[] files = null;
 
-            if (_permissionServices.CanCreateAttachment(model.ForumID, CurrentUser.UserID))
+            if (_permissionServices.CanCreateAttachment(model.ForumID, _currentUser.UserID))
             {
                 if (model.PostEditor.Files != null)
                 {
@@ -154,7 +157,7 @@ namespace mesoBoard.Web.Controllers
             else
                 model.PostEditor.Delete = null;
 
-            if (!_permissionServices.CanCreatePoll(model.ForumID, CurrentUser.UserID))
+            if (!_permissionServices.CanCreatePoll(model.ForumID, _currentUser.UserID))
             {
                 model.PollEditor.Text = string.Empty;
                 model.PollEditor.Options = string.Empty;
@@ -166,7 +169,7 @@ namespace mesoBoard.Web.Controllers
                 {
                     Thread thread = _threadServices.CreateThread(
                         model.ForumID,
-                        CurrentUser.UserID,
+                        _currentUser.UserID,
                         model.ThreadEditor.Title,
                         (ThreadType)model.ThreadEditor.ThreadType,
                         model.ThreadEditor.Image,
@@ -175,8 +178,8 @@ namespace mesoBoard.Web.Controllers
                         model.PollEditor.OptionsSplit,
                         files);
 
-                    if (_threadServices.IsSubscribed(thread.ThreadID, CurrentUser.UserID) && model.PostEditor.SubscribeToThread)
-                        _threadServices.Subscribe(thread.ThreadID, CurrentUser.UserID);
+                    if (_threadServices.IsSubscribed(thread.ThreadID, _currentUser.UserID) && model.PostEditor.SubscribeToThread)
+                        _threadServices.Subscribe(thread.ThreadID, _currentUser.UserID);
 
                     SetSuccess("Thread created");
                     return RedirectToAction("ViewThread", "Board", new { ThreadID = thread.ThreadID });
@@ -237,7 +240,7 @@ namespace mesoBoard.Web.Controllers
             Thread thread = _threadServices.GetThread(ThreadID);
             Forum forum = thread.Forum;
 
-            if (!_permissionServices.CanReply(forum.ForumID, CurrentUser.UserID))
+            if (!_permissionServices.CanReply(forum.ForumID, _currentUser.UserID))
             {
                 if (thread.IsLocked)
                 {
@@ -266,7 +269,7 @@ namespace mesoBoard.Web.Controllers
             if (post.Thread.FirstPost.PostID == PostID)
                 return RedirectToAction("EditThread", new { ThreadID = post.ThreadID });
 
-            if (!_postServices.CanEditPost(PostID, CurrentUser.UserID))
+            if (!_postServices.CanEditPost(PostID, _currentUser.UserID))
             {
                 SetError("You can't edit this post");
                 return RedirectToAction("ViewThread", "Board", new { ThreadID = post.ThreadID });
@@ -295,7 +298,7 @@ namespace mesoBoard.Web.Controllers
             
             if (editorType == EditorType.Create)
             {
-                if (!_permissionServices.CanReply(forum.ForumID, CurrentUser.UserID))
+                if (!_permissionServices.CanReply(forum.ForumID, _currentUser.UserID))
                 {
                     if (thread.IsLocked)
                     {
@@ -311,7 +314,7 @@ namespace mesoBoard.Web.Controllers
             }
             else
             {
-                if (!_postServices.CanEditPost(model.PostEditor.PostID, CurrentUser.UserID))
+                if (!_postServices.CanEditPost(model.PostEditor.PostID, _currentUser.UserID))
                 {
                     SetError("You can't edit this post");
                     return RedirectToAction("ViewThread", "Board", new { ThreadID = thread.ThreadID });
@@ -319,7 +322,7 @@ namespace mesoBoard.Web.Controllers
             }
 
             HttpPostedFileBase[] files = null;
-            if (_permissionServices.CanCreateAttachment(forum.ForumID, CurrentUser.UserID))
+            if (_permissionServices.CanCreateAttachment(forum.ForumID, _currentUser.UserID))
             {
                 if (model.PostEditor.Files != null)
                 {
@@ -335,10 +338,10 @@ namespace mesoBoard.Web.Controllers
             {
                 if (editorType == EditorType.Create)
                 {
-                    if (_threadServices.IsSubscribed(thread.ThreadID, CurrentUser.UserID) && model.PostEditor.SubscribeToThread)
-                        _threadServices.Subscribe(thread.ThreadID, CurrentUser.UserID);
+                    if (_threadServices.IsSubscribed(thread.ThreadID, _currentUser.UserID) && model.PostEditor.SubscribeToThread)
+                        _threadServices.Subscribe(thread.ThreadID, _currentUser.UserID);
 
-                    var post = _postServices.CreatePost(model.ThreadID, CurrentUser.UserID, model.PostEditor.Message, model.PostEditor.ShowSignature, files);
+                    var post = _postServices.CreatePost(model.ThreadID, _currentUser.UserID, model.PostEditor.Message, model.PostEditor.ShowSignature, files);
                     string postUrl = Url.Action("ViewThread", "Board", new { ThreadID = post.ThreadID, PostID = post.PostID }) + "#" + post.PostID;
                     IEnumerable<Subscription> subscriptions = thread.Subscriptions;
                     _emailServices.NewPostEmail(subscriptions, post, post.Thread, postUrl);
@@ -375,13 +378,13 @@ namespace mesoBoard.Web.Controllers
         {
             Thread thread = _threadServices.GetThread(ThreadID);
 
-            if (!_permissionServices.CanView(thread.ForumID, CurrentUser.UserID))
+            if (!_permissionServices.CanView(thread.ForumID, _currentUser.UserID))
             {
                 SetError("You don't have permission to view this thread");
                 return RedirectToAction("Board", "Index");
             }
 
-            bool canCastVote = _permissionServices.CanCastVote(thread.ForumID, CurrentUser.UserID);
+            bool canCastVote = _permissionServices.CanCastVote(thread.ForumID, _currentUser.UserID);
 
             if (canCastVote)
             {
@@ -389,7 +392,7 @@ namespace mesoBoard.Web.Controllers
                 
                 if (PollOptionID.HasValue)
                 {
-                    _pollServices.CastVote(CurrentUser.UserID, PollOptionID.Value);
+                    _pollServices.CastVote(_currentUser.UserID, PollOptionID.Value);
 
                     SetSuccess("Your vote has been cast");
                 }
@@ -452,7 +455,7 @@ namespace mesoBoard.Web.Controllers
                 model.Message = post.Text;
                 model.ShowSignature = post.UseSignature;
                 model.PostID = post.PostID;
-                model.SubscribeToThread = _threadServices.IsSubscribed(threadID, CurrentUser.UserID);
+                model.SubscribeToThread = _threadServices.IsSubscribed(threadID, _currentUser.UserID);
                 model.Attachments = _fileServices.GetPostAttachments(post.PostID);
             }
 
@@ -467,7 +470,7 @@ namespace mesoBoard.Web.Controllers
 
             Forum forum = _forumServices.GetForum(forumID);
 
-            var permittedThreadTypes = _permissionServices.GetAllowedThreadTypes(forumID, CurrentUser.UserID).ToList();
+            var permittedThreadTypes = _permissionServices.GetAllowedThreadTypes(forumID, _currentUser.UserID).ToList();
             var model = new ThreadViewModel()
             {
                 EditorType = editorType,
@@ -479,8 +482,8 @@ namespace mesoBoard.Web.Controllers
                     PermittedThreadTypes = permittedThreadTypes,
                     ThreadImages = _threadServices.GetThreadImages(),
                 },
-                CanUploadAttachments = _permissionServices.CanCreateAttachment(forumID, CurrentUser.UserID),
-                CanCreatePoll = _permissionServices.CanCreatePoll(forumID, CurrentUser.UserID)
+                CanUploadAttachments = _permissionServices.CanCreateAttachment(forumID, _currentUser.UserID),
+                CanCreatePoll = _permissionServices.CanCreatePoll(forumID, _currentUser.UserID)
             };
 
             if (editorType == EditorType.Edit)
@@ -545,7 +548,7 @@ namespace mesoBoard.Web.Controllers
                 EditorType = editorType,
                 PostEditor = postEditor,
                 ThreadID = threadID,
-                CanUploadAttachments = _permissionServices.CanCreateAttachment(forumID, CurrentUser.UserID),
+                CanUploadAttachments = _permissionServices.CanCreateAttachment(forumID, _currentUser.UserID),
                 Thread = _threadServices.GetThread(threadID)
             };
 

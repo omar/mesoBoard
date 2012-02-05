@@ -11,7 +11,7 @@ using mesoBoard.Framework.Validation;
 namespace mesoBoard.Framework.Models
 {
     [PropertiesMustMatch("Password", "ConfirmPassword")]
-    public class RegisterViewModel : IValidatableObject
+    public class RegisterViewModel
     {
         [Required]
         public string Username { get; set; }
@@ -36,30 +36,5 @@ namespace mesoBoard.Framework.Models
         [Display(Name = "Terms and Conditions")]
         [RegularExpression("[T|t]rue", ErrorMessage = "You must accept the terms and conditions.")]
         public bool Terms { get; set; }
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            var userServices = ServiceLocator.Get<UserServices>();
-            int usernameMin = SiteConfig.UsernameMin.ToInt();
-            int usernameMax = SiteConfig.UsernameMax.ToInt();
-            int passwordMinimum = SiteConfig.PasswordMin.ToInt();
-
-            if (Username.Length > usernameMax || Username.Length < usernameMin)
-            {
-                string message = string.Format("Username length must be between {0} and {1} characters long", usernameMin, usernameMax);
-                yield return new ValidationResult("Username length must be between " + usernameMin + " and " + usernameMax + " characters long", new[] { "Username" });
-            }
-            else if (userServices.GetUser(Username) != null)
-                yield return new ValidationResult("Username already taken", new[] { "Username" });
-
-            if (userServices.EmailInUse(Email))
-                yield return new ValidationResult("Email is already in use by another user", new[] { "Email" });
-
-            if(Password.Length < passwordMinimum)
-            {
-                string message = string.Format("Password must be at least {0}", passwordMinimum);
-                yield return new ValidationResult(message, new[] { "Password" });
-            }
-        }
     }
 }
