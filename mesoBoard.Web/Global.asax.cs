@@ -13,11 +13,19 @@ using Ninject;
 using Ninject.Modules;
 using Ninject.Web.Mvc;
 using System.Collections.Generic;
+using Ninject.Infrastructure;
 
 namespace mesoBoard.Web
 {
-    public class MvcApplication : NinjectHttpApplication
+    public class MvcApplication : HttpApplication, IHaveKernel
     {
+        public static IKernel Kernel { get; set; }
+
+        IKernel IHaveKernel.Kernel
+        {
+            get { return Kernel; }
+        }
+
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
@@ -38,17 +46,17 @@ namespace mesoBoard.Web
             StaticResources.Initialize(routes);
         }
 
-        protected override void OnApplicationStarted()
+        protected void Application_Start()
         {
             RegisterRoutes(RouteTable.Routes);
             RegisterGlobalFilters(GlobalFilters.Filters);
             System.Web.Mvc.ViewEngines.Engines.Clear();
             System.Web.Mvc.ViewEngines.Engines.Add(new ViewEngine());
-            ControllerBuilder.Current.SetControllerFactory(new ControllerFactory(this.Kernel));
+            ControllerBuilder.Current.SetControllerFactory(new ControllerFactory(MvcApplication.Kernel));
 
             string conn = Settings.EntityConnectionString;
 
-            ServiceLocator.Initialize(this.Kernel);
+            ServiceLocator.Initialize(MvcApplication.Kernel);
 
             if (Settings.IsInstalled)
             {
@@ -140,19 +148,6 @@ namespace mesoBoard.Web
                     onlineGuests.Delete(guest.OnlineGuestID);
             }
 
-        }
-
-        protected override IKernel CreateKernel()
-        {
-            var kernel = new StandardKernel();
-            NinjectModule[] modules = new NinjectModule[]
-            {
-                new WebModule()
-            };
-
-            kernel.Load(Assembly.GetExecutingAssembly());
-            kernel.Load(modules);
-            return kernel;
         }
     }
 }

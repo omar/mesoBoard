@@ -778,6 +778,82 @@
             <param name="attributes">The list of validation attributes.</param>
             <returns>A list of validators.</returns>
         </member>
+        <member name="T:Ninject.Web.Mvc.Bootstrapper">
+            <summary>
+            A basic bootstrapper that can be used to setup web applications.
+            </summary>
+        </member>
+        <member name="T:Ninject.Web.Mvc.IBootstrapper">
+            <summary>
+            A basic bootstrapper that can be used to setup web applications.
+            </summary>
+        </member>
+        <member name="M:Ninject.Web.Mvc.IBootstrapper.Initialize(System.Func{Ninject.IKernel})">
+            <summary>
+            Starts the application.
+            </summary>
+            <param name="createKernelCallback">The create kernel callback function.</param>
+        </member>
+        <member name="M:Ninject.Web.Mvc.IBootstrapper.InitializeHttpApplication(System.Web.HttpApplication)">
+            <summary>
+            Initializes a HttpApplication instance.
+            </summary>
+            <param name="httpApplication">The HttpApplication instance.</param>
+        </member>
+        <member name="M:Ninject.Web.Mvc.IBootstrapper.ShutDown">
+            <summary>
+            Releases the kernel on application end.
+            </summary>
+        </member>
+        <member name="F:Ninject.Web.Mvc.Bootstrapper.kernelInstance">
+            <summary>
+            The ninject kernel of the application
+            </summary>
+        </member>
+        <member name="M:Ninject.Web.Mvc.Bootstrapper.Initialize(System.Func{Ninject.IKernel})">
+            <summary>
+            Starts the application.
+            </summary>
+            <param name="createKernelCallback">The create kernel callback function.</param>
+        </member>
+        <member name="M:Ninject.Web.Mvc.Bootstrapper.InitializeHttpApplication(System.Web.HttpApplication)">
+            <summary>
+            Initializes a HttpApplication instance.
+            </summary>
+            <param name="httpApplication">The HttpApplication instance.</param>
+        </member>
+        <member name="M:Ninject.Web.Mvc.Bootstrapper.ShutDown">
+            <summary>
+            Releases the kernel on application end.
+            </summary>
+        </member>
+        <member name="M:Ninject.Web.Mvc.Bootstrapper.CreateDependencyResolver">
+            <summary>
+            Creates the controller factory that is used to create the controllers.
+            </summary>
+            <returns>The created controller factory.</returns>
+        </member>
+        <member name="M:Ninject.Web.Mvc.Bootstrapper.RemoveDefaultAttributeFilterProvider">
+            <summary>
+            Removes the default attribute filter provider.
+            </summary>
+        </member>
+        <member name="P:Ninject.Web.Mvc.Bootstrapper.Kernel">
+            <summary>
+            Gets the kernel.
+            </summary>
+        </member>
+        <member name="T:Ninject.Web.Mvc.HttpApplicationInitializationModule">
+            <summary>
+            Initializes a HttpApplication instance
+            </summary>
+        </member>
+        <member name="M:Ninject.Web.Mvc.HttpApplicationInitializationModule.Init(System.Web.HttpApplication)">
+            <summary>
+            Initializes a module and prepares it to handle requests.
+            </summary>
+            <param name="context">An <see cref="T:System.Web.HttpApplication"/> that provides access to the methods, properties, and events common to all application objects within an ASP.NET application</param>
+        </member>
         <member name="T:Ninject.Web.Mvc.NinjectDependencyResolver">
             <summary>
             Dependency resolver implementation for ninject.
@@ -818,14 +894,14 @@
             The one per request module to release request scope at the end of the request
             </summary>
         </member>
-        <member name="F:Ninject.Web.Mvc.NinjectHttpApplication.kernel">
-            <summary>
-            The ninject kernel of the application
-            </summary>
-        </member>
         <member name="M:Ninject.Web.Mvc.NinjectHttpApplication.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Ninject.Web.Mvc.NinjectHttpApplication"/> class.
+            </summary>
+        </member>
+        <member name="M:Ninject.Web.Mvc.NinjectHttpApplication.Init">
+            <summary>
+            Executes custom initialization code after all event handler modules have been added.
             </summary>
         </member>
         <member name="M:Ninject.Web.Mvc.NinjectHttpApplication.Application_Start">
@@ -840,15 +916,9 @@
         </member>
         <member name="M:Ninject.Web.Mvc.NinjectHttpApplication.CreateKernel">
             <summary>
-            Creates the kernel that will manage your application.
+            Creates the kernel.
             </summary>
-            <returns>The created kernel.</returns>
-        </member>
-        <member name="M:Ninject.Web.Mvc.NinjectHttpApplication.CreateDependencyResolver">
-            <summary>
-            Creates the controller factory that is used to create the controllers.
-            </summary>
-            <returns>The created controller factory.</returns>
+            <returns>The kernel.</returns>
         </member>
         <member name="M:Ninject.Web.Mvc.NinjectHttpApplication.OnApplicationStarted">
             <summary>
@@ -860,15 +930,11 @@
             Called when the application is stopped.
             </summary>
         </member>
-        <member name="M:Ninject.Web.Mvc.NinjectHttpApplication.RemoveDefaultAttributeFilterProvider">
-            <summary>
-            Removes the default attribute filter provider.
-            </summary>
-        </member>
         <member name="P:Ninject.Web.Mvc.NinjectHttpApplication.Kernel">
             <summary>
             Gets the kernel.
             </summary>
+            <value>The kernel.</value>
         </member>
     </members>
 </doc>

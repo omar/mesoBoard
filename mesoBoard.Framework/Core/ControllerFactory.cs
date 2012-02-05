@@ -3,7 +3,6 @@ using System.Web.Mvc;
 using System.Linq;
 using mesoBoard.Common;
 using Ninject;
-using Ninject.Web.Mvc;
 
 namespace mesoBoard.Framework.Core
 {
