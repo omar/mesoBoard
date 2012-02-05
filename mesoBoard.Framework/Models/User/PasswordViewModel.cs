@@ -5,10 +5,10 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using mesoBoard.Services;
 using System.ComponentModel;
+using System.Web.Mvc;
 
 namespace mesoBoard.Framework.Models
 {
-    [PropertiesMustMatch("NewPassword", "ConfirmNewPassword")]
     public class PasswordViewModel : IValidatableObject
     {
         public int MinimumPasswordLength { get; set; }
@@ -23,6 +23,7 @@ namespace mesoBoard.Framework.Models
 
         [Required]
         [Display(Name = "Confirm New Password")]
+        [Compare("NewPassword")]
         public string ConfirmNewPassword { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

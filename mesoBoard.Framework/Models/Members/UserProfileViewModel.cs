@@ -2,7 +2,7 @@
 
 namespace mesoBoard.Framework.Models
 {
-    public class UserProfileViewModel : BaseViewModel
+    public class UserProfileViewModel 
     {
         public Post LastPost { get; set; }
         public User User { get; set; }

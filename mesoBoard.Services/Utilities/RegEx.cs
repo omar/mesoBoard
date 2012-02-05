@@ -10,6 +10,9 @@ namespace mesoBoard.Services
 
         public static bool IsValidEmail(string email)
         {
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+
             try
             {
                 email = new MailAddress(email).Address;

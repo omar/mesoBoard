@@ -2,7 +2,7 @@
 
 namespace mesoBoard.Framework.Models
 {
-    public class ForumRow : BaseViewModel
+    public class ForumRow 
     {
         public Forum Forum { get; set; }
         public bool IsOdd { get; set; }

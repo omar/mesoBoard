@@ -7,10 +7,10 @@ using mesoBoard.Services;
 using mesoBoard.Framework.Core;
 using System.ComponentModel;
 using mesoBoard.Framework.Validation;
+using System.Web.Mvc;
 
 namespace mesoBoard.Framework.Models
 {
-    [PropertiesMustMatch("Password", "ConfirmPassword")]
     public class RegisterViewModel
     {
         [Required]
@@ -25,6 +25,7 @@ namespace mesoBoard.Framework.Models
 
         [Required]
         [Display(Name = "Confirm Password")]
+        [Compare("Password")]
         public string ConfirmPassword { get; set; }
 
         [Required]

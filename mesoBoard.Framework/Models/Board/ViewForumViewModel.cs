@@ -4,7 +4,7 @@ using mesoBoard.Data;
 
 namespace mesoBoard.Framework.Models
 {
-    public class ViewForumViewModel : BaseViewModel 
+    public class ViewForumViewModel  
     {
         public Forum Forum { get; set; }
         public List<ThreadRow> GlobalAnnouncements { get; set; }

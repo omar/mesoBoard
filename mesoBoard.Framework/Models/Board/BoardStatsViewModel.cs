@@ -3,7 +3,7 @@ using mesoBoard.Data;
 
 namespace mesoBoard.Framework.Models
 {
-    public class BoardStatsViewModel : BaseViewModel
+    public class BoardStatsViewModel 
     {
         public IEnumerable<OnlineUserDetails> OnlineUsers { get; set; }
         public IEnumerable<OnlineGuest> OnlineGuests { get; set; }

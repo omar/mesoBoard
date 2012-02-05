@@ -12,7 +12,7 @@ using System.ComponentModel;
 
 namespace mesoBoard.Framework.Models
 {
-    public class ThreadViewModel : BaseViewModel, IThreadEditor, IPostEditor, IPollEditor, IEditor
+    public class ThreadViewModel : IThreadEditor, IPostEditor, IPollEditor, IEditor
     {
         public bool CanUploadAttachments { get; set; }
         public bool CanCreatePoll { get; set; }

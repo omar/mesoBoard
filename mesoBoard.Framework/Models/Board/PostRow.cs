@@ -2,7 +2,7 @@
 
 namespace mesoBoard.Framework.Models
 {
-    public class PostRow : BaseViewModel
+    public class PostRow 
     {
         public Post Post { get; set; }
         public bool IsOdd { get; set; }
@@ -11,5 +11,9 @@ namespace mesoBoard.Framework.Models
         public bool CanEdit { get; set; }
         public bool CanDelete { get; set; }
         public bool IsLastPost { get; set; }
+
+        public Theme CurrentTheme { get; set; }
+        public User CurrentUser { get; set; }
+        public bool IsAuthenticated { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace mesoBoard.Framework.Models
 {
-    public class OnlineUserDetails : BaseViewModel
+    public class OnlineUserDetails 
     {
         public OnlineUser OnlineUser { get; set; }
         public Role DefaultRole { get; set; }

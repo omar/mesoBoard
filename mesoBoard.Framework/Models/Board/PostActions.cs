@@ -2,7 +2,7 @@
 
 namespace mesoBoard.Framework.Models
 {
-    public class PostActions : BaseViewModel
+    public class PostActions 
     {
         public Post ThePost { get; set; }
         public bool CanPost { get; set; }

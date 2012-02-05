@@ -76,7 +76,6 @@
     <Compile Include="Attributes\InstalledCheckAttribute.cs" />
     <Compile Include="Attributes\OfflineCheckAttribute.cs" />
     <Compile Include="Attributes\PermissionAuthorizeFilter.cs" />
-    <Compile Include="Attributes\RelatedFieldAttribute.cs" />
     <Compile Include="Attributes\TrackActivityFilter.cs" />
     <Compile Include="Core\BaseAdminController.cs" />
     <Compile Include="Core\BaseController.cs" />
