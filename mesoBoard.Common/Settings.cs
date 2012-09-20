@@ -146,7 +146,7 @@ namespace mesoBoard
         public static SmtpClient GetSmtpClient()
         {
             SmtpClient client = new SmtpClient();
-            if (client.Host == null && client.Credentials == null)
+            if (client.Host == null && client.Credentials == null && client.DeliveryMethod == SmtpDeliveryMethod.Network)
             {
                 client.Host = SmtpServer;
                 client.Port = SmtpPort;
