@@ -43,31 +43,5 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
                 model.Details = System.IO.File.ReadAllText(partialPath);
             return View(model);
         }
-
-        [HttpPost]
-        public ActionResult Confirm(string version, string Action)
-        {
-            if (Action == "Cancel")
-            {
-                SetSuccess("Upgrade cancelled");
-                return RedirectToAction("Index");
-            }
-
-            switch (version)
-            {
-                case "0.9.3":
-                    _upgradeServices.To093();
-                    break;
-                case "0.9.2":
-                    _upgradeServices.To092();
-                    break;
-
-                default:
-                    SetError("Select a version to upgrade to");
-                    return RedirectToAction("Index");
-            }
-            SetSuccess(string.Format("mesoBoard was successfully upgrade to version {0}. Please verify the changes mentioned in the upgrade details.", version));
-            return RedirectToAction("Upgrade");
-        }
     }
 }
