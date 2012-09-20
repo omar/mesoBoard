@@ -26,19 +26,18 @@ namespace mesoBoard.Framework.Core
             Bind<User>().ToMethod(context => (User)HttpContext.Current.Items[HttpContextItemKeys.CurrentUser]);
             Bind<Theme>().ToMethod(context => (Theme)HttpContext.Current.Items[HttpContextItemKeys.CurrentTheme]);
         }
-        
+
         private void BindMvcServices()
         {
             Bind<IControllerFactory>().To<DefaultControllerFactory>();
             Bind<IViewEngine>().To<ViewEngine>();
         }
-        
+
         private void BindDataAccess()
         {
             ConstructorArgument parameter = new ConstructorArgument("connectionString", Settings.EntityConnectionString);
             Bind<mbEntities>().ToSelf().InRequestScope().WithParameter(parameter);
 
-            Bind<IStoredProcedures>().To<StoredProcedures>().InRequestScope();
             Bind(typeof(IRepository<>)).To(typeof(EntityRepository<>)).InRequestScope();
             Bind<IUnitOfWork>().ToMethod(item => item.Kernel.Get<mbEntities>());
             Bind<DbContext>().ToMethod(item => item.Kernel.Get<mbEntities>());

@@ -139,8 +139,6 @@
     <Compile Include="Extensions\PostExtensions.cs" />
     <Compile Include="Extensions\ThreadExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\IStoredProcedures.cs" />
-    <Compile Include="Repositories\StoredProcedures.cs" />
     <Compile Include="Role.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
@@ -179,6 +177,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.Config" />
     <None Include="Entities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Entities.Context.cs</LastGenOutput>

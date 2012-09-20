@@ -21,11 +21,6 @@ namespace mesoBoard.Data
         {
         }
     
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            throw new UnintentionalCodeFirstException();
-        }
-    
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<BBCode> BBCodes { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -56,32 +51,6 @@ namespace mesoBoard.Data
         public DbSet<Thread> Threads { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
     
-        public virtual ObjectResult<OnlineGuest> Get_Inactive_OnlineGuests()
-        {
-            ((IObjectContextAdapter)this).ObjectContext.MetadataWorkspace.LoadFromAssembly(typeof(OnlineGuest).Assembly);
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<OnlineGuest>("Get_Inactive_OnlineGuests");
-        }
-    
-        public virtual ObjectResult<OnlineGuest> Get_Inactive_OnlineGuests(MergeOption mergeOption)
-        {
-            ((IObjectContextAdapter)this).ObjectContext.MetadataWorkspace.LoadFromAssembly(typeof(OnlineGuest).Assembly);
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<OnlineGuest>("Get_Inactive_OnlineGuests", mergeOption);
-        }
-    
-        public virtual ObjectResult<OnlineUser> Get_Inactive_OnlineUsers()
-        {
-            ((IObjectContextAdapter)this).ObjectContext.MetadataWorkspace.LoadFromAssembly(typeof(OnlineUser).Assembly);
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<OnlineUser>("Get_Inactive_OnlineUsers");
-        }
-    
-        public virtual ObjectResult<OnlineUser> Get_Inactive_OnlineUsers(MergeOption mergeOption)
-        {
-            ((IObjectContextAdapter)this).ObjectContext.MetadataWorkspace.LoadFromAssembly(typeof(OnlineUser).Assembly);
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<OnlineUser>("Get_Inactive_OnlineUsers", mergeOption);
-        }
+        
     }
 }

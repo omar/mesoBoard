@@ -6,38 +6,38 @@ using mesoBoard.Data.Repositories;
 
 namespace mesoBoard.Services
 {
-    public class GlobalServices : BaseService 
+    public class GlobalServices : BaseService
     {
         IRepository<OnlineGuest> _onlineGuestRepository;
         IRepository<OnlineUser> _onlineUserRepository;
-        StoredProcedures _storedProcedures;
 
         public GlobalServices(
-            IRepository<OnlineGuest> onlineGuests, 
-            IRepository<OnlineUser> onlineUsers, 
-            StoredProcedures storedProcedures,
+            IRepository<OnlineGuest> onlineGuests,
+            IRepository<OnlineUser> onlineUsers,
             IUnitOfWork unitOfWork)
             : base(unitOfWork)
         {
             _onlineGuestRepository = onlineGuests;
             _onlineUserRepository = onlineUsers;
-            _storedProcedures = storedProcedures;
         }
 
         public void PruneOnlineGuests()
         {
-            IEnumerable<OnlineGuest> guests = _storedProcedures.Get_Inactive_OnlineGuests();
+            DateTime fiveMinsAgo = DateTime.UtcNow.AddMinutes(-5);
+            IEnumerable<OnlineGuest> guests = _onlineGuestRepository.Where(item => item.Date < fiveMinsAgo);
+
             _onlineGuestRepository.Delete(guests);
             _unitOfWork.Commit();
         }
 
         public void PruneOnlineUsers()
         {
-            IEnumerable<OnlineUser> users = _storedProcedures.Get_Inactive_OnlineUsers();
+            DateTime fiveMinsAgo = DateTime.UtcNow.AddMinutes(-5);
+            IEnumerable<OnlineUser> users = _onlineUserRepository.Where(item => item.Date < fiveMinsAgo);
+
             _onlineUserRepository.Delete(users);
             _unitOfWork.Commit();
         }
-
 
         public void OnlineUserRoutine(User user, string ipAddress)
         {

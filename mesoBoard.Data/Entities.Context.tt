@@ -61,11 +61,6 @@ using System.Data.Objects;
 #>
     }
 
-    protected override void OnModelCreating(DbModelBuilder modelBuilder)
-    {
-        throw new UnintentionalCodeFirstException();
-    }
-
 <#
     foreach (var entitySet in container.BaseEntitySets.OfType<EntitySet>())
     {

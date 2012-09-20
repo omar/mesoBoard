@@ -2,7 +2,6 @@ mesoBoard.Web/App_Data/Attachments/*
 mesoBoard.Web/Themes/Dark
 mesoBoard.Web/Plugins/*
 mesoBoard.Web/Upload/Avatars/*
-App.Config
 !.gitignore
 bin
 obj
