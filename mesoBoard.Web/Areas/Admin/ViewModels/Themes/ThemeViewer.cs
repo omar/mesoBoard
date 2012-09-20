@@ -9,6 +9,7 @@ namespace mesoBoard.Web.Areas.Admin.ViewModels
     public class ThemeViewer
     {
         public IEnumerable<Theme> Themes { get; set; }
+
         public int DefaultThemeID { get; set; }
     }
 }

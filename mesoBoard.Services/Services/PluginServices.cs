@@ -31,7 +31,7 @@ namespace mesoBoard.Services
                 {
                     Name = details.Name,
                     Description = details.Description,
-                    AssemblyName = details.ToString().Replace(".PluginDetails" , ""),
+                    AssemblyName = details.ToString().Replace(".PluginDetails", ""),
                     Installed = PluginInstalled(details.Name)
                 });
             }

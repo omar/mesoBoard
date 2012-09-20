@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using mesoBoard.Data;
 using System.Web.Mvc;
-using System.ComponentModel.DataAnnotations;
+using mesoBoard.Data;
 
 namespace mesoBoard.Web.Areas.Admin.ViewModels
 {
@@ -17,6 +17,7 @@ namespace mesoBoard.Web.Areas.Admin.ViewModels
 
         [Required]
         public string Name { get; set; }
+
         public string Description { get; set; }
 
         [Required]

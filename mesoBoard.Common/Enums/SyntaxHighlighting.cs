@@ -1,11 +1,10 @@
-﻿
-namespace mesoBoard.Common
+﻿namespace mesoBoard.Common
 {
     public enum SyntaxHighlighting
     {
         Cpp,
         CSharp,
-        Css, 
+        Css,
         Delphi,
         Java,
         JScript,
@@ -16,5 +15,4 @@ namespace mesoBoard.Common
         Vb,
         Xml
     }
-
 }

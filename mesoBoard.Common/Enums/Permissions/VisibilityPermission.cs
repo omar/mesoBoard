@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace mesoBoard.Common
 {
@@ -11,7 +11,7 @@ namespace mesoBoard.Common
 
     public class VisibilityPermission : PermissionBase<VisibilityPermissionValue>
     {
-        public VisibilityPermission(VisibilityPermissionValue value, string name):base(value, name){}
+        public VisibilityPermission(VisibilityPermissionValue value, string name) : base(value, name) { }
     }
 
     public class VisibilityPermissions : PermissionCollection<VisibilityPermissionValue, VisibilityPermission>

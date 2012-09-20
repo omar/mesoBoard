@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
-using mesoBoard.Common;
 using System.Web.Mvc;
+using mesoBoard.Common;
 
 namespace mesoBoard.Framework.Models
 {
     public class ThreadEditorViewModel
     {
         public int ThreadID { get; set; }
+
         public string[] ThreadImages { get; set; }
+
         public bool AllowThreadImages { get; set; }
+
         public string Image { get; set; }
 
         [Required]

@@ -1,5 +1,4 @@
-﻿
-namespace mesoBoard.Data
+﻿namespace mesoBoard.Data
 {
     public partial class Post
     {

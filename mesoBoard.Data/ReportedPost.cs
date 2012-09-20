@@ -11,12 +11,13 @@ namespace mesoBoard.Data
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class ReportedPost
     {
         public int PostID { get; set; }
+
         public System.DateTime Date { get; set; }
-    
+
         public virtual Post Post { get; set; }
     }
 }

@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace mesoBoard.Common
 {
@@ -9,12 +9,12 @@ namespace mesoBoard.Common
         Reply,
         Thread,
         Sticky,
-        Announcments        
+        Announcments
     }
 
     public class PostingPermission : PermissionBase<PostingPermissionValue>
     {
-        public PostingPermission(PostingPermissionValue value, string name):base(value, name){}
+        public PostingPermission(PostingPermissionValue value, string name) : base(value, name) { }
     }
 
     public class PostingPermissions : PermissionCollection<PostingPermissionValue, PostingPermission>
@@ -39,6 +39,5 @@ namespace mesoBoard.Common
 
         public static PermissionCollection<PostingPermissionValue, PostingPermission> Class =
              new PermissionCollection<PostingPermissionValue, PostingPermission>(List.ToList());
-
     }
 }

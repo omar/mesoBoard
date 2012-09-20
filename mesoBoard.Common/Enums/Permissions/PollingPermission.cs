@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace mesoBoard.Common
 {
@@ -12,7 +12,7 @@ namespace mesoBoard.Common
 
     public class PollingPermission : PermissionBase<PollingPermissionValue>
     {
-            public PollingPermission(PollingPermissionValue value, string name):base(value, name){}
+        public PollingPermission(PollingPermissionValue value, string name) : base(value, name) { }
     }
 
     public class PollingPermissions : PermissionCollection<PollingPermissionValue, PollingPermission>
@@ -33,6 +33,5 @@ namespace mesoBoard.Common
 
         public static PermissionCollection<PollingPermissionValue, PollingPermission> Class =
              new PermissionCollection<PollingPermissionValue, PollingPermission>(List.ToList());
-
     }
 }

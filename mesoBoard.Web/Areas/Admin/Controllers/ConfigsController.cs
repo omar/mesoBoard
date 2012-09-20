@@ -1,25 +1,25 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using mesoBoard.Common;
 using mesoBoard.Data;
+using mesoBoard.Framework.Core;
 using mesoBoard.Services;
 using mesoBoard.Web.Areas.Admin.Models;
-using mesoBoard.Framework.Core;
 using mesoBoard.Web.Areas.Admin.ViewModels;
-using System.Globalization;
 
 namespace mesoBoard.Web.Areas.Admin.Controllers
 {
     // This needs reworking
     public class ConfigsController : BaseAdminController
     {
-        IRepository<Config> _configRepository;
-        IRepository<PluginConfig> _pluginConfigRepository;
-        IRepository<Role> _roleRepository;
-        IRepository<Theme> _themeRepository;
-        ThemeServices _themeServices;
-        Theme _currentTheme;
+        private IRepository<Config> _configRepository;
+        private IRepository<PluginConfig> _pluginConfigRepository;
+        private IRepository<Role> _roleRepository;
+        private IRepository<Theme> _themeRepository;
+        private ThemeServices _themeServices;
+        private Theme _currentTheme;
 
         public ConfigsController(
             IRepository<Config> configRepository,
@@ -40,7 +40,9 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
         private class ConfigValidation
         {
             public bool Valid { get; set; }
+
             public string Error { get; set; }
+
             public string FieldError { get; set; }
         }
 
@@ -51,8 +53,8 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
                 Error = string.Empty,
                 Valid = true
             };
-            
-            // With the exception of "int" and "string" config types, all other types have 
+
+            // With the exception of "int" and "string" config types, all other types have
             // values that are selected and not entered. "int" is the only one we need to verify
             switch (config.Type)
             {
@@ -61,6 +63,7 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
                 case "string[]":
                 case "string":
                     break;
+
                 case "int":
                     int intOut;
                     if (!int.TryParse(value, out intOut))
@@ -108,14 +111,14 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
         {
             int updated = 0;
             int errors = 0;
- 
+
             foreach (string configKey in form.Keys)
             {
                 Config config = _configRepository.First(item => item.Name.Equals(configKey));
                 if (config != null)
                 {
                     string value = Request.Form[configKey];
-                    ModelState modelState= new ModelState();
+                    ModelState modelState = new ModelState();
                     modelState.Value = new ValueProviderResult(value, value, CultureInfo.CurrentUICulture);
                     if (value != config.Value)
                     {
@@ -219,6 +222,5 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
             };
             return View(model);
         }
-
     }
 }

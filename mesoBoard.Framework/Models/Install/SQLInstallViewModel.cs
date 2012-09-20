@@ -5,7 +5,7 @@ namespace mesoBoard.Framework.Models
 {
     public class SQLInstallViewModel
     {
-        [Required(ErrorMessage="Enter a SQL server address")]
+        [Required(ErrorMessage = "Enter a SQL server address")]
         [Display(Name = "SQL server address")]
         public string DatabaseServer { get; set; }
 

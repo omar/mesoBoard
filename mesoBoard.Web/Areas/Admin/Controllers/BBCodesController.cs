@@ -8,7 +8,7 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
 {
     public class BBCodesController : BaseAdminController
     {
-        IRepository<BBCode> _bbCodeRepository;
+        private IRepository<BBCode> _bbCodeRepository;
 
         public BBCodesController(IRepository<BBCode> bbCodeRepository)
         {
@@ -81,6 +81,5 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
 
             return RedirectToSelf(new { BBCodeID = model.BBCodeID });
         }
-
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net;
 using System.Net.Configuration;
 using System.Net.Mail;
 using System.Net.Sockets;
@@ -10,18 +11,17 @@ using System.Web.Mvc;
 using System.Web.Security;
 using mesoBoard.Common;
 using mesoBoard.Data;
-using mesoBoard.Services;
 using mesoBoard.Framework.Core;
 using mesoBoard.Framework.Models;
-using System.Net;
+using mesoBoard.Services;
 
 namespace mesoBoard.Web.Controllers
 {
     public class InstallController : Controller
     {
-        IRepository<User> _userRepository;
-        static string SessionSqlInfoKey = "mbSqlInfoKey";
-        static string SessionMailInfoKey = "mbMailInfoKey";
+        private IRepository<User> _userRepository;
+        private static string SessionSqlInfoKey = "mbSqlInfoKey";
+        private static string SessionMailInfoKey = "mbMailInfoKey";
 
         public InstallController(IRepository<User> userRepository)
         {
@@ -49,7 +49,6 @@ namespace mesoBoard.Web.Controllers
 
             return View();
         }
-
 
         [HttpGet]
         public ActionResult Step1()
@@ -110,7 +109,6 @@ namespace mesoBoard.Web.Controllers
             }
             catch (Exception ex)
             {
-
                 TempData[ViewDataKeys.GlobalMessages.Notice] = "Unable to connect to SQL server, check connection information";
                 TempData[ViewDataKeys.GlobalMessages.Error] = ex.Message;
                 return View(info);
@@ -120,7 +118,6 @@ namespace mesoBoard.Web.Controllers
                 connection.Close();
                 connection.Dispose();
             }
-
 
             Session[SessionSqlInfoKey] = info;
 
@@ -186,7 +183,6 @@ namespace mesoBoard.Web.Controllers
         {
             if (Session[SessionMailInfoKey] != null)
                 ViewData[ViewDataKeys.GlobalMessages.Success] = "Successfully connected to mail server";
-
 
             SQLInstallViewModel sqlInfo = Session[SessionSqlInfoKey] as SQLInstallViewModel;
             if (sqlInfo != null)
@@ -271,7 +267,6 @@ namespace mesoBoard.Web.Controllers
 
             _userRepository.Update(adminUser);
 
-
             // If the Smtp server is 'mail.yourdomain.com', that means the user didn't specify mail settings
             // should probably store a value in the session indicating if they specified mail settings
             if (!Settings.SmtpServer.Equals("mail.yourdomain.com"))
@@ -310,7 +305,6 @@ namespace mesoBoard.Web.Controllers
             {
                 ViewData[ViewDataKeys.GlobalMessages.Notice] = "Configuration Cache did not update. Please update manually through the Admin Control Panel";
             }
-
 
             Settings.IsInstalled = true;
             return View("InstallationComplete");

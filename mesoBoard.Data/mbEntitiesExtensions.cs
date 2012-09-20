@@ -8,9 +8,9 @@ namespace mesoBoard.Data
 {
     public partial class mbEntities : IUnitOfWork
     {
-        public mbEntities(string connectionString) : base(connectionString)
+        public mbEntities(string connectionString)
+            : base(connectionString)
         {
-
         }
 
         public void Commit()

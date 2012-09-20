@@ -11,7 +11,7 @@ namespace mesoBoard.Data
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class Role
     {
         public Role()
@@ -20,16 +20,23 @@ namespace mesoBoard.Data
             this.InRoles = new HashSet<InRole>();
             this.UserProfiles = new HashSet<UserProfile>();
         }
-    
+
         public int RoleID { get; set; }
+
         public string Name { get; set; }
+
         public Nullable<int> RankID { get; set; }
+
         public bool IsGroup { get; set; }
+
         public byte SpecialPermissions { get; set; }
-    
+
         public virtual ICollection<ForumPermission> ForumPermissions { get; set; }
+
         public virtual ICollection<InRole> InRoles { get; set; }
+
         public virtual Rank Rank { get; set; }
+
         public virtual ICollection<UserProfile> UserProfiles { get; set; }
     }
 }

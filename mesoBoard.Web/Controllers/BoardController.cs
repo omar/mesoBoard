@@ -1,40 +1,40 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Net.Configuration;
+using System.Web.Configuration;
+using System.Web.Hosting;
 using System.Web.Mvc;
+using System.Xml.Linq;
 using mesoBoard.Common;
 using mesoBoard.Data;
-using mesoBoard.Services;
+using mesoBoard.Framework;
 using mesoBoard.Framework.Core;
 using mesoBoard.Framework.Models;
-using System.Web.Configuration;
-using System.Configuration;
-using System.Net.Configuration;
-using System.IO;
-using System.Collections.Specialized;
-using System.Xml.Linq;
-using System.Web.Hosting;
-using mesoBoard.Framework;
+using mesoBoard.Services;
 
 namespace mesoBoard.Web.Controllers
 {
     public class BoardController : BaseController
-    {       
-        ForumServices _forumServices;
-        SearchServices _searchServices;
-        ThreadServices _threadServices;
-        PostServices _postServices;
-        PollServices _pollServices;
-        IRepository<OnlineUser> _onlineUserRepository;
-        IRepository<OnlineGuest> _onlineGuestRepository;
-        IRepository<User> _userRepository;
-        UserServices _userServices;
-        RoleServices _roleServices;
-        MessageServices _messageServices;
-        PermissionServices _permissionServices;
-        FileServices _fileServices;
-        User _currentUser;
-        Theme _currentTheme;
+    {
+        private ForumServices _forumServices;
+        private SearchServices _searchServices;
+        private ThreadServices _threadServices;
+        private PostServices _postServices;
+        private PollServices _pollServices;
+        private IRepository<OnlineUser> _onlineUserRepository;
+        private IRepository<OnlineGuest> _onlineGuestRepository;
+        private IRepository<User> _userRepository;
+        private UserServices _userServices;
+        private RoleServices _roleServices;
+        private MessageServices _messageServices;
+        private PermissionServices _permissionServices;
+        private FileServices _fileServices;
+        private User _currentUser;
+        private Theme _currentTheme;
 
         public BoardController(
             ForumServices forumServices,
@@ -86,8 +86,7 @@ namespace mesoBoard.Web.Controllers
                 LastPost = _forumServices.GetLastPost(x.ForumID)
             });
 
-            IEnumerable<Category> categories = forums.Select(x=>x.Category).Distinct().OrderBy(item => item.Order);
-
+            IEnumerable<Category> categories = forums.Select(x => x.Category).Distinct().OrderBy(item => item.Order);
 
             var model = new BoardIndexViewModel()
             {
@@ -112,7 +111,7 @@ namespace mesoBoard.Web.Controllers
 
             if (string.IsNullOrEmpty(Keywords))
             {
-                if(Request.HttpMethod.Equals("Post", StringComparison.InvariantCultureIgnoreCase))
+                if (Request.HttpMethod.Equals("Post", StringComparison.InvariantCultureIgnoreCase))
                     SetNotice("Enter a keyword to search");
                 return View();
             }
@@ -136,13 +135,12 @@ namespace mesoBoard.Web.Controllers
             if (!userPermissions.Visible)
             {
                 SetNotice("You can't view this forum");
-                
+
                 return RedirectToAction("Index", "Board");
             }
 
-
             int threadCount = forum.Threads.Count;
-            int pageSize =  SiteConfig.ThreadsPerPage.ToInt();
+            int pageSize = SiteConfig.ThreadsPerPage.ToInt();
             int pageCount = (int)Math.Ceiling(((decimal)threadCount / pageSize));
             int currentPage = LastPost ? pageCount : Page;
 
@@ -166,8 +164,8 @@ namespace mesoBoard.Web.Controllers
             });
 
             IEnumerable<Thread> globalAnnouncements = _threadServices.GetGlobalAnnouncements();
-            
-            IEnumerable<ThreadRow> gaThreads = globalAnnouncements.Select((thread, index)=> new ThreadRow
+
+            IEnumerable<ThreadRow> gaThreads = globalAnnouncements.Select((thread, index) => new ThreadRow
             {
                 IsOdd = index % 2 != 0,
                 Thread = thread,
@@ -228,7 +226,7 @@ namespace mesoBoard.Web.Controllers
             bool hasPermissions = _roleServices.UserHasSpecialPermissions(_currentUser.UserID, SpecialPermissionValue.Administrator, SpecialPermissionValue.Moderator);
             bool canReply = _permissionServices.CanReply(thread.ForumID, _currentUser.UserID);
 
-            IEnumerable<PostRow> postRows = PagedPosts.Select((x,i) => new PostRow
+            IEnumerable<PostRow> postRows = PagedPosts.Select((x, i) => new PostRow
             {
                 Post = x,
                 CurrentUser = _currentUser,
@@ -241,7 +239,7 @@ namespace mesoBoard.Web.Controllers
                 CurrentTheme = _currentTheme,
                 IsAuthenticated = User.Identity.IsAuthenticated
             });
-            
+
             var model = new ViewThreadViewModel
             {
                 Thread = thread,
@@ -264,7 +262,7 @@ namespace mesoBoard.Web.Controllers
                 var threadPoll = new ThreadPoll()
                 {
                     CanCastVote = model.CanCastVote && !model.HasVoted && !thread.IsLocked,
-                    CurrentUser =  _currentUser,
+                    CurrentUser = _currentUser,
                     Poll = thread.Poll
                 };
 
@@ -284,7 +282,7 @@ namespace mesoBoard.Web.Controllers
                 return RedirectToAction("Index", "Board");
             }
 
-            if(_threadServices.ToggleThreadSubscription(threadID, _currentUser.UserID))
+            if (_threadServices.ToggleThreadSubscription(threadID, _currentUser.UserID))
                 SetSuccess("You have subscribed to thread");
             else
                 SetSuccess("You have unsubscribed to thread");
@@ -305,9 +303,10 @@ namespace mesoBoard.Web.Controllers
 
         public ActionResult BoardStats()
         {
-            var onlineUsers = _onlineUserRepository.Get().Select(item => 
-                new OnlineUserDetails(){
-                    DefaultRole = item.User.UserProfile.DefaultRole.HasValue ? item.User.UserProfile.Role : null, 
+            var onlineUsers = _onlineUserRepository.Get().Select(item =>
+                new OnlineUserDetails()
+                {
+                    DefaultRole = item.User.UserProfile.DefaultRole.HasValue ? item.User.UserProfile.Role : null,
                     OnlineUser = item
                 }).ToList();
 
@@ -315,16 +314,16 @@ namespace mesoBoard.Web.Controllers
 
             var newestUser = _userRepository.Get().OrderByDescending(item => item.RegisterDate).First();
             var birthdays = _userServices.GetBirthdays(DateTime.UtcNow);
-            
+
             var model = new BoardStatsViewModel()
             {
-                 NewestUser = newestUser,
-                 OnlineGuests = onlineGuests,
-                 OnlineUsers = onlineUsers,
-                 TotalPosts = _postServices.TotalPosts(),
-                 TotalRegisteredUsers = _userRepository.Get().Count(),
-                 TotalThreads = _threadServices.TotalThreads(),
-                 BirthdayUsers = birthdays
+                NewestUser = newestUser,
+                OnlineGuests = onlineGuests,
+                OnlineUsers = onlineUsers,
+                TotalPosts = _postServices.TotalPosts(),
+                TotalRegisteredUsers = _userRepository.Get().Count(),
+                TotalThreads = _threadServices.TotalThreads(),
+                BirthdayUsers = birthdays
             };
 
             return View(model);

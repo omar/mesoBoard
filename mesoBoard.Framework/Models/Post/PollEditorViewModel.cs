@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using System.ComponentModel.DataAnnotations;
 
 namespace mesoBoard.Framework.Models
 {
     public class PollEditorViewModel : IValidatableObject
     {
         public int PollID { get; set; }
+
         public string Text { get; set; }
+
         public string Options { get; set; }
+
         public bool Delete { get; set; }
 
         public bool HasVotes { get; set; }

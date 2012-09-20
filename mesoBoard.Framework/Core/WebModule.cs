@@ -1,17 +1,17 @@
-﻿using mesoBoard.Common;
+﻿using System;
+using System.Data.Entity;
+using System.Web;
+using System.Web.Mvc;
+using mesoBoard.Common;
 using mesoBoard.Data;
 using mesoBoard.Data.Repositories;
+using mesoBoard.Services;
+using Ninject;
 using Ninject.Modules;
 using Ninject.Parameters;
-using Ninject;
+using Ninject.Syntax;
 using Ninject.Web.Mvc;
 using Ninject.Web.Mvc.FilterBindingSyntax;
-using System.Data.Entity;
-using Ninject.Syntax;
-using System.Web.Mvc;
-using mesoBoard.Services;
-using System;
-using System.Web;
 
 namespace mesoBoard.Framework.Core
 {

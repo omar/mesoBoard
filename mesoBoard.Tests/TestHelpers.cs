@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Moq;
 using System.Linq.Expressions;
+using System.Text;
 using mesoBoard.Common;
+using Moq;
 
 namespace mesoBoard.Tests
 {
@@ -47,6 +47,5 @@ namespace mesoBoard.Tests
             unitOfWork.Setup(x => x.Commit());
             return unitOfWork;
         }
-
     }
 }

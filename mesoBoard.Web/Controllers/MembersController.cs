@@ -5,10 +5,10 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using mesoBoard.Common;
 using mesoBoard.Data;
-using mesoBoard.Services;
+using mesoBoard.Framework;
 using mesoBoard.Framework.Core;
 using mesoBoard.Framework.Models;
-using mesoBoard.Framework;
+using mesoBoard.Services;
 
 namespace mesoBoard.Web.Controllers
 {
@@ -49,16 +49,16 @@ namespace mesoBoard.Web.Controllers
 
             int MemberCount = usersInRole.Count();
 
-            usersInRole = usersInRole.TakePage(Page, PageSize); 
+            usersInRole = usersInRole.TakePage(Page, PageSize);
 
-            ViewData["Pagination"] = new Pagination(Page, MemberCount, PageSize, "ViewGroup", "Members", new { GroupID = GroupID }); 
-            
+            ViewData["Pagination"] = new Pagination(Page, MemberCount, PageSize, "ViewGroup", "Members", new { GroupID = GroupID });
+
             ViewData["Users"] = usersInRole;
 
             return View(group);
         }
 
-        public ActionResult Groups(int Page=1, int PageSize=10)
+        public ActionResult Groups(int Page = 1, int PageSize = 10)
         {
             SetBreadCrumb("Groups");
             IEnumerable<Role> groups = _roleRepository.Where(x => x.IsGroup == true).ToList();
@@ -73,7 +73,7 @@ namespace mesoBoard.Web.Controllers
         }
 
         [DefaultAction]
-        public ActionResult MembersList(string Letter="(All)", int Page=1, int PageSize=10)
+        public ActionResult MembersList(string Letter = "(All)", int Page = 1, int PageSize = 10)
         {
             SetBreadCrumb("Members List");
             IEnumerable<User> Members = _userRepository.Get();

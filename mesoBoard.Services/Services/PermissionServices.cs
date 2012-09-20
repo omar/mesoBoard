@@ -1,18 +1,18 @@
-﻿using System.Linq;
-using mesoBoard.Data;
+﻿using System.Collections.Generic;
+using System.Linq;
 using mesoBoard.Common;
-using System.Collections.Generic;
+using mesoBoard.Data;
 
 namespace mesoBoard.Services
 {
     public class PermissionServices : BaseService
     {
-        IRepository<Thread> _threadRepository;
-        IRepository<User> _userRepository;
-        IRepository<Forum> _forumRepository;
-        IRepository<ForumPermission> _forumPermissionRepository;
-        ThreadServices _threadServices;
-        RoleServices _roleServices;
+        private IRepository<Thread> _threadRepository;
+        private IRepository<User> _userRepository;
+        private IRepository<Forum> _forumRepository;
+        private IRepository<ForumPermission> _forumPermissionRepository;
+        private ThreadServices _threadServices;
+        private RoleServices _roleServices;
 
         public PermissionServices(
             IRepository<Thread> threads,
@@ -31,7 +31,6 @@ namespace mesoBoard.Services
             _threadServices = threadServices;
             _roleServices = rolesService;
         }
-
 
         public bool CanView(int forumID, int userID)
         {
@@ -119,7 +118,6 @@ namespace mesoBoard.Services
             return permission;
         }
 
-
         public int GetPermissionValue(int forumID, int userID, Permission permissionType)
         {
             Forum forum = _forumRepository.Get(forumID);
@@ -150,8 +148,8 @@ namespace mesoBoard.Services
                 User user = _userRepository.Get(userID);
 
                 var permissions = from p in forumPermissions.AsQueryable()
-                            where p.Role.InRoles.Any(item => item.UserID == userID)
-                            select p;
+                                  where p.Role.InRoles.Any(item => item.UserID == userID)
+                                  select p;
                 if (permissions.Count() == 0)
                     return 0;
 
@@ -206,6 +204,5 @@ namespace mesoBoard.Services
             var permissionValue = GetPermissionValue(forumID, userID, Permission.Polling);
             return permissionValue >= (int)permission;
         }
-
     }
 }

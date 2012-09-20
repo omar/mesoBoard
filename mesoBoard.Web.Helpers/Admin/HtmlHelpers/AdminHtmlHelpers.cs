@@ -1,6 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.Web;
+using System.Web.Mvc;
 using System.Web.Mvc.Html;
-using System.Web;
 using System.Web.Routing;
 
 namespace mesoBoard.Web.Helpers
@@ -45,6 +45,7 @@ namespace mesoBoard.Web.Helpers
         public static IHtmlString ControllerAwareActionLink(this HtmlHelper htmlHelper, string linkText, string action, string controller, object htmlAttributes)
         {
             string controllerName = (string)htmlHelper.ViewContext.RouteData.Values["controller"];
+
             //bool selected = controllerName.Equals(controller, System.StringComparison.InvariantCultureIgnoreCase);
 
             bool selected = false;
@@ -57,7 +58,7 @@ namespace mesoBoard.Web.Helpers
             if (selected)
             {
                 string classes = "selected";
-                if(htmlAttributesDictionary.ContainsKey("class"))
+                if (htmlAttributesDictionary.ContainsKey("class"))
                 {
                     classes = (string)htmlAttributesDictionary["class"];
                     classes += " selected";

@@ -4,21 +4,21 @@ using System.Linq;
 using System.Web.Mvc;
 using mesoBoard.Common;
 using mesoBoard.Data;
-using mesoBoard.Services;
+using mesoBoard.Framework;
 using mesoBoard.Framework.Core;
 using mesoBoard.Framework.Models;
-using mesoBoard.Framework;
+using mesoBoard.Services;
 
 namespace mesoBoard.Web.Controllers
 {
     [Authorize]
     public class MessagesController : BaseController
     {
-        UserServices _userServices;
-        MessageServices _messageServices;
-        ParseServices _parseServices;
-        EmailServices _emailServices;
-        User _currentUser;
+        private UserServices _userServices;
+        private MessageServices _messageServices;
+        private ParseServices _parseServices;
+        private EmailServices _emailServices;
+        private User _currentUser;
 
         public MessagesController(
             UserServices userServices,
@@ -60,7 +60,7 @@ namespace mesoBoard.Web.Controllers
                 SetSuccess("Message sent to <b>" + user.Username + "</b>");
                 string messageURL = Url.Action("ViewMessage", "Messages", new { MessageID = message.MessageID });
                 _emailServices.NewMessage(message, user, messageURL);
-                return RedirectToAction("ViewMessage", new { messageID = message.MessageID});
+                return RedirectToAction("ViewMessage", new { messageID = message.MessageID });
             }
 
             if (messageID.HasValue)
@@ -91,7 +91,6 @@ namespace mesoBoard.Web.Controllers
             };
 
             return View(model);
-
         }
 
         [HttpGet]
@@ -128,7 +127,6 @@ namespace mesoBoard.Web.Controllers
             {
                 SetNotice("You must select a message(s) to " + DoAction);
                 return RedirectToAction("Inbox", new { Box = Box });
-
             }
             else if (DoAction != "Delete" && DoAction != "Mark As Read")
             {
@@ -140,7 +138,7 @@ namespace mesoBoard.Web.Controllers
             {
                 foreach (int mid in msgID)
                 {
-                    if(_messageServices.CanViewMessage(_currentUser.UserID, mid))
+                    if (_messageServices.CanViewMessage(_currentUser.UserID, mid))
                         _messageServices.DeleteMessage(mid);
                 }
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Net.Mail;
+using System.Text;
 using mesoBoard.Services;
 
 namespace mesoBoard.Framework.Validation

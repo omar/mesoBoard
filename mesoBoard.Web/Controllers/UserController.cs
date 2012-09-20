@@ -5,24 +5,24 @@ using System.Web;
 using System.Web.Mvc;
 using mesoBoard.Common;
 using mesoBoard.Data;
-using mesoBoard.Services;
+using mesoBoard.Framework;
 using mesoBoard.Framework.Core;
 using mesoBoard.Framework.Models;
-using mesoBoard.Framework;
+using mesoBoard.Services;
 
 namespace mesoBoard.Web.Controllers
 {
     [Authorize]
     public class UserController : BaseController
     {
-        ThemeServices _themeServices;
-        UserServices _userServices;
-        ParseServices _parseServices;
-        MessageServices _messageServices;
-        EmailServices _emailServices;
-        FileServices _fileServices;
-        RoleServices _roleServices;
-        User _currentUser;
+        private ThemeServices _themeServices;
+        private UserServices _userServices;
+        private ParseServices _parseServices;
+        private MessageServices _messageServices;
+        private EmailServices _emailServices;
+        private FileServices _fileServices;
+        private RoleServices _roleServices;
+        private User _currentUser;
 
         public UserController(
             ThemeServices themes,
@@ -126,8 +126,8 @@ namespace mesoBoard.Web.Controllers
             {
                 SetSuccess("Profile updated");
                 _userServices.UpdateProfile(
-                    _currentUser.UserID, 
-                    model.AlwaysShowSignature, 
+                    _currentUser.UserID,
+                    model.AlwaysShowSignature,
                     model.AlwaysSubscribeToThread,
                     model.Location,
                     model.ThemeID,
@@ -232,7 +232,7 @@ namespace mesoBoard.Web.Controllers
 
             if (_userServices.EmailInUse(model.NewEmail))
                 ModelState.AddModelError("NewEmail", "This email is already in use by another user");
-            
+
             if (IsModelValidAndPersistErrors())
             {
                 _currentUser.Email = model.NewEmail;
@@ -242,7 +242,7 @@ namespace mesoBoard.Web.Controllers
 
             return RedirectToSelf();
         }
-        
+
         [HttpGet]
         public ActionResult Avatar()
         {
@@ -258,10 +258,12 @@ namespace mesoBoard.Web.Controllers
                 case "Upload":
                     model.AvatarType = AvatarType.Upload;
                     break;
+
                 case "Url":
                     model.AvatarType = AvatarType.Url;
                     model.Url = _currentUser.UserProfile.Avatar;
                     break;
+
                 case "None":
                 default:
                     model.AvatarType = AvatarType.None;
@@ -280,14 +282,14 @@ namespace mesoBoard.Web.Controllers
                     if (string.IsNullOrWhiteSpace(model.Url))
                         ModelState.AddModelError("Url", "Enter an avatar url.");
                     break;
+
                 case AvatarType.Upload:
-                    List<string> validFormats = new List<string> 
+                    List<string> validFormats = new List<string>
                     {
                         "image/png", "image/x-png",
                         "image/gif", "image/x-gif",
                         "image/jpeg", "image/x-jpeg",
                         "image/jpg", "image/x-jpg",
-                        
                     };
 
                     if (model.Image == null || model.Image.ContentLength == 0)
@@ -295,11 +297,11 @@ namespace mesoBoard.Web.Controllers
                     else if (!validFormats.Contains(model.Image.ContentType))
                         ModelState.AddModelErrorFor<AvatarViewModel>(m => m.Image, "Invalid file format; only gif,png,jpeg,jpg are allowed.");
                     break;
+
                 case AvatarType.None:
                 default:
                     break;
             }
-            
 
             if (IsModelValidAndPersistErrors())
             {
@@ -309,9 +311,11 @@ namespace mesoBoard.Web.Controllers
                         string uploadedFileName = _fileServices.UploadAvatar(model.Image);
                         _userServices.UpdateAvatarToUpload(_currentUser.UserID, uploadedFileName);
                         break;
+
                     case AvatarType.Url:
                         _userServices.UpdateAvatarToUrl(_currentUser.UserID, model.Url);
                         break;
+
                     case AvatarType.None:
                     default:
                         _userServices.UpdateAvatarToNone(_currentUser.UserID);
@@ -321,7 +325,6 @@ namespace mesoBoard.Web.Controllers
             }
 
             return RedirectToSelf();
-
         }
     }
 }

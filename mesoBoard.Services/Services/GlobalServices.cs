@@ -8,8 +8,8 @@ namespace mesoBoard.Services
 {
     public class GlobalServices : BaseService
     {
-        IRepository<OnlineGuest> _onlineGuestRepository;
-        IRepository<OnlineUser> _onlineUserRepository;
+        private IRepository<OnlineGuest> _onlineGuestRepository;
+        private IRepository<OnlineUser> _onlineUserRepository;
 
         public GlobalServices(
             IRepository<OnlineGuest> onlineGuests,

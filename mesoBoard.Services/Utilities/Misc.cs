@@ -15,13 +15,13 @@ namespace mesoBoard.Services
             string[] highlighters = validHighlighters.ToLower().Split(",".ToArray(), StringSplitOptions.RemoveEmptyEntries);
             string[] options = SiteConfig.SyntaxHighlighting.Options.ToLower().Split(",".ToArray(), StringSplitOptions.RemoveEmptyEntries);
             string[] tohide = options.Except(highlighters).ToArray();
-            
+
             string originalFile;
 
             string path = HostingEnvironment.MapPath(("~/Themes/" + theme.FolderName + "/Content/Scripts/bbcode-set.js"));
 
-            using(FileStream file = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read))
-            using(StreamReader reader = new StreamReader(file))
+            using (FileStream file = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (StreamReader reader = new StreamReader(file))
             {
                 originalFile = reader.ReadToEnd();
             }
@@ -48,6 +48,5 @@ namespace mesoBoard.Services
                 writeit.Write(originalFile);
             }
         }
-      
     }
 }

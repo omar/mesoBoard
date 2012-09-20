@@ -1,5 +1,4 @@
-﻿
-namespace mesoBoard
+﻿namespace mesoBoard
 {
     public class ViewDataKeys
     {
@@ -15,7 +14,7 @@ namespace mesoBoard
         {
             public static readonly string Success = "mbSuccess";
             public static readonly string Error = "mbError";
-            public static readonly string Notice = "mbNotice";    
+            public static readonly string Notice = "mbNotice";
         }
     }
 }

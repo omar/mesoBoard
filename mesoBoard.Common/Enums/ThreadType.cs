@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace mesoBoard.Common
 {
@@ -25,7 +25,7 @@ namespace mesoBoard.Common
                 yield return Regular;
                 yield return Sticky;
                 yield return Announcement;
-                yield return GlobalAnnouncement;                
+                yield return GlobalAnnouncement;
             }
         }
 
@@ -38,9 +38,11 @@ namespace mesoBoard.Common
         {
             return List.FirstOrDefault(item => item.Name == name);
         }
-        
+
         public string Name { get; set; }
+
         public int Value { get; set; }
+
         public ThreadType Type { get; set; }
 
         public ThreadTypes(string name, ThreadType type)

@@ -11,13 +11,13 @@ namespace mesoBoard.Services
 {
     public class PostServices : BaseService
     {
-        IRepository<Attachment> _attachmentRepository;
-        IRepository<Post> _postRepository;
-        IRepository<ReportedPost> _reportedPostRepository;
+        private IRepository<Attachment> _attachmentRepository;
+        private IRepository<Post> _postRepository;
+        private IRepository<ReportedPost> _reportedPostRepository;
 
-        FileServices _fileServices;
-        ParseServices _parseServices;
-        RoleServices _roleServices;
+        private FileServices _fileServices;
+        private ParseServices _parseServices;
+        private RoleServices _roleServices;
 
         public PostServices(
             IRepository<Attachment> attachmentRepository,
@@ -52,7 +52,7 @@ namespace mesoBoard.Services
             };
 
             _postRepository.Add(post);
-            if(files != null)
+            if (files != null)
                 _fileServices.CreateAttachments(files, post.PostID);
             _unitOfWork.Commit();
             return post;
@@ -86,7 +86,6 @@ namespace mesoBoard.Services
             posts = posts.TakePage(page, pageSize);
             return posts.ToList();
         }
-
 
         public bool CanEditPost(int postID, int userID)
         {

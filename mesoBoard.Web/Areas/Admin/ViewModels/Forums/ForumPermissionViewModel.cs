@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using System.ComponentModel.DataAnnotations;
-using mesoBoard.Data;
 using System.Web.Mvc;
 using mesoBoard.Common;
+using mesoBoard.Data;
 
 namespace mesoBoard.Web.Areas.Admin.ViewModels
 {
@@ -17,6 +17,7 @@ namespace mesoBoard.Web.Areas.Admin.ViewModels
         public int ForumID { get; set; }
 
         public IEnumerable<Forum> Forums { get; set; }
+
         public SelectList ForumsList
         {
             get
@@ -51,8 +52,11 @@ namespace mesoBoard.Web.Areas.Admin.ViewModels
         }
 
         public SelectList AttachmentPermissionsList { get { return new SelectList(AttachmentPermissions.List, "Value", "Name"); } }
+
         public SelectList PollingPermissionsList { get { return new SelectList(PollingPermissions.List, "Value", "Name"); } }
+
         public SelectList PostingPermissionsList { get { return new SelectList(PostingPermissions.List, "Value", "Name"); } }
+
         public SelectList VisibilityPermissionList { get { return new SelectList(VisibilityPermissions.List, "Value", "Name"); } }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using mesoBoard.Data;
-using System.ComponentModel.DataAnnotations;
 
 namespace mesoBoard.Web.Areas.Admin.ViewModels
 {

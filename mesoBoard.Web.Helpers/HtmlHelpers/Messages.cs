@@ -19,10 +19,9 @@ namespace mesoBoard.Web.Helpers
 
         public static IHtmlString GetMessages(this HtmlHelper html)
         {
-            string output = GenerateMessage(ViewDataKeys.GlobalMessages.Success, html); 
+            string output = GenerateMessage(ViewDataKeys.GlobalMessages.Success, html);
             output += GenerateMessage(ViewDataKeys.GlobalMessages.Notice, html);
             output += GenerateMessage(ViewDataKeys.GlobalMessages.Error, html);
-            
 
             return new HtmlString(output);
         }
@@ -42,7 +41,7 @@ namespace mesoBoard.Web.Helpers
                 cssClass = "notice";
             else if (messageType == ViewDataKeys.GlobalMessages.Success)
                 cssClass = "success";
-            
+
             TagBuilder tag = new TagBuilder("div");
             tag.AddCssClass(cssClass);
             tag.AddCssClass("global_message");

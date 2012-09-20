@@ -6,7 +6,7 @@ namespace mesoBoard.Data
     {
         public bool ToBool()
         {
-            if(this.Type != "bool")
+            if (this.Type != "bool")
                 throw new InvalidOperationException("The configuration type must be 'bool' in the database to run this method");
 
             return bool.Parse(this.Value);
@@ -47,6 +47,5 @@ namespace mesoBoard.Data
         {
             return this.Value;
         }
-        
     }
 }

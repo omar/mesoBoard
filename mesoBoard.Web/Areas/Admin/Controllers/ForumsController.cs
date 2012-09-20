@@ -1,25 +1,24 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using mesoBoard.Common;
 using mesoBoard.Data;
-using mesoBoard.Services;
 using mesoBoard.Framework.Core;
+using mesoBoard.Services;
 using mesoBoard.Web.Areas.Admin.ViewModels;
-using System.Collections.Generic;
 
 namespace mesoBoard.Web.Areas.Admin.Controllers
 {
     public class ForumsController : BaseAdminController
     {
-        IRepository<Category> _categoryRepository;
-        IRepository<Forum> _forumRepository;
-        ForumServices _forumServices;
-        IRepository<Role> _roleRepository;
-        IRepository<ForumPermission> _forumPermissionRepository;
-        IRepository<Attachment> _attachmentRepository;
-        FileServices _fileServices;
-        CategoryServices _categoryServices;
-
+        private IRepository<Category> _categoryRepository;
+        private IRepository<Forum> _forumRepository;
+        private ForumServices _forumServices;
+        private IRepository<Role> _roleRepository;
+        private IRepository<ForumPermission> _forumPermissionRepository;
+        private IRepository<Attachment> _attachmentRepository;
+        private FileServices _fileServices;
+        private CategoryServices _categoryServices;
 
         public ForumsController(
             IRepository<Category> categoryRepository,
@@ -53,7 +52,7 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
             var attachments = _attachmentRepository.Where(item => item.Post.Thread.ForumID == ForumID);
             _fileServices.DeleteAttachments(attachments);
             _forumRepository.Delete(ForumID);
-            
+
             SetSuccess("Forum Deleted");
             return RedirectToAction("Forums");
         }
@@ -183,7 +182,7 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
                     ModelState.AddModelError("CategoryID", "Category does not exist.");
             }
 
-            if(IsModelValidAndPersistErrors())
+            if (IsModelValidAndPersistErrors())
             {
                 Forum forum = _forumRepository.Get(model.ForumID);
                 forum.Name = model.Name;
@@ -205,7 +204,7 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
                 _forumServices.ChangeForumOrder(ForumID.Value, CategoryID, Direction);
             else
                 _forumServices.ChangeCategoryOrder(CategoryID, Direction);
-            
+
             SetSuccess("Order Changed");
             return RedirectToAction("Forums");
         }
@@ -310,6 +309,5 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
 
             return RedirectToSelf(new { ForumPermissionID = model.ForumPermissionID });
         }
-
     }
 }

@@ -73,7 +73,6 @@ namespace mesoBoard.Web.Helpers
 
             UrlHelper url = new UrlHelper(html.ViewContext.RequestContext);
 
-
             string src = string.Format("~/Images/Ranks/{0}", rank.Image);
 
             TagBuilder image = new TagBuilder("img");

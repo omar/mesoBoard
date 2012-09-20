@@ -16,7 +16,6 @@ namespace mesoBoard.Framework.Core
     // Modified for mesoBoard
     //
 
-
     /// <summary>
     /// Provides a flexible <see cref="WebFormViewEngine" /> for adding theming capabilities to your views.
     /// You have the option of using a theme to override only what you need, whether that's CSS, Javascript,
@@ -27,6 +26,7 @@ namespace mesoBoard.Framework.Core
     {
         // format is ":ViewCacheEntry:{cacheType}:{prefix}:{name}:{controllerName}:{areaName}:{themeName}"
         private const string CacheKeyFormat = ":ViewCacheEntry:{0}:{1}:{2}:{3}:{4}:{5}";
+
         private const string CacheKeyPrefixMaster = "Master";
         private const string CacheKeyPrefixPartial = "Partial";
         private const string CacheKeyPrefixView = "View";
@@ -67,7 +67,6 @@ namespace mesoBoard.Framework.Core
                 "~/Plugins/{4}/Views/Shared/{0}.cshtml",
             };
 
-
             PartialViewLocationFormats = ViewLocationFormats;
             AreaPartialViewLocationFormats = AreaViewLocationFormats;
         }
@@ -84,7 +83,7 @@ namespace mesoBoard.Framework.Core
             }
 
             SetTheme(controllerContext);
-            
+
             string[] viewLocationsSearched;
             string[] masterLocationsSearched;
 
@@ -180,13 +179,12 @@ namespace mesoBoard.Framework.Core
 
             if (controllerContext.HttpContext.Items.Contains(HttpContextItemKeys.PluginFolder))
                 pluginFolder = (string)controllerContext.HttpContext.Items[HttpContextItemKeys.PluginFolder];
-                
 
             for (var i = 0; i < locations.Count; i++)
             {
                 var location = locations[i];
                 var virtualPath = "";
-                virtualPath = location.Format(name, controllerName, areaName, Theme, pluginFolder);                
+                virtualPath = location.Format(name, controllerName, areaName, Theme, pluginFolder);
 
                 if (FileExists(controllerContext, virtualPath))
                 {
@@ -267,7 +265,6 @@ namespace mesoBoard.Framework.Core
             public AreaAwareViewLocation(string virtualPathFormatString)
                 : base(virtualPathFormatString)
             {
-
             }
 
             public override string Format(string viewName, string controllerName, string areaName, string themeName, string pluginName = "")
@@ -308,5 +305,4 @@ namespace mesoBoard.Framework.Core
             return GetAreaName(routeData.Route);
         }
     }
-
 }

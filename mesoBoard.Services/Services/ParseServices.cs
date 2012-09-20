@@ -4,20 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Web.Mvc;
 using mesoBoard.Common;
 using mesoBoard.Data;
-using System.Web.Mvc;
 
 namespace mesoBoard.Services
 {
     public class ParseServices : BaseService
     {
-        string _bbCodePattern = @"\[(\w+)\b([^\]]*)\](.*?)\[/\1\]";
-        IRepository<BBCode> _bbCodeRepository;
-        IRepository<Smiley> _smilieRepository;
+        private string _bbCodePattern = @"\[(\w+)\b([^\]]*)\](.*?)\[/\1\]";
+        private IRepository<BBCode> _bbCodeRepository;
+        private IRepository<Smiley> _smilieRepository;
 
         public ParseServices(
-            IRepository<BBCode> bbCodeRepository, 
+            IRepository<BBCode> bbCodeRepository,
             IRepository<Smiley> smilieRepository,
             IUnitOfWork unitOfWork)
             : base(unitOfWork)

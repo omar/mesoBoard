@@ -1,21 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using mesoBoard.Common;
 using mesoBoard.Data;
-using System;
 
 namespace mesoBoard.Services
 {
-    public class ForumServices : BaseService 
+    public class ForumServices : BaseService
     {
-        IRepository<Thread> _threadRepository;
-        IRepository<Category> _categoryRepository;
-        IRepository<Post> _postRepository;
-        IRepository<Forum> _forumRepository;
-        ThreadServices _threadServices;
-        IRepository<ThreadViewStamp> _threadViewStampRepository;
-        PermissionServices _permissionServices;
-        IRepository<User> _userRepository;
+        private IRepository<Thread> _threadRepository;
+        private IRepository<Category> _categoryRepository;
+        private IRepository<Post> _postRepository;
+        private IRepository<Forum> _forumRepository;
+        private ThreadServices _threadServices;
+        private IRepository<ThreadViewStamp> _threadViewStampRepository;
+        private PermissionServices _permissionServices;
+        private IRepository<User> _userRepository;
 
         public ForumServices(
             IRepository<Thread> threads,
@@ -106,6 +106,7 @@ namespace mesoBoard.Services
                     displaced = categories.ElementAt(categoryIndex + 1);
                     displaced.Order--;
                     break;
+
                 case -1:
                     displaced = categories.ElementAt(categoryIndex - 1);
                     displaced.Order++;

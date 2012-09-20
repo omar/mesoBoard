@@ -4,19 +4,19 @@ using System.Web.Mvc;
 using mesoBoard.Common;
 using mesoBoard.Data;
 using mesoBoard.Framework.Core;
-using mesoBoard.Web.Areas.Admin.ViewModels;
 using mesoBoard.Services;
+using mesoBoard.Web.Areas.Admin.ViewModels;
 
 namespace mesoBoard.Web.Areas.Admin.Controllers
 {
     public class RolesController : BaseAdminController
     {
-        RoleServices _roleServices;
-        IRepository<Role> _roleRepository;
-        IRepository<InRole> _inRoleRepository;
-        IRepository<User> _userRepository;
-        IRepository<Rank> _rankRepository;
-        User _currentUser;
+        private RoleServices _roleServices;
+        private IRepository<Role> _roleRepository;
+        private IRepository<InRole> _inRoleRepository;
+        private IRepository<User> _userRepository;
+        private IRepository<Rank> _rankRepository;
+        private User _currentUser;
 
         public RolesController(
             RoleServices roleServices,
@@ -91,7 +91,6 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
             return RedirectToAction("RoleDetails", new { RoleID = RoleID });
         }
 
-
         public ActionResult RemoveFromRole(int UserID, int RoleID)
         {
             InRole inRole = _inRoleRepository.First(item => item.UserID.Equals(UserID) && item.RoleID.Equals(RoleID));
@@ -105,7 +104,6 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
                 SetSuccess("User removed from role");
             }
             return RedirectToAction("RoleDetails", new { RoleID = RoleID });
-
         }
 
         public ActionResult CreateRole(RoleViewModel model)
@@ -116,7 +114,7 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
                     SetError("Role name is a duplicate");
             }
 
-            if(IsModelValidAndPersistErrors())
+            if (IsModelValidAndPersistErrors())
             {
                 Role role = new Role()
                 {

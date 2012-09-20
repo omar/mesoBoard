@@ -86,7 +86,7 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
                     ModelState.AddModelError("Code", "A smiley with this code already exists.");
             }
 
-            if(IsModelValidAndPersistErrors())
+            if (IsModelValidAndPersistErrors())
             {
                 Smiley smiley = new Smiley()
                 {

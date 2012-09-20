@@ -1,13 +1,13 @@
 ﻿using System;
+using System.IO;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 using mesoBoard.Common;
 using mesoBoard.Data;
+using mesoBoard.Services;
 using Ninject;
 using Ninject.Infrastructure;
-using System.IO;
-using System.Web.Mvc;
-using mesoBoard.Services;
 
 namespace mesoBoard.Web.Helpers
 {
@@ -16,15 +16,15 @@ namespace mesoBoard.Web.Helpers
         //
         // CAPTCHA code taken from "Pro ASP.NET MVC Framework" by Steven Sanderson
         // Apress publishing
-        //  
+        //
         // Modified for mesoBoard
 
         public static IHtmlString Captcha(this HtmlHelper html, string hiddenFormFieldName = "captcha_code")
         {
             string challengeGuid = Guid.NewGuid().ToString();
-            
+
             html.ViewContext.HttpContext.Session[SessionKeys.CaptchaSessionPrefix + challengeGuid] = MakeRandomSolution();
-            
+
             var urlHelper = new UrlHelper(html.ViewContext.RequestContext);
             string url = urlHelper.Action("Render", "Captcha", new { challengeGuid });
 
@@ -86,7 +86,7 @@ namespace mesoBoard.Web.Helpers
 
         public static MvcHtmlString ThemeImage(this HtmlHelper html, string themeImageFileName)
         {
-            return html.Image("~/Themes/"+html.ThemeFolder() + "/Images/" + themeImageFileName);
+            return html.Image("~/Themes/" + html.ThemeFolder() + "/Images/" + themeImageFileName);
         }
 
         public static MvcHtmlString ThemeImage(this HtmlHelper html, string themeImageFileName, string altText)
@@ -109,11 +109,11 @@ namespace mesoBoard.Web.Helpers
             return new string(buf);
         }
 
-        public static IHtmlString Label(this HtmlHelper html, string forControl, string innerHTML, string cssClass="")
+        public static IHtmlString Label(this HtmlHelper html, string forControl, string innerHTML, string cssClass = "")
         {
             TagBuilder tag = new TagBuilder("label");
             tag.Attributes.Add("for", forControl);
-            if(!string.IsNullOrWhiteSpace(cssClass))
+            if (!string.IsNullOrWhiteSpace(cssClass))
                 tag.Attributes.Add("class", cssClass);
             tag.InnerHtml = innerHTML;
             return tag.ToString().ToHtmlString();
@@ -148,7 +148,7 @@ namespace mesoBoard.Web.Helpers
             }
 
             imgtag.Attributes.Add("src", src);
-            
+
             return imgtag.ToString().ToHtmlString();
         }
 
@@ -169,7 +169,7 @@ namespace mesoBoard.Web.Helpers
             if (!string.IsNullOrWhiteSpace(breadCrumb))
                 if (link.Text == breadCrumb)
                     linktag.AddCssClass("selected");
-            
+
             if (link.RouteValue != null)
                 linktag.Attributes.Add("href", url.RouteUrl(link.RouteValue));
             else
@@ -183,12 +183,11 @@ namespace mesoBoard.Web.Helpers
         {
             UrlHelper url = new UrlHelper(html.ViewContext.RequestContext);
             string src = Path.Combine(DirectoryPaths.Ranks, source);
-            
+
             TagBuilder imageTag = new TagBuilder("img");
             imageTag.MergeAttribute("src", url.Content(src));
 
             return MvcHtmlString.Create(imageTag.ToString());
         }
-
     }
 }

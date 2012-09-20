@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Collections;
+using System.Linq;
 
 namespace mesoBoard.Common
 {
@@ -34,6 +34,5 @@ namespace mesoBoard.Common
 
         public static PermissionCollection<AttachmentPermissionValue, AttachmentPermission> Class =
             new PermissionCollection<AttachmentPermissionValue, AttachmentPermission>(List.ToList());
-
     }
 }

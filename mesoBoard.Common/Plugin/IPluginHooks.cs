@@ -1,5 +1,4 @@
-﻿
-namespace mesoBoard.Common
+﻿namespace mesoBoard.Common
 {
     public interface IPluginHooks
     {

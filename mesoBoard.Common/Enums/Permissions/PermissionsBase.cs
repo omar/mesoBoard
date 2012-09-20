@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Globalization;
 
 namespace mesoBoard.Common
 {
     public class PermissionBase<T> where T : struct, IConvertible
     {
         public PermissionBase() { }
+
         public PermissionBase(T value, string name)
         {
             Name = name;
@@ -16,8 +17,10 @@ namespace mesoBoard.Common
             Type = value;
         }
 
-        public T Type {get; set;}
+        public T Type { get; set; }
+
         public int Value { get; set; }
+
         public string Name { get; set; }
     }
 }

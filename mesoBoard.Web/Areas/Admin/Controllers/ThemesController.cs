@@ -1,8 +1,8 @@
 ﻿using System.Web.Mvc;
 using mesoBoard.Common;
 using mesoBoard.Data;
-using mesoBoard.Services;
 using mesoBoard.Framework.Core;
+using mesoBoard.Services;
 using mesoBoard.Web.Areas.Admin.ViewModels;
 
 namespace mesoBoard.Web.Areas.Admin.Controllers
@@ -104,7 +104,7 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult EditTheme(ThemeViewModel model)
         {
-            if(IsModelValidAndPersistErrors())
+            if (IsModelValidAndPersistErrors())
             {
                 Theme theme = _themeRepository.Get(model.ThemeID);
                 theme.DisplayName = model.DisplayName;

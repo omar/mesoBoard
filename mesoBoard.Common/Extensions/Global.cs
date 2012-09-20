@@ -26,13 +26,13 @@ namespace mesoBoard
 
         public static string SeperateWords(this string str)
         {
-            if(string.IsNullOrWhiteSpace(str))
+            if (string.IsNullOrWhiteSpace(str))
                 return str;
 
             string output = "";
             char[] chars = str.ToCharArray();
 
-            for(int i = 0; i < chars.Length; i++)
+            for (int i = 0; i < chars.Length; i++)
             {
                 if (i == chars.Length - 1 || i == 0 || char.IsWhiteSpace(chars[i]))
                 {

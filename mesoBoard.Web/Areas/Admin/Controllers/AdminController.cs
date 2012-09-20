@@ -1,20 +1,20 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using System.Web.Mvc;
 using mesoBoard.Common;
 using mesoBoard.Data;
 using mesoBoard.Framework.Core;
 using mesoBoard.Web.Areas.Admin.Models;
-using System.IO;
-using System.Reflection;
-using System;
 
 namespace mesoBoard.Web.Areas.Admin.Controllers
 {
     public partial class AdminController : BaseAdminController
     {
-        IRepository<User> _userRepository;
-        IRepository<ReportedPost> _reportedPostRepository;
-        IRepository<Plugin> _pluginRepository;
+        private IRepository<User> _userRepository;
+        private IRepository<ReportedPost> _reportedPostRepository;
+        private IRepository<Plugin> _pluginRepository;
 
         public AdminController(
             IRepository<User> userRepository,

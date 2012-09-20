@@ -11,13 +11,15 @@ namespace mesoBoard.Data
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class PasswordResetRequest
     {
         public int UserID { get; set; }
+
         public System.DateTime Date { get; set; }
+
         public string Token { get; set; }
-    
+
         public virtual User User { get; set; }
     }
 }

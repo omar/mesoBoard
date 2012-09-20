@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using System.ComponentModel.DataAnnotations;
 using mesoBoard.Services;
 
-namespace mesoBoard.Web.Areas.Admin.ViewModels 
+namespace mesoBoard.Web.Areas.Admin.ViewModels
 {
     public class RankViewModel : IValidatableObject
     {
@@ -28,7 +28,6 @@ namespace mesoBoard.Web.Areas.Admin.ViewModels
         {
             if (!IsRoleRank && PostCount == 0)
                 yield return new ValidationResult("A post count is required for non-role ranks.", new[] { "PostCount" });
-
         }
     }
 }

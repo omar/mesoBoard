@@ -31,7 +31,7 @@ namespace mesoBoard.Data
 
         public bool IsType(ThreadType threadType)
         {
-                return this.Type == (int)threadType;
+            return this.Type == (int)threadType;
         }
 
         public Post FirstPost
@@ -49,7 +49,6 @@ namespace mesoBoard.Data
             {
                 var lastPost = this.Posts.OrderByDescending(item => item.Date).First();
                 return lastPost;
-
             }
         }
 

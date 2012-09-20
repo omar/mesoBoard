@@ -11,11 +11,13 @@ namespace mesoBoard.Data
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class OnlineGuest
     {
         public int OnlineGuestID { get; set; }
+
         public string IP { get; set; }
+
         public System.DateTime Date { get; set; }
     }
 }

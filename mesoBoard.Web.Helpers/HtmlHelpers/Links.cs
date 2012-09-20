@@ -23,7 +23,6 @@ namespace mesoBoard.Web.Helpers
             string controller = (string)html.ViewContext.RouteData.Values["controller"];
             var routeValues = html.ViewContext.RouteData.Values;
 
-
             if (html.ViewData[ViewDataKeys.TopBreadCrumb] == null || string.IsNullOrWhiteSpace((string)html.ViewData[ViewDataKeys.TopBreadCrumb]))
             {
                 return html.ActionLink(controller.SeperateWords(), "Index", routeValues, new RouteValueDictionary(htmlAttributes));
@@ -31,7 +30,7 @@ namespace mesoBoard.Web.Helpers
             else
             {
                 string text = (string)html.ViewData[ViewDataKeys.TopBreadCrumb];
-                return html.ActionLink(text,"Index", routeValues, new RouteValueDictionary(htmlAttributes));
+                return html.ActionLink(text, "Index", routeValues, new RouteValueDictionary(htmlAttributes));
             }
         }
 
@@ -47,7 +46,7 @@ namespace mesoBoard.Web.Helpers
             }
             else
             {
-                string text = (string)html.ViewData[ViewDataKeys.BreadCrumb] ;
+                string text = (string)html.ViewData[ViewDataKeys.BreadCrumb];
                 return html.ActionLink(text, action, routeValues, new RouteValueDictionary(htmlAttributes));
             }
         }

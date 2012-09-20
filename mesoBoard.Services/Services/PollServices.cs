@@ -6,11 +6,11 @@ using mesoBoard.Data;
 
 namespace mesoBoard.Services
 {
-    public class PollServices : BaseService 
+    public class PollServices : BaseService
     {
-        IRepository<PollVote> _pollVoteRepository;
-        IRepository<Poll> _pollRepository;
-        IRepository<Thread> _threadRepository;
+        private IRepository<PollVote> _pollVoteRepository;
+        private IRepository<Poll> _pollRepository;
+        private IRepository<Thread> _threadRepository;
 
         public PollServices(
             IRepository<PollVote> pollVoteRepository,
@@ -32,7 +32,7 @@ namespace mesoBoard.Services
 
         public void DeletePoll(int PollID)
         {
-            _pollRepository.Delete(PollID); 
+            _pollRepository.Delete(PollID);
             Thread thread = _threadRepository.Get(PollID);
             thread.HasPoll = false;
             _threadRepository.Update(thread);
@@ -64,22 +64,21 @@ namespace mesoBoard.Services
 
         public void CreatePoll(string pollQuestion, string[] pollOptions, int threadID)
         {
-            System.Data.Objects.DataClasses.EntityCollection<PollOption>  toadd = new System.Data.Objects.DataClasses.EntityCollection<PollOption>();
+            System.Data.Objects.DataClasses.EntityCollection<PollOption> toadd = new System.Data.Objects.DataClasses.EntityCollection<PollOption>();
 
             foreach (string po in pollOptions)
             {
                 toadd.Add(new PollOption
                 {
-                    Text =  po,
+                    Text = po,
                     PollID = threadID
                 });
-                    
             }
 
             Poll ThePoll = new Poll
             {
                 PollOptions = toadd,
-                Question =  pollQuestion,
+                Question = pollQuestion,
                 PollID = threadID
             };
 

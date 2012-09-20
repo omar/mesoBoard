@@ -6,9 +6,9 @@ using mesoBoard.Data;
 
 namespace mesoBoard.Services
 {
-    public class FileTypeServices : BaseService 
+    public class FileTypeServices : BaseService
     {
-        IRepository<FileType> FileTypes;
+        private IRepository<FileType> FileTypes;
 
         public FileTypeServices(
             IRepository<FileType> fileTypes,

@@ -13,12 +13,12 @@ namespace mesoBoard.Services
 {
     public class FileServices : BaseService
     {
-        IRepository<Attachment> _attachmentRepository;
-        IRepository<FileType> _fileTypeRepository;
+        private IRepository<Attachment> _attachmentRepository;
+        private IRepository<FileType> _fileTypeRepository;
 
         public FileServices(
-            IRepository<Attachment> attachmentRepository, 
-            IRepository<FileType> fileTypeRepository, 
+            IRepository<Attachment> attachmentRepository,
+            IRepository<FileType> fileTypeRepository,
             IRepository<UserProfile> userProfileRepository,
             IUnitOfWork unitOfWork)
             : base(unitOfWork)
@@ -145,7 +145,7 @@ namespace mesoBoard.Services
 
             int maxHeight = SiteConfig.AvatarHeight.ToInt();
             int maxWidth = SiteConfig.AvatarWidth.ToInt();
-            
+
             using (Image ravatar = Image.FromStream(avatar.InputStream, true, true))
             {
                 if (ravatar.Width > maxWidth || ravatar.Height > maxHeight)

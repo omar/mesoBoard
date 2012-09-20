@@ -1,20 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Security;
 using mesoBoard.Common;
 using mesoBoard.Data;
-using mesoBoard.Services;
 using mesoBoard.Framework.Core;
+using mesoBoard.Services;
 using Ninject;
+using Ninject.Infrastructure;
 using Ninject.Modules;
 using Ninject.Web.Mvc;
-using System.Collections.Generic;
-using System.Web.Security;
-using Ninject.Infrastructure;
 
 namespace mesoBoard.Web
 {
@@ -69,11 +69,11 @@ namespace mesoBoard.Web
             string pluginsPath = Server.MapPath("~/Plugins");
             string currentShadowCopyDirectories = AppDomain.CurrentDomain.SetupInformation.ShadowCopyDirectories;
 
-
-            // SetShadowCopyPath() doesn't work in medium trust need 
+            // SetShadowCopyPath() doesn't work in medium trust need
             // to find another method of making sure .DLLs aren't locked
 #pragma warning disable 0618
-            // Shadow copies all plugin assemblies to allow overwriting of .DLL files 
+
+            // Shadow copies all plugin assemblies to allow overwriting of .DLL files
             AppDomain.CurrentDomain.SetShadowCopyPath(currentShadowCopyDirectories + ";" + pluginsPath);
 #pragma warning restore 0618
 
@@ -104,7 +104,6 @@ namespace mesoBoard.Web
 
             if (routeCollection.Count > 0)
                 StaticResources.Insert(routeCollection);
-
         }
 
         public void Application_AuthenticateRequest(object sender, EventArgs e)

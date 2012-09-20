@@ -7,7 +7,7 @@ namespace mesoBoard.Services
 {
     public class ThreadImageServices : BaseService
     {
-        public ThreadImageServices(IUnitOfWork unitOfWork) 
+        public ThreadImageServices(IUnitOfWork unitOfWork)
             : base(unitOfWork)
         {
         }
@@ -16,8 +16,7 @@ namespace mesoBoard.Services
         {
             string[] validExtensions = new string[] { ".gif", ".png", ".jpg", ".jpeg" };
             DirectoryInfo di = new DirectoryInfo(HostingEnvironment.MapPath("~/Images/ThreadImages"));
-            return di.GetFiles().Select(x => x.Name).Where(x=> validExtensions.Contains(Path.GetExtension(x))).OrderBy(x => x).ToArray();
+            return di.GetFiles().Select(x => x.Name).Where(x => validExtensions.Contains(Path.GetExtension(x))).OrderBy(x => x).ToArray();
         }
-       
     }
 }

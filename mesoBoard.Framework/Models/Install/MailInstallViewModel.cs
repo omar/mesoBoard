@@ -13,7 +13,7 @@ namespace mesoBoard.Framework.Models
         [Display(Name = "Port number")]
         [DefaultValue(25)]
         public int PortNumber { get; set; }
-        
+
         [DefaultValue(false)]
         [Display(Name = "Use default credentials")]
         public bool MailUseDefaultCredentials { get; set; }

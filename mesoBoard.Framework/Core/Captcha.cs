@@ -10,7 +10,7 @@ namespace mesoBoard.Framework
         //
         // CAPTCHA code taken from "Pro ASP.NET MVC Framework" by Steven Sanderson
         // Apress publishing
-        //  
+        //
         // Modified for mesoBoard
 
         private static int ImageWidth
@@ -20,6 +20,7 @@ namespace mesoBoard.Framework
                 return SiteConfig.CaptchaWidth.ToInt();
             }
         }
+
         private static int ImageHeight
         {
             get
@@ -27,6 +28,7 @@ namespace mesoBoard.Framework
                 return SiteConfig.CaptchaHeight.ToInt();
             }
         }
+
         private static string FontFamily
         {
             get
@@ -34,6 +36,7 @@ namespace mesoBoard.Framework
                 return SiteConfig.CaptchaFontFamily.Value;
             }
         }
+
         private static Brush Foreground
         {
             get
@@ -41,6 +44,7 @@ namespace mesoBoard.Framework
                 return new SolidBrush(ColorTranslator.FromHtml(SiteConfig.CaptchaFontColor.Value));
             }
         }
+
         private static Color Background
         {
             get
@@ -53,9 +57,10 @@ namespace mesoBoard.Framework
         {
             get
             {
-                return SiteConfig.CaptchaWarpFactor.ToInt(); 
+                return SiteConfig.CaptchaWarpFactor.ToInt();
             }
         }
+
         private static Double xAmp = WarpFactor * ImageWidth / 100;
         private static Double yAmp = WarpFactor * ImageHeight / 85;
         private static Double xFreq = 2 * Math.PI / ImageWidth;
@@ -63,7 +68,6 @@ namespace mesoBoard.Framework
 
         private static GraphicsPath DeformPath(GraphicsPath path)
         {
-
             PointF[] deformed = new PointF[path.PathPoints.Length];
             Random rng = new Random();
             Double xSeed = rng.NextDouble() * 2 * Math.PI;

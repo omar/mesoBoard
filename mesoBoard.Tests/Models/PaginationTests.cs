@@ -64,6 +64,5 @@ namespace mesoBoard.Tests.Models
                 Assert.AreEqual(i, Pagination.GetDictionary(i)["page"]);
             }
         }
-
     }
 }

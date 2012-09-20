@@ -7,9 +7,9 @@ using System.Web.Configuration;
 using System.Web.Mvc;
 using mesoBoard.Common;
 using mesoBoard.Data;
+using mesoBoard.Framework.Core;
 using mesoBoard.Services;
 using mesoBoard.Web.Areas.Admin.Models;
-using mesoBoard.Framework.Core;
 
 namespace mesoBoard.Web.Areas.Admin.Controllers
 {
@@ -98,7 +98,6 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
                             PluginGroup = details.Name
                         });
                     }
-                    
                 }
                 catch (Exception ex)
                 {

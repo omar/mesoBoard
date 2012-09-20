@@ -12,17 +12,17 @@ namespace mesoBoard.Services
 {
     public class ThreadServices : BaseService
     {
-        IRepository<Thread> _threadRepository;
-        IRepository<ThreadView> _threadViewRepository;
-        IRepository<Post> _postRepository;
-        IRepository<User> _userRepository;
-        IRepository<ThreadViewStamp> _threadViewStampRepository;
-        IRepository<Subscription> _subscriptionRepository;
-        IRepository<Attachment> _attachmentRepository;
-        PollServices _pollServices;
-        FileServices _fileServices;
-        ParseServices _parseServices;
-        RoleServices _roleServices;
+        private IRepository<Thread> _threadRepository;
+        private IRepository<ThreadView> _threadViewRepository;
+        private IRepository<Post> _postRepository;
+        private IRepository<User> _userRepository;
+        private IRepository<ThreadViewStamp> _threadViewStampRepository;
+        private IRepository<Subscription> _subscriptionRepository;
+        private IRepository<Attachment> _attachmentRepository;
+        private PollServices _pollServices;
+        private FileServices _fileServices;
+        private ParseServices _parseServices;
+        private RoleServices _roleServices;
 
         public ThreadServices(
             IRepository<Thread> threadRepository,
@@ -91,13 +91,13 @@ namespace mesoBoard.Services
 
             ThreadViewStamp viewStamp = _threadViewStampRepository.First(item => item.UserID == userID && item.ThreadID == threadID);
 
-            if(viewStamp == null)
+            if (viewStamp == null)
             {
                 _threadViewStampRepository.Add(new ThreadViewStamp()
                 {
                     Date = DateTime.UtcNow,
                     UserID = userID,
-                    ThreadID  = threadID
+                    ThreadID = threadID
                 });
             }
             _unitOfWork.Commit();
@@ -134,9 +134,9 @@ namespace mesoBoard.Services
                 Text = message,
                 ParsedText = parsedMessage
             };
-                        
+
             thread.Posts.Add(firstPost);
-                    
+
             if (!string.IsNullOrWhiteSpace(pollText))
             {
                 Poll poll = new Poll
@@ -156,7 +156,6 @@ namespace mesoBoard.Services
                     });
                 }
                 thread.HasPoll = true;
-                
             }
 
             if (files != null)
@@ -290,7 +289,6 @@ namespace mesoBoard.Services
                 return DateTime.Compare(lastPost.Date, FoundView.Date) > 0;
             else
                 return DateTime.Compare(lastPost.Date, user.LastLogoutDate) > 0;
-
         }
 
         public string[] GetThreadImages()

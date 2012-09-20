@@ -16,9 +16,9 @@ namespace mesoBoard.Web.Helpers
             StringBuilder str = new StringBuilder();
 
             string javascript = "<script language='javascript' src='{0}' ></script>";
-            
+
             str.AppendLine(string.Format(javascript, Url.ThemeContent("Content/SyntaxHighlighter/Scripts/shCore.js")));
-            
+
             foreach (var l in langs)
             {
                 string url = string.Format(Url.ThemeContent("Content/SyntaxHighlighter/Scripts/shBrush{0}.js"), l.ToString());
@@ -42,7 +42,6 @@ namespace mesoBoard.Web.Helpers
             }
 
             return SyntaxHighlightingScripts(html, langs.ToArray());
-
         }
 
         public static decimal PercentOfVotes(this HtmlHelper html, int voteCount, int totalVotes)
@@ -63,17 +62,16 @@ namespace mesoBoard.Web.Helpers
             TagBuilder tag = new TagBuilder("div");
             tag.AddCssClass("vote_bar");
             tag.InnerHtml = "&nbsp;";
-            tag.Attributes.Add("style", "width:" + percent .ToString() + "%");
-            
+            tag.Attributes.Add("style", "width:" + percent.ToString() + "%");
+
             return new HtmlString(tag.ToString());
         }
 
         public static IHtmlString FriendlyFileSize(this HtmlHelper html, int fileSizeBytes)
         {
-
             string unit = "bytes";
             double ratio = fileSizeBytes;
-            if(fileSizeBytes < 1024)
+            if (fileSizeBytes < 1024)
             {
                 unit = "bytes";
                 ratio = fileSizeBytes;
@@ -102,7 +100,7 @@ namespace mesoBoard.Web.Helpers
             if (idValue == 0)
                 return MvcHtmlString.Create("Create");
             else
-                return MvcHtmlString.Create("Save Changes");                
+                return MvcHtmlString.Create("Save Changes");
         }
     }
 }

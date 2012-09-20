@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using mesoBoard.Common;
 using mesoBoard.Data;
-using System.Linq;
 
 namespace mesoBoard.Services
 {
     public class ThemeServices : BaseService
     {
-        IRepository<Theme> _themeRepository;
-        IRepository<Config> _configRepository;
+        private IRepository<Theme> _themeRepository;
+        private IRepository<Config> _configRepository;
 
         public ThemeServices(
-            IRepository<Theme> themeRepository, 
+            IRepository<Theme> themeRepository,
             IRepository<Config> configRepository,
             IUnitOfWork unitOfWork)
             : base(unitOfWork)

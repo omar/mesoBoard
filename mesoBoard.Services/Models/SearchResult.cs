@@ -1,11 +1,13 @@
-﻿
-namespace mesoBoard.Services
+﻿namespace mesoBoard.Services
 {
     public class SearchResult
     {
         public string ThreadTitle { get; set; }
+
         public int PostID { get; set; }
+
         public int ThreadID { get; set; }
+
         public string Text { get; set; }
 
         public SearchResult(string title, int threadID, string text, int postID)

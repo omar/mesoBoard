@@ -13,44 +13,70 @@ namespace mesoBoard.Data
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     using System.Data.Objects;
-    
+
     public partial class mbEntities : DbContext
     {
         public mbEntities()
             : base("name=mbEntities")
         {
         }
-    
+
         public DbSet<Attachment> Attachments { get; set; }
+
         public DbSet<BBCode> BBCodes { get; set; }
+
         public DbSet<Category> Categories { get; set; }
+
         public DbSet<Config> Configs { get; set; }
+
         public DbSet<FileType> FileTypes { get; set; }
+
         public DbSet<ForumPermission> ForumPermissions { get; set; }
+
         public DbSet<Forum> Forums { get; set; }
+
         public DbSet<InRole> InRoles { get; set; }
+
         public DbSet<OnlineGuest> OnlineGuests { get; set; }
+
         public DbSet<OnlineUser> OnlineUsers { get; set; }
+
         public DbSet<PasswordResetRequest> PasswordResetRequests { get; set; }
+
         public DbSet<PluginConfig> PluginConfigs { get; set; }
+
         public DbSet<Plugin> Plugins { get; set; }
+
         public DbSet<PollOption> PollOptions { get; set; }
+
         public DbSet<Poll> Polls { get; set; }
+
         public DbSet<PollVote> PollVotes { get; set; }
+
         public DbSet<Post> Posts { get; set; }
+
         public DbSet<Rank> Ranks { get; set; }
+
         public DbSet<ReportedPost> ReportedPosts { get; set; }
+
         public DbSet<Role> Roles { get; set; }
+
         public DbSet<Smiley> Smileys { get; set; }
+
         public DbSet<Theme> Themes { get; set; }
+
         public DbSet<ThreadView> ThreadViews { get; set; }
+
         public DbSet<ThreadViewStamp> ThreadViewStamps { get; set; }
+
         public DbSet<Message> Messages { get; set; }
+
         public DbSet<User> Users { get; set; }
+
         public DbSet<UserProfile> UserProfiles { get; set; }
+
         public DbSet<Thread> Threads { get; set; }
+
         public DbSet<Subscription> Subscriptions { get; set; }
-    
-        
     }
 }

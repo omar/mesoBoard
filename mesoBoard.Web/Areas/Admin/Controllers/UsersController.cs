@@ -1,11 +1,11 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 using mesoBoard.Common;
 using mesoBoard.Data;
-using mesoBoard.Services;
 using mesoBoard.Framework.Core;
-using System.Collections.Generic;
-using System.Linq;
 using mesoBoard.Framework.Models;
+using mesoBoard.Services;
 
 namespace mesoBoard.Web.Areas.Admin.Controllers
 {
@@ -46,9 +46,11 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
                 case "Status":
                     users = users.OrderBy(item => item.ActivationCode);
                     break;
+
                 case "Email":
                     users = users.OrderBy(item => item.Email);
                     break;
+
                 case "Username":
                 default:
                     users = users.OrderBy(item => item.Username);

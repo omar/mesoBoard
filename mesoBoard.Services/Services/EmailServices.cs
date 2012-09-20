@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net.Mail;
 using System.Web.UI.WebControls;
 using mesoBoard.Common;
 using mesoBoard.Data;
-using System;
-
 
 namespace mesoBoard.Services
 {
@@ -31,11 +30,11 @@ namespace mesoBoard.Services
         }
 
         private void SendEmail(
-            string toEmail, 
-            string fromEmail, 
-            string subject, 
-            string template, 
-            ListDictionary replacements, 
+            string toEmail,
+            string fromEmail,
+            string subject,
+            string template,
+            ListDictionary replacements,
             bool isHtml = true)
         {
             string boardUrl = SiteConfig.BoardURL.Value;
@@ -63,14 +62,12 @@ namespace mesoBoard.Services
             }
             catch
             {
-
             }
         }
 
         public void WelcomeEmail(User user)
         {
             ListDictionary replacements = new ListDictionary();
-
 
             replacements.Add("{USERNAME}", user.Username);
 
@@ -86,7 +83,6 @@ namespace mesoBoard.Services
         {
             ListDictionary replacements = new ListDictionary();
 
-
             replacements.Add("{USERNAME}", user.Username);
             replacements.Add("{CONFIRM_URL}", confirm_url);
 
@@ -101,7 +97,6 @@ namespace mesoBoard.Services
         public void ResendActivationCode(User user, string confirm_url)
         {
             ListDictionary replacements = new ListDictionary();
-
 
             replacements.Add("{USERNAME}", user.Username);
             replacements.Add("{CONFIRM_URL}", confirm_url);
@@ -132,7 +127,6 @@ namespace mesoBoard.Services
             replacements.Add("{POST_URL}", PostURL);
             replacements.Add("{BOARD_URL}", SiteConfig.BoardURL.Value);
             replacements.Add("{BOARD_NAME}", SiteConfig.BoardName.Value);
-             
 
             System.Web.UI.Control ctrl = new System.Web.UI.Control { ID = "Something" };
 
@@ -176,7 +170,6 @@ namespace mesoBoard.Services
         {
             ListDictionary replacements = new ListDictionary();
 
-
             replacements.Add("{USERNAME}", user.Username);
             replacements.Add("{EMAIL}", user.Email);
 
@@ -194,7 +187,6 @@ namespace mesoBoard.Services
 
             replacements.Add("{USERNAME}", user.Username);
             replacements.Add("{RESET_URL}", ResetURL);
-
 
             SendEmail(
                 user.Email,

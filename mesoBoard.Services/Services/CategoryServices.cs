@@ -7,7 +7,7 @@ namespace mesoBoard.Services
 {
     public class CategoryServices : BaseService
     {
-        IRepository<Category> _categoryRepository;
+        private IRepository<Category> _categoryRepository;
 
         public CategoryServices(
             IRepository<Category> categoryRepository,

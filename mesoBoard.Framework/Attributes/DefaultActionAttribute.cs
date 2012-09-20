@@ -7,7 +7,7 @@ namespace mesoBoard.Framework
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public sealed class DefaultActionAttribute : ActionNameSelectorAttribute
     {
-        string _indexActionName = "Index";
+        private string _indexActionName = "Index";
 
         public override bool IsValidName(ControllerContext controllerContext, string actionName, MethodInfo methodInfo)
         {

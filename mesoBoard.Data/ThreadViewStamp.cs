@@ -11,15 +11,19 @@ namespace mesoBoard.Data
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class ThreadViewStamp
     {
         public int ViewID { get; set; }
+
         public int UserID { get; set; }
+
         public int ThreadID { get; set; }
+
         public System.DateTime Date { get; set; }
-    
+
         public virtual User User { get; set; }
+
         public virtual Thread Thread { get; set; }
     }
 }

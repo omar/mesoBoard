@@ -1,5 +1,4 @@
-﻿
-namespace mesoBoard
+﻿namespace mesoBoard
 {
     public static class DirectoryPaths
     {

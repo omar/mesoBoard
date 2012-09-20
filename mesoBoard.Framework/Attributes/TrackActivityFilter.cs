@@ -2,16 +2,16 @@
 using System.Web.Mvc;
 using mesoBoard.Common;
 using mesoBoard.Data;
-using mesoBoard.Services;
 using mesoBoard.Framework.Core;
+using mesoBoard.Services;
 using Ninject;
 
 namespace mesoBoard.Framework
 {
     public class TrackActivityFilter : IActionFilter
     {
-        IRepository<User> _userRepository;        
-        GlobalServices _globalServices;
+        private IRepository<User> _userRepository;
+        private GlobalServices _globalServices;
 
         public TrackActivityFilter(IRepository<User> userRepository, GlobalServices globalServices)
         {

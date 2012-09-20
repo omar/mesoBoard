@@ -9,6 +9,7 @@ namespace mesoBoard.Web.Areas.Admin.ViewModels
     public class SmiliesViewer
     {
         public IEnumerable<Smiley> Smilies { get; set; }
+
         public SmileyViewModel SmileyViewModel { get; set; }
     }
 }

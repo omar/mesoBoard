@@ -11,12 +11,13 @@ namespace mesoBoard.Data
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class OnlineUser
     {
         public int UserID { get; set; }
+
         public System.DateTime Date { get; set; }
-    
+
         public virtual User User { get; set; }
     }
 }

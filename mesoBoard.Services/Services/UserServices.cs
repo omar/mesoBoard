@@ -8,16 +8,16 @@ using mesoBoard.Data;
 
 namespace mesoBoard.Services
 {
-    public class UserServices : BaseService 
+    public class UserServices : BaseService
     {
-        IRepository<User> _userRepository;
-        IRepository<Message> _messageRepository;
-        IRepository<OnlineUser> _onlineUserRepository;
-        IRepository<OnlineGuest> _onlineGuestRepository;
-        IRepository<ThreadViewStamp> _threadViewStampRepository;
-        IRepository<UserProfile> _userProfileRepository;
-        IRepository<PasswordResetRequest> _passwordResetRequestRepository;
-        ParseServices _parseServices;
+        private IRepository<User> _userRepository;
+        private IRepository<Message> _messageRepository;
+        private IRepository<OnlineUser> _onlineUserRepository;
+        private IRepository<OnlineGuest> _onlineGuestRepository;
+        private IRepository<ThreadViewStamp> _threadViewStampRepository;
+        private IRepository<UserProfile> _userProfileRepository;
+        private IRepository<PasswordResetRequest> _passwordResetRequestRepository;
+        private ParseServices _parseServices;
 
         public UserServices(
             IRepository<User> userRepository,
@@ -88,7 +88,6 @@ namespace mesoBoard.Services
         {
             User user = GetUser(userName);
             return ValidatePassword(user, password);
-
         }
 
         public bool ValidatePassword(int userID, string password)
@@ -96,13 +95,13 @@ namespace mesoBoard.Services
             User user = GetUser(userID);
             return ValidatePassword(user, password);
         }
-        
+
         public bool ValidatePassword(User user, string password)
         {
             string hashedPassword = FormsAuthentication.HashPasswordForStoringInConfigFile(password + user.PasswordSalt, "MD5");
             return user.Password == hashedPassword;
         }
-        
+
         public bool EmailInUse(string email)
         {
             return _userRepository.First(item => item.Email.Equals(email)) != null;
@@ -205,7 +204,7 @@ namespace mesoBoard.Services
 
         public User UpdateEmail(int userID, string newEmail)
         {
-            var user= _userRepository.Get(userID);
+            var user = _userRepository.Get(userID);
             user.Email = newEmail;
             _userRepository.Update(user);
             _unitOfWork.Commit();
@@ -252,7 +251,7 @@ namespace mesoBoard.Services
         {
             UserProfile userProfile = _userProfileRepository.First(item => item.UserID == userID);
             userProfile.AlwaysShowSignature = alwaysShowSignature;
-            userProfile.Location =  location;
+            userProfile.Location = location;
             userProfile.ThemeID = themeID;
             userProfile.DefaultRole = defaultRankRole;
             userProfile.AIM = aim;
@@ -267,7 +266,6 @@ namespace mesoBoard.Services
 
         public User Register(string username, string password, string email)
         {
-
             string activationType = SiteConfig.AccountActivation.Value;
             string salt = Randoms.CreateSalt() + DateTime.UtcNow.ToString();
             string hashedPassword = FormsAuthentication.HashPasswordForStoringInConfigFile(password + salt, "MD5");
@@ -316,7 +314,8 @@ namespace mesoBoard.Services
             if (request != null)
                 _passwordResetRequestRepository.Delete(request);
 
-            PasswordResetRequest pwrr = new PasswordResetRequest{
+            PasswordResetRequest pwrr = new PasswordResetRequest
+            {
                 UserID = userID,
                 Token = Randoms.CleanGUID(),
                 Date = DateTime.UtcNow

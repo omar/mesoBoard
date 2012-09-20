@@ -1,6 +1,6 @@
-﻿using System.Web.Routing;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using System.Collections.Generic;
+using System.Web.Routing;
 using mesoBoard.Common;
 
 namespace mesoBoard.Framework.Core
@@ -11,7 +11,7 @@ namespace mesoBoard.Framework.Core
 
         public static void Initialize(RouteCollection routes)
         {
-            _routes = routes;        
+            _routes = routes;
         }
 
         public static void OverrideDefaultRoute(RouteValueDictionary routeValues)
@@ -28,7 +28,7 @@ namespace mesoBoard.Framework.Core
 
         public static void Insert(IEnumerable<RouteBase> routes)
         {
-            foreach(var route in routes)
+            foreach (var route in routes)
                 _routes.Insert(2, route);
         }
     }

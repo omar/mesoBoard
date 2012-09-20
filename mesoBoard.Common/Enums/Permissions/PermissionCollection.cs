@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Globalization;
-using System.Collections;
 
 namespace mesoBoard.Common
 {
-    public class PermissionCollection<T,Q>
+    public class PermissionCollection<T, Q>
         where T : struct, IConvertible
         where Q : PermissionBase<T>
     {
@@ -15,7 +15,6 @@ namespace mesoBoard.Common
 
         public PermissionCollection()
         {
-
         }
 
         public PermissionCollection(List<Q> items)

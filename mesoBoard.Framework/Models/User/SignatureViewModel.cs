@@ -8,8 +8,11 @@ namespace mesoBoard.Framework.Models
     public class SignatureViewModel
     {
         public string ParsedSignature { get; set; }
+
         public string Signature { get; set; }
+
         public bool? Preview { get; set; }
+
         public string PreviewParsedSignature { get; set; }
     }
 }

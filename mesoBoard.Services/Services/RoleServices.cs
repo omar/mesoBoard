@@ -7,13 +7,13 @@ namespace mesoBoard.Services
 {
     public class RoleServices : BaseService
     {
-        IRepository<Config> _configRepository;
-        IRepository<InRole> _inRoleRepository;
-        IRepository<User> _userRepository;
+        private IRepository<Config> _configRepository;
+        private IRepository<InRole> _inRoleRepository;
+        private IRepository<User> _userRepository;
 
         public RoleServices(
-            IRepository<Config> configRepository, 
-            IRepository<InRole> inRoleRepository, 
+            IRepository<Config> configRepository,
+            IRepository<InRole> inRoleRepository,
             IRepository<User> userRepository,
             IUnitOfWork unitOfWork)
             : base(unitOfWork)
@@ -39,7 +39,7 @@ namespace mesoBoard.Services
                 if (userInRoles.Any(x => x.Role.SpecialPermissions == (int)perm))
                     return true;
             }
-            return false;   
+            return false;
         }
 
         public void SetRegistrationRole(int roleID)

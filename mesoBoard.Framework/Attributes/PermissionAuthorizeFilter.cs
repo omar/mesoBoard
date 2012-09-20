@@ -1,16 +1,16 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using System.Web.Mvc;
 using mesoBoard.Common;
-using mesoBoard.Services;
 using mesoBoard.Framework.Core;
-using System;
+using mesoBoard.Services;
 
 namespace mesoBoard.Framework
 {
     public class PermissionAuthorizeFilter : AuthorizeAttribute
     {
-        SpecialPermissionValue[] _permission;
-        RoleServices _roleServices;
+        private SpecialPermissionValue[] _permission;
+        private RoleServices _roleServices;
 
         public PermissionAuthorizeFilter(RoleServices roleServices, params SpecialPermissionValue[] permissions)
         {

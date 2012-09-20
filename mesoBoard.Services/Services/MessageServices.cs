@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using mesoBoard.Common;
 using mesoBoard.Data;
-using System;
-using System.Linq;
 
 namespace mesoBoard.Services
 {
-    public class MessageServices : BaseService 
+    public class MessageServices : BaseService
     {
-        IRepository<Message> _messageRepository;
+        private IRepository<Message> _messageRepository;
 
         public MessageServices(
             IRepository<Message> messageRepository,

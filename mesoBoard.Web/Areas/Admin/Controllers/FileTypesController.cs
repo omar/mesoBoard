@@ -4,20 +4,20 @@ using System.Linq;
 using System.Web.Mvc;
 using mesoBoard.Common;
 using mesoBoard.Data;
-using mesoBoard.Services;
 using mesoBoard.Framework.Core;
+using mesoBoard.Services;
 using mesoBoard.Web.Areas.Admin.ViewModels;
 
 namespace mesoBoard.Web.Areas.Admin.Controllers
 {
     public class FileTypesController : BaseAdminController
     {
-        IRepository<FileType> _fileTypeRepository;
-        FileServices _fileServices;
-        FileTypeServices _fileTypeServices;
+        private IRepository<FileType> _fileTypeRepository;
+        private FileServices _fileServices;
+        private FileTypeServices _fileTypeServices;
 
         public FileTypesController(
-            IRepository<FileType> fileTypeRepository, 
+            IRepository<FileType> fileTypeRepository,
             FileServices fileServices,
             FileTypeServices fileTypeServices)
         {
@@ -26,7 +26,6 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
             _fileTypeServices = fileTypeServices;
             SetCrumb("File Types");
         }
-
 
         public ActionResult FileTypes()
         {
@@ -52,7 +51,7 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
                     Extension = model.Extension,
                     Image = model.Image
                 };
-            
+
                 _fileTypeRepository.Add(fileType);
                 SetSuccess("File type created");
             }
@@ -97,7 +96,7 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
                 return RedirectToAction("FileTypes");
             }
 
-            return RedirectToSelf();    
+            return RedirectToSelf();
         }
     }
 }

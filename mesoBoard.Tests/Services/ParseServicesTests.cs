@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using mesoBoard.Common;
 using mesoBoard.Data;
-using mesoBoard.Services;
-using NUnit.Framework;
-using Moq;
 using mesoBoard.Data.Repositories;
-using System.Linq.Expressions;
+using mesoBoard.Services;
+using Moq;
+using NUnit.Framework;
 
 namespace mesoBoard.Tests.Services
 {
     [TestFixture]
     public class ParseServicesTests
     {
-        ParseServices _parseServices;
-        
-        List<BBCode> _bbCodes = new List<BBCode>()
+        private ParseServices _parseServices;
+
+        private List<BBCode> _bbCodes = new List<BBCode>()
         {
             new BBCode(){ Tag = "i", Parse = "<i>{1}</i>" },
             new BBCode(){ Tag = "b", Parse = "<b>{1}</b>" },
@@ -24,12 +24,11 @@ namespace mesoBoard.Tests.Services
             new BBCode(){ Tag = "code", Parse = "<pre class=\"{1}\">{2}</pre>" }
         };
 
-        List<Smiley> _smilies = new List<Smiley>()
+        private List<Smiley> _smilies = new List<Smiley>()
         {
             new Smiley() { Code = ":)", ImageURL = "smile.png", Title = "smile" },
             new Smiley() { Code = ":(", ImageURL = "frown.png", Title = "frown" }
         };
-
 
         [SetUp]
         public void Initialize()
@@ -39,7 +38,7 @@ namespace mesoBoard.Tests.Services
             var unitOfWork = TestHelpers.MockUnitOfWork();
 
             _parseServices = new ParseServices(
-                bbCodeRepository.Object, 
+                bbCodeRepository.Object,
                 smileyRepository.Object,
                 unitOfWork.Object);
         }

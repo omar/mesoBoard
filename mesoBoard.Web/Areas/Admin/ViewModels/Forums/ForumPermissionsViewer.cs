@@ -9,6 +9,7 @@ namespace mesoBoard.Web.Areas.Admin.ViewModels
     public class ForumPermissionsViewer
     {
         public Forum Forum { get; set; }
+
         public IEnumerable<ForumPermission> ForumPermissions { get; set; }
     }
 }

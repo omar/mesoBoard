@@ -23,6 +23,5 @@ namespace mesoBoard.Data
 
             return retVal;
         }
-       
     }
 }

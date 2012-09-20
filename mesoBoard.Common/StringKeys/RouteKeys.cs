@@ -9,6 +9,5 @@ namespace mesoBoard.Common
     {
         public static readonly string DefaultRouteUrl = "{controller}/{action}/{id}";
         public static readonly string DefaultRouteName = "mesoBoard-Route-Default";
-
     }
 }

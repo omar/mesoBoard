@@ -11,18 +11,20 @@ namespace mesoBoard.Data
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class Poll
     {
         public Poll()
         {
             this.PollOptions = new HashSet<PollOption>();
         }
-    
+
         public int PollID { get; set; }
+
         public string Question { get; set; }
-    
+
         public virtual ICollection<PollOption> PollOptions { get; set; }
+
         public virtual Thread Thread { get; set; }
     }
 }

@@ -7,29 +7,29 @@ using System.Web;
 using System.Web.Mvc;
 using mesoBoard.Common;
 using mesoBoard.Data;
-using mesoBoard.Services;
+using mesoBoard.Framework;
 using mesoBoard.Framework.Core;
 using mesoBoard.Framework.Models;
-using mesoBoard.Framework;
+using mesoBoard.Services;
 
 namespace mesoBoard.Web.Controllers
 {
     [Authorize]
     public class PostController : BaseController
     {
-        ForumServices _forumServices;
-        IRepository<Smiley> _smileyRepository;
-        PostServices _postServices;
-        ThreadServices _threadServices;
-        FileServices _fileServices;
-        PollServices _pollServices;
-        EmailServices _emailServices;
-        PermissionServices _permissionServices;
-        ParseServices _parseServices;
-        User _currentUser;
+        private ForumServices _forumServices;
+        private IRepository<Smiley> _smileyRepository;
+        private PostServices _postServices;
+        private ThreadServices _threadServices;
+        private FileServices _fileServices;
+        private PollServices _pollServices;
+        private EmailServices _emailServices;
+        private PermissionServices _permissionServices;
+        private ParseServices _parseServices;
+        private User _currentUser;
 
         public PostController(
-            IRepository<Smiley> smileyRepository, 
+            IRepository<Smiley> smileyRepository,
             ForumServices forumServices,
             PostServices postServices,
             ThreadServices threadServices,
@@ -142,7 +142,6 @@ namespace mesoBoard.Web.Controllers
                     ModelState.AddModelError("TimeBetweenPosts", "You may only create new posts every " + MinTimeLimit + " seconds (" + Math.Round((MinTimeLimit - ValToCompare)) + " seconds remaining)");
             }
 
- 
             ValidateThreadImage(model.ThreadEditor.Image);
             HttpPostedFileBase[] files = null;
 
@@ -162,7 +161,7 @@ namespace mesoBoard.Web.Controllers
                 model.PollEditor.Text = string.Empty;
                 model.PollEditor.Options = string.Empty;
             }
-            
+
             if (IsModelValidAndPersistErrors() && !model.Preview.HasValue)
             {
                 if (editorType == EditorType.Create)
@@ -210,7 +209,6 @@ namespace mesoBoard.Web.Controllers
                     if (createPoll && poll != null && !string.IsNullOrWhiteSpace(poll.Text))
                         _pollServices.CreatePoll(poll.Text, poll.OptionsSplit, model.ThreadEditor.ThreadID);
 
-
                     if (model.PostEditor.Delete != null)
                         _fileServices.DeleteAttachments(model.PostEditor.Delete);
 
@@ -229,9 +227,9 @@ namespace mesoBoard.Web.Controllers
             }
 
             if (editorType == EditorType.Create)
-                return RedirectToAction("CreateThread", new { ForumID = model.ForumID }); 
+                return RedirectToAction("CreateThread", new { ForumID = model.ForumID });
             else
-                return RedirectToAction("EditThread", new { ThreadID = model.ThreadEditor.ThreadID }); 
+                return RedirectToAction("EditThread", new { ThreadID = model.ThreadEditor.ThreadID });
         }
 
         [HttpGet]
@@ -295,7 +293,7 @@ namespace mesoBoard.Web.Controllers
 
             var thread = _threadServices.GetThread(model.ThreadID);
             var forum = thread.Forum;
-            
+
             if (editorType == EditorType.Create)
             {
                 if (!_permissionServices.CanReply(forum.ForumID, _currentUser.UserID))
@@ -333,7 +331,6 @@ namespace mesoBoard.Web.Controllers
             else
                 model.PostEditor.Files = null;
 
-
             if (IsModelValidAndPersistErrors() && !model.Preview.HasValue)
             {
                 if (editorType == EditorType.Create)
@@ -368,8 +365,7 @@ namespace mesoBoard.Web.Controllers
             if (editorType == EditorType.Create)
                 return RedirectToAction("CreatePost", new { ThreadID = model.ThreadID });
             else
-                return RedirectToAction("EditPost", new { PostID = model.PostEditor.PostID }); 
-
+                return RedirectToAction("EditPost", new { PostID = model.PostEditor.PostID });
         }
 
         [ValidateAntiForgeryToken]
@@ -389,7 +385,7 @@ namespace mesoBoard.Web.Controllers
             if (canCastVote)
             {
                 var poll = thread.Poll;
-                
+
                 if (PollOptionID.HasValue)
                 {
                     _pollServices.CastVote(_currentUser.UserID, PollOptionID.Value);
@@ -560,9 +556,8 @@ namespace mesoBoard.Web.Controllers
             }
 
             return model;
-
         }
-      
+
         [NonAction]
         private void ValidatePostedFiles(HttpPostedFileBase[] files)
         {
@@ -573,7 +568,7 @@ namespace mesoBoard.Web.Controllers
                 bool uploadLimitExceeded = false;
 
                 foreach (var file in files.Where(item => item != null))
-	            {
+                {
                     if (file.ContentLength > 0)
                     {
                         if (!_fileServices.ValidFileType(file.FileName))
@@ -589,12 +584,11 @@ namespace mesoBoard.Web.Controllers
                     error += "Max file size is " + maxFileSize + " kb.";
                 if (invalidFileTypes.Count > 0)
                 {
-                    error += string.Format("File type not accepted ({0}).", string.Join(", ",invalidFileTypes));
+                    error += string.Format("File type not accepted ({0}).", string.Join(", ", invalidFileTypes));
                 }
-                
-                if(!string.IsNullOrWhiteSpace(error))
-                    ModelState.AddModelError("PostEditor.Files", error);
 
+                if (!string.IsNullOrWhiteSpace(error))
+                    ModelState.AddModelError("PostEditor.Files", error);
             }
         }
 
