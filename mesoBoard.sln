@@ -1,6 +1,5 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mesoBoard.Web", "mesoBoard.Web\mesoBoard.Web.csproj", "{BA1A921F-2F31-4774-AD9A-CA12C40117FC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mesoBoard.Data", "mesoBoard.Data\mesoBoard.Data.csproj", "{59B8C04A-9143-4DF0-85E0-C00C7E504312}"
