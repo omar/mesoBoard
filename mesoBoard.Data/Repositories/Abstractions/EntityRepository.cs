@@ -15,12 +15,6 @@ namespace mesoBoard.Data.Repositories
         protected DbSet<T> _table;
         protected DbContext _context;
 
-        public EntityRepository(mbEntities mbentities)
-        {
-            _context = mbentities;
-            _table = _context.Set<T>();
-        }
-
         public EntityRepository(DbContext dbContext)
         {
             _context = dbContext;

@@ -10,6 +10,7 @@ using Ninject;
 using Ninject.Modules;
 using Ninject.Parameters;
 using Ninject.Syntax;
+using Ninject.Web.Common;
 using Ninject.Web.Mvc;
 using Ninject.Web.Mvc.FilterBindingSyntax;
 
