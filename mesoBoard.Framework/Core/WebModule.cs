@@ -35,7 +35,11 @@ namespace mesoBoard.Framework.Core
 
         private void BindDataAccess()
         {
-            ConstructorArgument parameter = new ConstructorArgument("connectionString", Settings.EntityConnectionString);
+            ConstructorArgument parameter;
+            using (Settings.EnableXmlAccess)
+            {
+                 parameter = new ConstructorArgument("connectionString", Settings.EntityConnectionString);
+            }
             Bind<mbEntities>().ToSelf().InRequestScope().WithParameter(parameter);
 
             Bind(typeof(IRepository<>)).To(typeof(EntityRepository<>)).InRequestScope();

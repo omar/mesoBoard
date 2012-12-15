@@ -12,6 +12,10 @@ namespace mesoBoard
 {
     public static class Settings
     {
+        internal static bool UseXmlAccess = false;
+
+        public static SettingsXmlAccess EnableXmlAccess { get { return new SettingsXmlAccess(); } }
+
         public static readonly string ConnectionStringName = "mesoBoard";
         public static readonly string EntityConnectionStringName = "mesoBoardEntity";
 
@@ -215,8 +219,28 @@ namespace mesoBoard
 
         private static string GetAppSetting(string settingKey)
         {
+            if (UseXmlAccess)
+            {
+                XDocument document = XDocument.Load(HostingEnvironment.MapPath("~/Settings.config"));
+                XElement element = document.Element("Settings").Elements("add").First(item => item.Attribute("key").Value == settingKey);
+                return element.Attribute("value").Value;
+            }
+
             var configs = System.Configuration.ConfigurationManager.GetSection("mesoBoard/Settings") as NameValueCollection;
             return configs[settingKey];
+        }
+
+        public class SettingsXmlAccess : IDisposable
+        {
+            public SettingsXmlAccess()
+            {
+                Settings.UseXmlAccess = true;
+            }
+
+            public void Dispose()
+            {
+                Settings.UseXmlAccess = false;
+            }
         }
     }
 }
