@@ -1,7 +1,9 @@
-mesoBoard.Web/App_Data/Attachments/*
+# mesoBoard specific
+mesoBoard.Web/App_Data/Attachments/
 mesoBoard.Web/Themes/Dark
-mesoBoard.Web/Plugins/*
-mesoBoard.Web/Upload/Avatars/*
+mesoBoard.Web/Plugins/
+mesoBoard.Web/Upload/Avatars/
+packages/
 
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
 [Bb]in/

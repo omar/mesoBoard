@@ -1,3 +1,10 @@
+# mesoBoard specific
+mesoBoard.Web/App_Data/Attachments
+mesoBoard.Web/Themes/Dark
+mesoBoard.Web/Plugins/
+mesoBoard.Web/Upload/Avatars/
+packages
+
 # Visual Studio 2012
 syntax: glob
 
