@@ -91,6 +91,8 @@
     <Compile Include="Core\BasePluginController.cs" />
     <Compile Include="Core\Captcha.cs" />
     <Compile Include="Core\ControllerFactory.cs" />
+    <Compile Include="Core\IoC\ThemeProvider.cs" />
+    <Compile Include="Core\IoC\UserProvider.cs" />
     <Compile Include="Core\StaticResources.cs" />
     <Compile Include="Core\ViewEngine.cs" />
     <Compile Include="Core\WebModule.cs" />

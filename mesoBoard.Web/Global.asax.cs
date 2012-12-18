@@ -108,61 +108,28 @@ namespace mesoBoard.Web
 
         public void Application_AuthenticateRequest(object sender, EventArgs e)
         {
-            var context = HttpContext.Current;
-
-            var userServices = Kernel.Get<UserServices>();
-            User currentUser;
-            if (context.User != null && context.User.Identity.IsAuthenticated)
-            {
-                currentUser = userServices.GetUser(int.Parse(context.User.Identity.Name));
-                if (currentUser == null)
-                {
-                    currentUser = new Data.User { UserID = 0 };
-                    FormsAuthentication.SignOut();
-                }
-            }
-            else
-                currentUser = new Data.User { UserID = 0 };
-
-            context.Items[HttpContextItemKeys.CurrentUser] = currentUser;
-
-            var themeServices = Kernel.Get<ThemeServices>();
-            RouteData routeData = RouteTable.Routes.GetRouteData(new HttpContextWrapper(HttpContext.Current));
-            if (routeData != null)
-            {
-                string controllerName = routeData.GetRequiredString("controller");
-
-                string previewTheme = context.Session != null ? (string)context.Session["ptheme"] : string.Empty;
-                Theme currentTheme;
-                if (routeData.GetAreaName() == "Admin")
-                    currentTheme = themeServices.GetAdminTheme();
-                else
-                    currentTheme = themeServices.GetTheme(currentUser, controllerName, previewTheme);
-
-                context.Items[HttpContextItemKeys.ThemeFolder] = currentTheme.FolderName;
-                context.Items[HttpContextItemKeys.CurrentTheme] = currentTheme;
-            }
         }
 
         public void Application_BeginRequest(object sender, EventArgs e)
         {
-            var context = HttpContext.Current;
-
-            var themeServices = Kernel.Get<ThemeServices>();
             RouteData routeData = RouteTable.Routes.GetRouteData(new HttpContextWrapper(HttpContext.Current));
+
             if (routeData != null)
             {
                 string controllerName = routeData.GetRequiredString("controller");
+                if (!Settings.IsInstalled && !string.IsNullOrWhiteSpace(controllerName) && !controllerName.Equals("Install", System.StringComparison.InvariantCultureIgnoreCase))
+                {
+                    Response.Redirect("~/Install");
+                    return;
+                }
 
-                string previewTheme = context.Session != null ? (string)context.Session["ptheme"] : string.Empty;
-                Theme currentTheme;
-                if (routeData.GetAreaName() == "Admin")
-                    currentTheme = themeServices.GetAdminTheme();
-                else
-                    currentTheme = themeServices.GetDefaultTheme();
-
-                context.Items[HttpContextItemKeys.ThemeFolder] = currentTheme.FolderName;
-                context.Items[HttpContextItemKeys.CurrentTheme] = currentTheme;
+                if (Settings.IsInstalled)
+                {
+                    var themeService = Kernel.Get<ThemeServices>();
+                    var theme = themeService.GetDefaultTheme();
+                    HttpContext.Current.Items[HttpContextItemKeys.ThemeFolder] = theme.FolderName;
+                    HttpContext.Current.Items[HttpContextItemKeys.CurrentTheme] = theme;
+                }
             }
         }
 

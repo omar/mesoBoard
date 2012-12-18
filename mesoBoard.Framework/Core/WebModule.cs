@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using mesoBoard.Common;
 using mesoBoard.Data;
 using mesoBoard.Data.Repositories;
+using mesoBoard.Framework.Core.IoC;
 using mesoBoard.Services;
 using Ninject;
 using Ninject.Modules;
@@ -23,9 +24,7 @@ namespace mesoBoard.Framework.Core
             BindMvcServices();
             BindDataAccess();
             BindIndicatorAttributes();
-
-            Bind<User>().ToMethod(context => (User)HttpContext.Current.Items[HttpContextItemKeys.CurrentUser]);
-            Bind<Theme>().ToMethod(context => (Theme)HttpContext.Current.Items[HttpContextItemKeys.CurrentTheme]);
+            BindProviders();
         }
 
         private void BindMvcServices()
@@ -52,6 +51,12 @@ namespace mesoBoard.Framework.Core
         {
             TrackActivityAttribute.Bind(this.Kernel);
             PermissionAuthorizeAttribute.Bind(this.Kernel);
+        }
+
+        private void BindProviders()
+        {
+            Bind<User>().ToProvider<UserProvider>();
+            Bind<Theme>().ToProvider<ThemeProvider>();
         }
     }
 }
