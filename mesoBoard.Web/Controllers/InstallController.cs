@@ -19,12 +19,14 @@ namespace mesoBoard.Web.Controllers
 {
     public class InstallController : Controller
     {
+        private IUnitOfWork _unitOfWork;
         private IRepository<User> _userRepository;
         private static string SessionSqlInfoKey = "mbSqlInfoKey";
         private static string SessionMailInfoKey = "mbMailInfoKey";
 
-        public InstallController(IRepository<User> userRepository)
+        public InstallController(IUnitOfWork unitOfWork, IRepository<User> userRepository)
         {
+            _unitOfWork = unitOfWork;
             _userRepository = userRepository;
         }
 
@@ -266,6 +268,7 @@ namespace mesoBoard.Web.Controllers
             adminUser.RegisterIP = ipAddress;
 
             _userRepository.Update(adminUser);
+            _unitOfWork.Commit();
 
             // If the Smtp server is 'mail.yourdomain.com', that means the user didn't specify mail settings
             // should probably store a value in the session indicating if they specified mail settings
