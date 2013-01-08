@@ -1,4 +1,4 @@
-﻿window.onload = function () {
+window.onload = function () {
     if (document.all && navigator.appVersion.indexOf("MSIE") > -1 && navigator.appVersion.indexOf("Windows") > -1) {
         var a = document.getElementsByTagName("label");
         for (var i = 0, j = a.length; i < j; i++) {

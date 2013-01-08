@@ -1,4 +1,4 @@
-﻿using mesoBoard.Framework.Models;
+using mesoBoard.Framework.Models;
 using NUnit.Framework;
 
 namespace mesoBoard.Tests.Models

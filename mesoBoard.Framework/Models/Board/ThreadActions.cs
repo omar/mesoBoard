@@ -1,4 +1,4 @@
-﻿using mesoBoard.Data;
+using mesoBoard.Data;
 
 namespace mesoBoard.Framework.Models
 {

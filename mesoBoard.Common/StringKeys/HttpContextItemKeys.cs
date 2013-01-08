@@ -1,4 +1,4 @@
-﻿namespace mesoBoard
+namespace mesoBoard
 {
     public class HttpContextItemKeys
     {

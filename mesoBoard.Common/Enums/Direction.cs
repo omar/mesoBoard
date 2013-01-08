@@ -1,4 +1,4 @@
-﻿namespace mesoBoard.Common
+namespace mesoBoard.Common
 {
     public enum Direction
     {

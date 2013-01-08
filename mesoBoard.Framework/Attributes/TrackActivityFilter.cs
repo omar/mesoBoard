@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Web.Mvc;
 using mesoBoard.Common;
 using mesoBoard.Data;

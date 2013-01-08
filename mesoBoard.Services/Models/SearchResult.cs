@@ -1,4 +1,4 @@
-﻿namespace mesoBoard.Services
+namespace mesoBoard.Services
 {
     public class SearchResult
     {

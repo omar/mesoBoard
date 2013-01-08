@@ -1,4 +1,4 @@
-﻿using System.Web.Routing;
+using System.Web.Routing;
 
 namespace mesoBoard.Common
 {

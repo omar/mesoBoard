@@ -1,4 +1,4 @@
-﻿namespace mesoBoard.Web.Areas.Admin.Models
+namespace mesoBoard.Web.Areas.Admin.Models
 {
     public class PluginInstall
     {

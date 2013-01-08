@@ -1,4 +1,4 @@
-﻿using mesoBoard.Common;
+using mesoBoard.Common;
 
 namespace mesoBoard.Framework.Core
 {
