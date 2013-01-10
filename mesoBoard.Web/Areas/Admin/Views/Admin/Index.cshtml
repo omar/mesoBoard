@@ -1,4 +1,4 @@
-﻿@{ IEnumerable<User> users = ((IEnumerable<User>)ViewData["NewestRegistrations"]).OrderByDescending(x => x.RegisterDate).Take(5); }
+@{ IEnumerable<User> users = ((IEnumerable<User>)ViewData["NewestRegistrations"]).OrderByDescending(x => x.RegisterDate).Take(5); }
 @{ IEnumerable<ReportedPost> ReportedPosts = ((IEnumerable<ReportedPost>)ViewData["ReportedPosts"]).OrderByDescending(x => x.Date).Take(5); }
 
 <div class="summary section">
