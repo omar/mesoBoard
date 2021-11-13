@@ -25,7 +25,7 @@ namespace mesoBoard.Framework.Models
 
         public IEnumerable<Attachment> Attachments { get; set; }
 
-        public HttpPostedFileBase[] Files { get; set; }
+        public IFormFile[] Files { get; set; }
 
         public int[] Delete { get; set; }
     }

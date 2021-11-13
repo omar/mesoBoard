@@ -143,7 +143,7 @@ namespace mesoBoard.Web.Controllers
             }
 
             ValidateThreadImage(model.ThreadEditor.Image);
-            HttpPostedFileBase[] files = null;
+            IFormFile[] files = null;
 
             if (_permissionServices.CanCreateAttachment(model.ForumID, _currentUser.UserID))
             {
@@ -319,7 +319,7 @@ namespace mesoBoard.Web.Controllers
                 }
             }
 
-            HttpPostedFileBase[] files = null;
+            IFormFile[] files = null;
             if (_permissionServices.CanCreateAttachment(forum.ForumID, _currentUser.UserID))
             {
                 if (model.PostEditor.Files != null)
@@ -559,7 +559,7 @@ namespace mesoBoard.Web.Controllers
         }
 
         [NonAction]
-        private void ValidatePostedFiles(HttpPostedFileBase[] files)
+        private void ValidatePostedFiles(IFormFile[] files)
         {
             if (files != null && files.Count() > 0)
             {

@@ -1,15 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using mesoBoard.Data;
-using System.Text.RegularExpressions;
 using System.IO;
-using System.Web.Hosting;
-using System.Data.SqlClient;
-using mesoBoard.Common;
-using System.Configuration;
-using System.Net.Configuration;
+using Microsoft.Data.SqlClient;
 
 namespace mesoBoard.Services
 {
@@ -74,7 +68,7 @@ namespace mesoBoard.Services
 
         private UpgradeScripts GetUpgradeScripts(string version)
         {
-            string path = HostingEnvironment.MapPath(DirectoryPaths.Upgrade);
+            string path = DirectoryPaths.Upgrade;
             path = Path.Combine(path, version);
             var sqlFiles = Directory.GetFiles(path, "*.sql");
 

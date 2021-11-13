@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using mesoBoard.Data;
 using mesoBoard.Data.Repositories;
+using System.Runtime.Caching;
 
 namespace mesoBoard.Services
 {
@@ -50,12 +50,12 @@ namespace mesoBoard.Services
 
         private static Config GetConfig(string configName)
         {
-            List<Config> configs = (List<Config>)HttpRuntime.Cache[CacheKeys.SiteConfigurations];
+            List<Config> configs = (List<Config>)MemoryCache.Default[CacheKeys.SiteConfigurations];
 
             if (configs == null)
             {
                 UpdateCache();
-                configs = (List<Config>)HttpRuntime.Cache[CacheKeys.SiteConfigurations];
+                configs = (List<Config>)MemoryCache.Default[CacheKeys.SiteConfigurations];
             }
 
             return configs.Single(x => x.Name == configName);
@@ -63,10 +63,10 @@ namespace mesoBoard.Services
 
         public static void UpdateCache()
         {
-            EntityRepository<Config> configsRepo = new EntityRepository<Config>(new mbEntities(Settings.EntityConnectionString));
+            EntityRepository<Config> configsRepo = new EntityRepository<Config>(new mbEntities());
             List<Config> configurations = configsRepo.Get().ToList();
 
-            HttpRuntime.Cache[CacheKeys.SiteConfigurations] = configurations;
+            MemoryCache.Default[CacheKeys.SiteConfigurations] = configurations;
         }
     }
 }

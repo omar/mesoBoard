@@ -4,10 +4,10 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Web;
-using System.Web.Hosting;
+using System.Threading.Tasks;
 using mesoBoard.Common;
 using mesoBoard.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace mesoBoard.Services
 {
@@ -53,43 +53,45 @@ namespace mesoBoard.Services
             return _attachmentRepository.Where(item => item.PostID.Equals(postID)).ToList();
         }
 
-        public string UploadFile(HttpPostedFileBase file)
+        public async Task<string> UploadFileAsync(IFormFile file)
         {
-            string filePath = Path.Combine(HostingEnvironment.MapPath(DirectoryPaths.Attachments), file.FileName);
+            string filePath = Path.Combine(DirectoryPaths.Attachments, file.FileName);
 
             string savedName = file.FileName;
 
             if (File.Exists(filePath))
                 savedName = Randoms.CleanGUID() + file.FileName;
-            string path = HostingEnvironment.MapPath(Path.Combine(DirectoryPaths.Attachments, savedName));
-            file.SaveAs(path);
+            string path = Path.Combine(DirectoryPaths.Attachments, savedName);
+            using (Stream fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream);
+            }
 
             return savedName;
         }
 
-        public void CreateAttachments(HttpFileCollectionBase files, int postID)
+        public async Task CreateAttachmentsAsync(IList<IFormFile> files, int postID)
         {
-            foreach (string filename in files)
+            foreach (IFormFile file in files)
             {
-                HttpPostedFileBase f = files[filename];
-                if (f.ContentLength > 0)
+                if (file.Length > 0)
                 {
-                    CreateAttachment(f, postID);
+                    await CreateAttachmentAsync(file, postID);
                 }
             }
         }
 
-        public void CreateAttachments(HttpPostedFileBase[] files, int postID)
+        public async Task CreateAttachmentsAsync(IFormFile[] files, int postID)
         {
             foreach (var file in files)
             {
-                CreateAttachment(file, postID);
+                await CreateAttachmentAsync(file, postID);
             }
         }
 
-        public void CreateAttachment(HttpPostedFileBase file, int PostID)
+        public async Task CreateAttachmentAsync(IFormFile file, int PostID)
         {
-            string savedName = UploadFile(file);
+            string savedName = await UploadFileAsync(file);
 
             var attachment = new Attachment
             {
@@ -97,7 +99,7 @@ namespace mesoBoard.Services
                 SavedName = savedName,
                 DownloadName = file.FileName,
                 PostID = PostID,
-                Size = file.ContentLength,
+                Size = (int)file.Length,
                 Type = file.ContentType
             };
             _attachmentRepository.Add(attachment);
@@ -127,52 +129,55 @@ namespace mesoBoard.Services
 
         public void DeleteAttachment(Attachment attachment)
         {
-            string filePath = Path.Combine(HostingEnvironment.MapPath(DirectoryPaths.Attachments), attachment.SavedName);
+            string filePath = Path.Combine(DirectoryPaths.Attachments, attachment.SavedName);
             if (System.IO.File.Exists(filePath))
                 System.IO.File.Delete(filePath);
             _attachmentRepository.Delete(attachment.AttachmentID);
             _unitOfWork.Commit();
         }
 
-        public string UploadAvatar(HttpPostedFileBase avatar)
+        public string UploadAvatar(IFormFile avatar)
         {
             string random_name = Randoms.CleanGUID() + ".png";
 
-            while (File.Exists(Path.Combine(HostingEnvironment.MapPath(DirectoryPaths.Avatars), random_name)))
+            while (File.Exists(Path.Combine(DirectoryPaths.Avatars, random_name)))
                 random_name = Randoms.CleanGUID() + ".png";
 
-            string filePath = Path.Combine(HostingEnvironment.MapPath(DirectoryPaths.Avatars), random_name);
+            string filePath = Path.Combine(DirectoryPaths.Avatars, random_name);
 
             int maxHeight = SiteConfig.AvatarHeight.ToInt();
             int maxWidth = SiteConfig.AvatarWidth.ToInt();
 
-            using (Image ravatar = Image.FromStream(avatar.InputStream, true, true))
+            using (var stream = avatar.OpenReadStream())
             {
-                if (ravatar.Width > maxWidth || ravatar.Height > maxHeight)
+                using (Image ravatar = Image.FromStream(stream, true, true))
                 {
-                    double ratio = (double)ravatar.Width / ravatar.Height;
-                    double newHeight;
-                    double newWidth;
-
-                    if (ravatar.Width > ravatar.Height)
+                    if (ravatar.Width > maxWidth || ravatar.Height > maxHeight)
                     {
-                        ratio = 1 / ratio;
-                        newWidth = maxWidth;
-                        newHeight = maxHeight * ratio;
+                        double ratio = (double)ravatar.Width / ravatar.Height;
+                        double newHeight;
+                        double newWidth;
+
+                        if (ravatar.Width > ravatar.Height)
+                        {
+                            ratio = 1 / ratio;
+                            newWidth = maxWidth;
+                            newHeight = maxHeight * ratio;
+                        }
+                        else
+                        {
+                            newWidth = maxWidth * ratio;
+                            newHeight = maxHeight;
+                        }
+
+                        using (var resizedAvatar = ravatar.GetThumbnailImage((int)newWidth, (int)newHeight, null, IntPtr.Zero))
+                        {
+                            resizedAvatar.Save(filePath, ImageFormat.Png);
+                        };
                     }
                     else
-                    {
-                        newWidth = maxWidth * ratio;
-                        newHeight = maxHeight;
-                    }
-
-                    using (var resizedAvatar = ravatar.GetThumbnailImage((int)newWidth, (int)newHeight, null, IntPtr.Zero))
-                    {
-                        resizedAvatar.Save(filePath, ImageFormat.Png);
-                    };
+                        ravatar.Save(filePath, ImageFormat.Png);
                 }
-                else
-                    ravatar.Save(filePath, ImageFormat.Png);
             }
             return random_name;
         }

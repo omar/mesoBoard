@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Web;
-using System.Web.Mvc;
+using System.Threading.Tasks;
 using mesoBoard.Common;
 using mesoBoard.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace mesoBoard.Services
 {
@@ -37,7 +36,7 @@ namespace mesoBoard.Services
             _parseServices = parseServices;
         }
 
-        public Post CreatePost(int threadID, int userID, string message, bool useSignature, HttpPostedFileBase[] files)
+        public async Task<Post> CreatePostAsync(int threadID, int userID, string message, bool useSignature, IFormFile[] files)
         {
             string parsedText = _parseServices.ParseBBCodeText(message);
             Post post = new Post()
@@ -53,7 +52,7 @@ namespace mesoBoard.Services
 
             _postRepository.Add(post);
             if (files != null)
-                _fileServices.CreateAttachments(files, post.PostID);
+                await _fileServices.CreateAttachmentsAsync(files, post.PostID);
             _unitOfWork.Commit();
             return post;
         }
@@ -68,7 +67,7 @@ namespace mesoBoard.Services
             return _postRepository.Get(PostID);
         }
 
-        public void UpdatePost(int postID, string text, HttpPostedFileBase[] files)
+        public async Task UpdatePostAsync(int postID, string text, IFormFile[] files)
         {
             Post post = _postRepository.Get(postID);
             post.Text = text;
@@ -76,7 +75,7 @@ namespace mesoBoard.Services
             post.TextOnly = _parseServices.GetTextOnly(text);
             _postRepository.Update(post);
             _unitOfWork.Commit();
-            _fileServices.CreateAttachments(files, post.PostID);
+            await _fileServices.CreateAttachmentsAsync(files, post.PostID);
         }
 
         public IEnumerable<Post> GetPagedPosts(int threadID, int page, int pageSize)

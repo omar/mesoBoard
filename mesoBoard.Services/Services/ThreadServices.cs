@@ -2,11 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Web;
-using System.Web.Hosting;
+using System.Threading.Tasks;
 using mesoBoard.Common;
 using mesoBoard.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace mesoBoard.Services
 {
@@ -103,7 +102,7 @@ namespace mesoBoard.Services
             _unitOfWork.Commit();
         }
 
-        public Thread CreateThread(
+        public async Task<Thread> CreateThreadAsync(
             int forumID,
             int userID,
             string threadTitle,
@@ -112,7 +111,7 @@ namespace mesoBoard.Services
             string message,
             string pollText,
             string[] pollOptions,
-            HttpPostedFileBase[] files)
+            IFormFile[] files)
         {
             Thread thread = new Thread
             {
@@ -147,7 +146,7 @@ namespace mesoBoard.Services
 
                 thread.Poll = poll;
 
-                var options = new System.Data.Objects.DataClasses.EntityCollection<PollOption>();
+                var options = new List<PollOption>();
                 foreach (string po in pollOptions)
                 {
                     poll.PollOptions.Add(new PollOption
@@ -162,13 +161,13 @@ namespace mesoBoard.Services
             {
                 foreach (var file in files)
                 {
-                    string savedName = _fileServices.UploadFile(file);
+                    string savedName = await _fileServices.UploadFileAsync(file);
                     firstPost.Attachments.Add(new Attachment()
                     {
                         Downloaded = 0,
                         SavedName = savedName,
                         DownloadName = file.FileName,
-                        Size = file.ContentLength,
+                        Size = (int)file.Length,
                         Type = file.ContentType
                     });
                 }
@@ -294,7 +293,7 @@ namespace mesoBoard.Services
         public string[] GetThreadImages()
         {
             string[] validExtensions = new string[] { ".gif", ".png", ".jpg", ".jpeg" };
-            DirectoryInfo di = new DirectoryInfo(HostingEnvironment.MapPath("~/Images/ThreadImages"));
+            DirectoryInfo di = new DirectoryInfo("~/Images/ThreadImages");
             return di.GetFiles().Select(x => x.Name).Where(x => validExtensions.Contains(Path.GetExtension(x))).OrderBy(x => x).ToArray();
         }
 

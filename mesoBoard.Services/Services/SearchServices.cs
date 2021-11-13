@@ -1,11 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Data.Common;
-using System.Data.Objects;
-using System.Data.SqlClient;
-using System.Linq;
 using mesoBoard.Common;
 using mesoBoard.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace mesoBoard.Services
 {
@@ -26,10 +22,9 @@ namespace mesoBoard.Services
         public IEnumerable<Post> SearchPosts(string keywords)
         {
             string searchQuery = @"SELECT DISTINCT * FROM Posts
-                                   WHERE FREETEXT(Posts.TextOnly, @keyword)";
+                                   WHERE FREETEXT(Posts.TextOnly, {0})";
 
-            var parameter = new SqlParameter() { ParameterName = "keyword", Value = keywords };
-            var results = _dataContext.Posts.SqlQuery(searchQuery, parameter);
+            var results = _dataContext.Posts.FromSqlRaw(searchQuery, keywords);
             return results;
         }
     }

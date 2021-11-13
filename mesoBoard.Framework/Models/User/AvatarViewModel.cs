@@ -18,6 +18,6 @@ namespace mesoBoard.Framework.Models
 
         public string Url { get; set; }
 
-        public HttpPostedFileBase Image { get; set; }
+        public IFormFile Image { get; set; }
     }
 }

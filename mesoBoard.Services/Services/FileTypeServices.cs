@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Web.Hosting;
 using mesoBoard.Common;
 using mesoBoard.Data;
 
@@ -26,7 +25,7 @@ namespace mesoBoard.Services
 
         public List<FileInfo> GetFileTypeImages()
         {
-            DirectoryInfo fileTypeImagesDirectory = new DirectoryInfo(HostingEnvironment.MapPath(DirectoryPaths.FileTypes));
+            DirectoryInfo fileTypeImagesDirectory = new DirectoryInfo(DirectoryPaths.FileTypes);
             List<FileInfo> fileTypeImages = new List<FileInfo>();
             string[] fileExtensions = { ".png", ".gif" };
 

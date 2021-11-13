@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
+using System.IO;
 using System.Net.Mail;
-using System.Web.UI.WebControls;
-using mesoBoard.Common;
 using mesoBoard.Data;
 
 namespace mesoBoard.Services
@@ -34,7 +31,7 @@ namespace mesoBoard.Services
             string fromEmail,
             string subject,
             string template,
-            ListDictionary replacements,
+            Dictionary<string, string> replacements,
             bool isHtml = true)
         {
             string boardUrl = SiteConfig.BoardURL.Value;
@@ -44,15 +41,18 @@ namespace mesoBoard.Services
             replacements.Add("{BOARD_URL}", boardUrl);
             replacements.Add("{BOARD_NAME}", SiteConfig.BoardName.Value);
 
-            MailDefinition md = new MailDefinition();
-
-            string templatePath = EmailTemplates.GenerateEmailPath(template);
-            md.BodyFileName = templatePath;
-            md.IsBodyHtml = isHtml;
-            md.From = fromEmail;
-            md.Subject = subject;
-
-            MailMessage message = md.CreateMailMessage(toEmail, replacements, new System.Web.UI.Control());
+            string templateBody = File.ReadAllText(EmailTemplates.GenerateEmailPath(template));
+            
+            foreach (var replacement in replacements)
+            {
+                templateBody = templateBody.Replace(replacement.Key, replacement.Value);
+            }
+            
+            var message = new MailMessage();
+            message.IsBodyHtml = isHtml;
+            message.From = new MailAddress(fromEmail);
+            message.Subject = subject;
+            message.Body = templateBody;
 
             SmtpClient client = Settings.GetSmtpClient();
 
@@ -67,7 +67,7 @@ namespace mesoBoard.Services
 
         public void WelcomeEmail(User user)
         {
-            ListDictionary replacements = new ListDictionary();
+            var replacements = new Dictionary<string, string>();
 
             replacements.Add("{USERNAME}", user.Username);
 
@@ -81,7 +81,7 @@ namespace mesoBoard.Services
 
         public void Registration(User user, string confirm_url)
         {
-            ListDictionary replacements = new ListDictionary();
+            var replacements = new Dictionary<string, string>();
 
             replacements.Add("{USERNAME}", user.Username);
             replacements.Add("{CONFIRM_URL}", confirm_url);
@@ -96,7 +96,7 @@ namespace mesoBoard.Services
 
         public void ResendActivationCode(User user, string confirm_url)
         {
-            ListDictionary replacements = new ListDictionary();
+            var replacements = new Dictionary<string, string>();
 
             replacements.Add("{USERNAME}", user.Username);
             replacements.Add("{CONFIRM_URL}", confirm_url);
@@ -111,15 +111,8 @@ namespace mesoBoard.Services
 
         public void NewPostEmail(IEnumerable<Subscription> Subs, Post ThePost, Thread thread, string PostURL)
         {
-            ListDictionary replacements = new ListDictionary();
+            var replacements = new Dictionary<string, string>();
             string AutoFromEmail = SiteConfig.AutomatedFromEmail.Value;
-
-            MailDefinition md = new MailDefinition();
-
-            md.BodyFileName = EmailTemplates.GenerateEmailPath(EmailTemplates.NewThreadReply);
-            md.IsBodyHtml = true;
-            md.From = AutoFromEmail;
-            md.Subject = "Reply to Thread '" + thread.Title + "' - " + SiteConfig.BoardName.Value;
 
             replacements.Add("{REPLY_USERNAME}", ThePost.User.Username);
             replacements.Add("{REPLY_TEXT}", ThePost.Text);
@@ -128,9 +121,17 @@ namespace mesoBoard.Services
             replacements.Add("{BOARD_URL}", SiteConfig.BoardURL.Value);
             replacements.Add("{BOARD_NAME}", SiteConfig.BoardName.Value);
 
-            System.Web.UI.Control ctrl = new System.Web.UI.Control { ID = "Something" };
+            string templateBody = File.ReadAllText(EmailTemplates.GenerateEmailPath(EmailTemplates.NewThreadReply));
+            foreach (var replacement in replacements)
+            {
+                templateBody = templateBody.Replace(replacement.Key, replacement.Value);
+            }
 
-            MailMessage message = md.CreateMailMessage("subemails@mesocube.com", replacements, ctrl);
+            var message = new MailMessage();
+            message.IsBodyHtml = true;
+            message.From = new MailAddress(AutoFromEmail);
+            message.Subject = "Reply to Thread '" + thread.Title + "' - " + SiteConfig.BoardName.Value;
+            message.Body = templateBody;
 
             //Send the message
             SmtpClient client = Settings.GetSmtpClient();
@@ -153,7 +154,7 @@ namespace mesoBoard.Services
 
         public void PasswordChanged(User user, string NewPassword)
         {
-            ListDictionary replacements = new ListDictionary();
+            var replacements = new Dictionary<string, string>();
 
             replacements.Add("{USERNAME}", user.Username);
             replacements.Add("{USERPASSWORD}", NewPassword);
@@ -168,7 +169,7 @@ namespace mesoBoard.Services
 
         public void EmailChanged(User user)
         {
-            ListDictionary replacements = new ListDictionary();
+            var replacements = new Dictionary<string, string>();
 
             replacements.Add("{USERNAME}", user.Username);
             replacements.Add("{EMAIL}", user.Email);
@@ -183,7 +184,7 @@ namespace mesoBoard.Services
 
         public void PasswordResetRequest(User user, string ResetURL)
         {
-            ListDictionary replacements = new ListDictionary();
+            var replacements = new Dictionary<string, string>();
 
             replacements.Add("{USERNAME}", user.Username);
             replacements.Add("{RESET_URL}", ResetURL);
@@ -198,7 +199,7 @@ namespace mesoBoard.Services
 
         public void NewMessage(Message message, User ToUser, string messageURL)
         {
-            ListDictionary replacements = new ListDictionary();
+            var replacements = new Dictionary<string, string>();
 
             replacements.Add("{FROMUSERNAME}", message.FromUser.Username);
             replacements.Add("{MESSAGEURL}", messageURL);

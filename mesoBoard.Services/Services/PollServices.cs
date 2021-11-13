@@ -64,7 +64,7 @@ namespace mesoBoard.Services
 
         public void CreatePoll(string pollQuestion, string[] pollOptions, int threadID)
         {
-            System.Data.Objects.DataClasses.EntityCollection<PollOption> toadd = new System.Data.Objects.DataClasses.EntityCollection<PollOption>();
+            var toadd = new List<PollOption>();
 
             foreach (string po in pollOptions)
             {

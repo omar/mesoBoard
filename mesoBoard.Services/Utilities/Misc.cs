@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Web.Hosting;
 using mesoBoard.Data;
 
 namespace mesoBoard.Services
@@ -18,7 +17,7 @@ namespace mesoBoard.Services
 
             string originalFile;
 
-            string path = HostingEnvironment.MapPath(("~/Themes/" + theme.FolderName + "/Content/Scripts/bbcode-set.js"));
+            string path = ("~/Themes/" + theme.FolderName + "/Content/Scripts/bbcode-set.js");
 
             using (FileStream file = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read))
             using (StreamReader reader = new StreamReader(file))
@@ -42,7 +41,7 @@ namespace mesoBoard.Services
                 originalFile = originalFile.Replace(s, "// " + s);
             }
 
-            string newPath = HostingEnvironment.MapPath(("~/Themes/" + theme.FolderName + "/Content/Scripts/bbcode-set-parsed.js"));
+            string newPath = ("~/Themes/" + theme.FolderName + "/Content/Scripts/bbcode-set-parsed.js");
             using (StreamWriter writeit = File.CreateText(newPath))
             {
                 writeit.Write(originalFile);

@@ -1,12 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-using System.Web.Mvc;
 using mesoBoard.Common;
 using mesoBoard.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace mesoBoard.Services
 {
@@ -93,7 +91,7 @@ namespace mesoBoard.Services
             // undo the replace that was used to break Regex to avoid infinite loops
             text = text.Replace("^-^-^", "[").Replace("%-%-%", "]");
 
-            TagBuilder smileyImage = new TagBuilder("img");
+            var smileyImage = new TagBuilder("img");
             smileyImage.Attributes.Add("src", string.Empty);
             smileyImage.Attributes.Add("alt", string.Empty);
             smileyImage.Attributes.Add("title", string.Empty);
@@ -104,7 +102,7 @@ namespace mesoBoard.Services
                 smileyImage.Attributes["src"] = imageUrl;
                 smileyImage.Attributes["alt"] = smiley.Title;
                 smileyImage.Attributes["title"] = smiley.Title;
-                text = text.Replace(smiley.Code, smileyImage.ToString(TagRenderMode.SelfClosing));
+                text = text.Replace(smiley.Code, smileyImage.ToString());
             }
             return text;
         }

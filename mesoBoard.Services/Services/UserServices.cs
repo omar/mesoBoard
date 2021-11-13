@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Security;
+using System.Text;
 using mesoBoard.Common;
 using mesoBoard.Data;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace mesoBoard.Services
 {
@@ -98,7 +98,7 @@ namespace mesoBoard.Services
 
         public bool ValidatePassword(User user, string password)
         {
-            string hashedPassword = FormsAuthentication.HashPasswordForStoringInConfigFile(password + user.PasswordSalt, "MD5");
+            string hashedPassword = HashPassword(password, user.PasswordSalt);
             return user.Password == hashedPassword;
         }
 
@@ -167,7 +167,7 @@ namespace mesoBoard.Services
 
             string newPass = Randoms.RandomPassword();
             string salt = Randoms.CreateSalt();
-            string hashedPass = FormsAuthentication.HashPasswordForStoringInConfigFile(newPass + salt, "MD5");
+            string hashedPass = HashPassword(newPass, salt);
 
             user.Password = hashedPass;
             user.PasswordSalt = salt;
@@ -180,7 +180,7 @@ namespace mesoBoard.Services
         public User UpdatePassword(int userID, string newPassword)
         {
             string newSalt = Randoms.CreateSalt();
-            string newHashedPassword = FormsAuthentication.HashPasswordForStoringInConfigFile(newPassword + newSalt, "MD5");
+            string newHashedPassword = HashPassword(newPassword, newSalt);
 
             User user = GetUser(userID);
 
@@ -268,14 +268,14 @@ namespace mesoBoard.Services
         {
             string activationType = SiteConfig.AccountActivation.Value;
             string salt = Randoms.CreateSalt() + DateTime.UtcNow.ToString();
-            string hashedPassword = FormsAuthentication.HashPasswordForStoringInConfigFile(password + salt, "MD5");
+            string hashedPassword = HashPassword(password, salt);
 
             var user = new User()
             {
                 Password = hashedPassword,
                 PasswordSalt = salt,
                 RegisterDate = DateTime.UtcNow,
-                RegisterIP = HttpContext.Current.Request.UserHostAddress,
+                RegisterIP = "127.0.0.1",
                 ActivationCode = activationType == "None" ? string.Empty : Randoms.CleanGUID(),
                 Status = false,
                 LastLoginIP = null,
@@ -379,6 +379,17 @@ namespace mesoBoard.Services
         {
             _passwordResetRequestRepository.Delete(userID);
             _unitOfWork.Commit();
+        }
+
+        public string HashPassword(string password, string salt)
+        {
+            // derive a 256-bit subkey (use HMACSHA256 with 100,000 iterations)
+            return Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: password,
+                salt: Encoding.ASCII.GetBytes(salt),
+                prf: KeyDerivationPrf.HMACSHA256,
+                iterationCount: 100000,
+                numBytesRequested: 256 / 8));
         }
     }
 }
