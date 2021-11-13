@@ -2,11 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 using mesoBoard.Data;
 using mesoBoard.Framework.Validation;
-using mesoBoard.Services;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace mesoBoard.Framework.Models
 {

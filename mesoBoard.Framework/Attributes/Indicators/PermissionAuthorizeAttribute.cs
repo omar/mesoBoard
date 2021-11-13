@@ -1,16 +1,16 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
 using mesoBoard.Common;
-using Ninject.Web.Mvc;
-using Ninject.Web.Mvc.FilterBindingSyntax;
+using mesoBoard.Services;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace mesoBoard.Framework
 {
-    public class PermissionAuthorizeAttribute : ActionFilterAttribute
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public class PermissionAuthorizeAttribute : Attribute, IFilterFactory
     {
+        public bool IsReusable => false;
+
         public SpecialPermissionValue[] Permissions { get; set; }
 
         public PermissionAuthorizeAttribute(params SpecialPermissionValue[] permissions)
@@ -18,12 +18,10 @@ namespace mesoBoard.Framework
             Permissions = permissions;
         }
 
-        public static void Bind(Ninject.IKernel kernel)
+        public IFilterMetadata CreateInstance(IServiceProvider serviceProvider)
         {
-            kernel
-                .BindFilter<PermissionAuthorizeFilter>(FilterScope.Controller | FilterScope.Action, null)
-                .WhenControllerHas<PermissionAuthorizeAttribute>()
-                .WithConstructorArgumentFromControllerAttribute<PermissionAuthorizeAttribute>("Permissions", x => x.Permissions);
+            var roleServices = serviceProvider.GetService<RoleServices>();
+            return new PermissionAuthorizeFilter(roleServices, Permissions);
         }
     }
 }

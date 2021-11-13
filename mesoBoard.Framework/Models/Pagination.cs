@@ -1,5 +1,5 @@
 using System;
-using System.Web.Routing;
+using Microsoft.AspNetCore.Routing;
 
 namespace mesoBoard.Framework.Models
 {
@@ -52,14 +52,6 @@ namespace mesoBoard.Framework.Models
             routeValues.Add("pagesize", PageSize);
             this.RouteValues = routeValues;
         }
-
-        //public Pagination(int currentPage, int totalPages, string action, string controller, object routeValues = null, string pageQueryString = "page")
-        //{
-        //    RouteValueDictionary routeDictionary = new RouteValueDictionary(routeValues);
-        //    routeDictionary.Add("controller", controller);
-        //    routeDictionary.Add("action", action);
-        //    this.Init(currentPage, totalPages, routeDictionary, pageQueryString);
-        //}
 
         public Pagination(int currentPage, int count, int pageSize, string action, string controller, object routeValues = null, string pageQueryString = "page")
         {

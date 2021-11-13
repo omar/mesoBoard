@@ -1,10 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Routing;
 using mesoBoard.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Routing;
 
 namespace mesoBoard.Framework
 {
@@ -18,11 +17,12 @@ namespace mesoBoard.Framework
                 string controllerName = (string)filterContext.RouteData.Values["controller"];
                 string actionName = (string)filterContext.RouteData.Values["action"];
 
-                var actionAllowOffline = filterContext.ActionDescriptor.GetCustomAttributes(typeof(AllowOfflineAttribute), false);
-                var controllerAllowOffline = filterContext.ActionDescriptor.ControllerDescriptor.GetCustomAttributes(typeof(AllowOfflineAttribute), true);
+                var actionDescriptor = (filterContext.ActionDescriptor as ControllerActionDescriptor);
+                var actionAllowOffline = actionDescriptor.MethodInfo.GetCustomAttributes(typeof(AllowOfflineAttribute), false);
+                var controllerAllowOffline = actionDescriptor.ControllerTypeInfo.GetCustomAttributes(typeof(AllowOfflineAttribute), true);
                 if (actionAllowOffline.Length == 0 && controllerAllowOffline.Length == 0)
                 {
-                    RouteValueDictionary redirectRoute = new RouteValueDictionary(new { action = "Offline", controller = "Board", area = "" });
+                    var redirectRoute = new RouteValueDictionary(new { action = "Offline", controller = "Board", area = "" });
                     filterContext.Result = new RedirectToRouteResult(redirectRoute);
                 }
             }

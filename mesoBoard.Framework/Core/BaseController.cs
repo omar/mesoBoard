@@ -1,11 +1,8 @@
-using System.Linq;
-using System.Web.Mvc;
-using System.Web.Security;
-using mesoBoard.Data;
 using mesoBoard.Services;
-using mesoBoard.Framework.Models;
-using System.Web.Routing;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Routing;
 
 namespace mesoBoard.Framework.Core
 {
@@ -14,25 +11,16 @@ namespace mesoBoard.Framework.Core
     [TrackActivity]
     public abstract class BaseController : Controller
     {
-        protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
+            var timeZoneOffset = SiteConfig.TimeOffset.ToInt();
+            ViewData[ViewDataKeys.TimeZoneOffset] = timeZoneOffset;      
             base.OnActionExecuted(filterContext);
 
-            var result = filterContext.Result as ViewResultBase;
+            var result = filterContext.Result as ViewResult;
             
             if (TempData["ModelState"] != null && !ModelState.Equals(TempData["ModelState"]))
                 ModelState.Merge((ModelStateDictionary)TempData["ModelState"]);
-        }
-
-        protected override void Initialize(System.Web.Routing.RequestContext requestContext)
-        {
-            base.Initialize(requestContext);
-            
-            if (!Settings.IsInstalled)
-                return;
-
-            var timeZoneOffset = SiteConfig.TimeOffset.ToInt();
-            ViewData[ViewDataKeys.TimeZoneOffset] = timeZoneOffset;           
         }
 
         public void SetError(string message)
@@ -79,7 +67,7 @@ namespace mesoBoard.Framework.Core
 
         protected RedirectToRouteResult RedirectToSelf(object routeValues)
         {
-            RouteValueDictionary routeData = new RouteValueDictionary(routeValues);
+            var routeData = new RouteValueDictionary(routeValues);
             string controller = (string)this.ControllerContext.RouteData.Values["controller"];
             string action = (string)this.ControllerContext.RouteData.Values["action"];
             routeData.Add("controller", controller);

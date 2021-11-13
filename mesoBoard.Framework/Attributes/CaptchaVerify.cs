@@ -1,4 +1,6 @@
-using System.Web.Mvc;
+using System.Text;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace mesoBoard.Framework
 {
@@ -19,11 +21,16 @@ namespace mesoBoard.Framework
             string attemptedValue = filterContext.HttpContext.Request.Form[CaptchaFormFieldName];
             string guid = filterContext.HttpContext.Request.Form[CaptchaExtensionMethodParameter];
 
-            string solution = (string)filterContext.HttpContext.Session[SessionKeys.CaptchaSessionPrefix + guid];
+            byte[] solutionBytes = null;
+            
+            filterContext.HttpContext.Session.TryGetValue((SessionKeys.CaptchaSessionPrefix + guid), out solutionBytes);
+
+            var solution = Encoding.ASCII.GetString(solutionBytes);
+            
 
             filterContext.HttpContext.Session.Remove(SessionKeys.CaptchaSessionPrefix + guid);
             if ((solution == null) || (attemptedValue != solution))
-                filterContext.Controller.ViewData.ModelState.AddModelError(CaptchaFormFieldName, ErrorMessage);
+                ((Controller)filterContext.Controller).ViewData.ModelState.AddModelError(CaptchaFormFieldName, ErrorMessage);
         }
     }
 }

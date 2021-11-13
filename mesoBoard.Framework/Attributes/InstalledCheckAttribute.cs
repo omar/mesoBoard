@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Routing;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Routing;
 
 namespace mesoBoard.Framework
 {
@@ -15,7 +13,7 @@ namespace mesoBoard.Framework
             string controller = (string)filterContext.RouteData.Values["controller"];
             if (!Settings.IsInstalled && !string.IsNullOrWhiteSpace(controller) && !controller.Equals("Install", System.StringComparison.InvariantCultureIgnoreCase))
             {
-                RouteValueDictionary redirectRoute = new RouteValueDictionary(new { controller = "Install", area = "" });
+                var redirectRoute = new RouteValueDictionary(new { controller = "Install", area = "" });
                 filterContext.Result = new RedirectToRouteResult(redirectRoute);
             }
         }

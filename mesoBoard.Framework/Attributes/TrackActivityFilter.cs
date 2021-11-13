@@ -1,10 +1,10 @@
 using System;
-using System.Web.Mvc;
 using mesoBoard.Common;
 using mesoBoard.Data;
-using mesoBoard.Framework.Core;
 using mesoBoard.Services;
-using Ninject;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Http;
+using System.Text;
 
 namespace mesoBoard.Framework
 {
@@ -24,34 +24,34 @@ namespace mesoBoard.Framework
             if (filterContext.HttpContext.User.Identity.IsAuthenticated)
             {
                 var user = _userRepository.Get(int.Parse(filterContext.HttpContext.User.Identity.Name));
-                _globalServices.OnlineUserRoutine(user, filterContext.HttpContext.Request.UserHostAddress);
+                _globalServices.OnlineUserRoutine(user, filterContext.HttpContext.Connection.RemoteIpAddress.ToString());
             }
             else
-                _globalServices.OnlineUserRoutine(null, filterContext.HttpContext.Request.UserHostAddress);
+                _globalServices.OnlineUserRoutine(null, filterContext.HttpContext.Connection.RemoteIpAddress.ToString());
         }
 
         public void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            DateTime? date = (DateTime?)filterContext.HttpContext.Session[SessionKeys.LastActivityUpdate];
-
-            if (date.HasValue)
+            byte[] dateValue = null;
+            if (filterContext.HttpContext.Session.TryGetValue(SessionKeys.LastActivityUpdate, out dateValue))
             {
-                var elapsedMinutes = (DateTime.UtcNow - date.Value).TotalMinutes;
+                var date = DateTime.Parse(Encoding.ASCII.GetString(dateValue));
+                var elapsedMinutes = (DateTime.UtcNow - date).TotalMinutes;
 
                 if (elapsedMinutes > 15)
                 {
                     UpdateUser(filterContext);
-                    filterContext.HttpContext.Session[SessionKeys.LastActivityUpdate] = DateTime.UtcNow;
+                    filterContext.HttpContext.Session.SetString(SessionKeys.LastActivityUpdate, DateTime.UtcNow.ToString());
                 }
             }
             else
             {
                 UpdateUser(filterContext);
-                filterContext.HttpContext.Session[SessionKeys.LastActivityUpdate] = DateTime.UtcNow;
+                filterContext.HttpContext.Session.SetString(SessionKeys.LastActivityUpdate, DateTime.UtcNow.ToString());
             }
         }
 
-        public void OnActionExecuted(ActionExecutedContext filterContext)
+        public void OnActionExecuted(ActionExecutedContext context)
         {
         }
     }

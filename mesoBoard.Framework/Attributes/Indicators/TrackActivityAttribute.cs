@@ -1,21 +1,17 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
-using Ninject;
-using Ninject.Web.Mvc;
-using Ninject.Web.Mvc.FilterBindingSyntax;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace mesoBoard.Framework
 {
-    public class TrackActivityAttribute : ActionFilterAttribute
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public class TrackActivityAttribute : Attribute, IFilterFactory
     {
-        public static void Bind(IKernel kernel)
+        public bool IsReusable => false;
+
+        public IFilterMetadata CreateInstance(IServiceProvider serviceProvider)
         {
-            kernel
-                .BindFilter<TrackActivityFilter>(FilterScope.Controller, null)
-                .WhenControllerHas(typeof(TrackActivityAttribute));
+            return serviceProvider.GetService<TrackActivityFilter>();
         }
     }
 }

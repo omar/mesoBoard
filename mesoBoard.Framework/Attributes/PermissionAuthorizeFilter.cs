@@ -1,13 +1,12 @@
-using System;
-using System.Web;
-using System.Web.Mvc;
 using mesoBoard.Common;
-using mesoBoard.Framework.Core;
 using mesoBoard.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace mesoBoard.Framework
 {
-    public class PermissionAuthorizeFilter : AuthorizeAttribute
+
+    public class PermissionAuthorizeFilter : IAuthorizationFilter
     {
         private SpecialPermissionValue[] _permission;
         private RoleServices _roleServices;
@@ -18,21 +17,26 @@ namespace mesoBoard.Framework
             _roleServices = roleServices;
         }
 
-        protected override bool AuthorizeCore(HttpContextBase httpContext)
+        public void OnAuthorization(AuthorizationFilterContext context)
         {
-            if (!httpContext.User.Identity.IsAuthenticated)
-                return false;
+            if (!context.HttpContext.User.Identity.IsAuthenticated) 
+            {
+                context.Result = new UnauthorizedResult();
+                return;
+            }
 
-            if (_roleServices.UserHasSpecialPermissions(int.Parse(httpContext.User.Identity.Name), SpecialPermissionValue.Administrator))
-                return true;
+            if (_roleServices.UserHasSpecialPermissions(int.Parse(context.HttpContext.User.Identity.Name), SpecialPermissionValue.Administrator)) 
+            {
+                return;
+            }
 
             foreach (SpecialPermissionValue permission in _permission)
             {
-                if (_roleServices.UserHasSpecialPermissions(int.Parse(httpContext.User.Identity.Name), permission))
-                    return true;
+                if (_roleServices.UserHasSpecialPermissions(int.Parse(context.HttpContext.User.Identity.Name), permission))
+                    return;
             }
 
-            return false;
+            context.Result = new UnauthorizedResult();
         }
     }
 }

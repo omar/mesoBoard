@@ -1,31 +1,34 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
-using System.Web.Routing;
+using System.Threading.Tasks;
 using mesoBoard.Data;
 using mesoBoard.Services;
-using Ninject;
-using Ninject.Activation;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 
 namespace mesoBoard.Framework.Core.IoC
 {
-    public class ThemeProvider : Provider<Theme>
+
+    public class ThemeFactory
     {
-        protected override Theme CreateInstance(Ninject.Activation.IContext context)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ThemeServices _themeServices;
+
+        public ThemeFactory(
+            IHttpContextAccessor httpContextAccessor,
+            ThemeServices themeServices)
         {
-            var themeServices = context.Kernel.Get<ThemeServices>();
+            _httpContextAccessor = httpContextAccessor;
+            _themeServices = themeServices;
+        }
 
-            RouteData routeData = RouteTable.Routes.GetRouteData(new HttpContextWrapper(HttpContext.Current));
+        public Theme GetTheme()
+        {
+            var httpContext = _httpContextAccessor.HttpContext;
+            var areaName = httpContext.GetRouteValue("area") as string;
 
-            Theme theme;
-            if (routeData.GetAreaName() == "Admin")
-                theme = themeServices.GetAdminTheme();
-            else
-                theme = themeServices.GetDefaultTheme();
+            if (areaName == "Admin")
+                return _themeServices.GetAdminTheme();
 
-            return theme;
+            return _themeServices.GetDefaultTheme();
         }
     }
 }
