@@ -1,21 +1,15 @@
 using System.Collections.Specialized;
 using System.Configuration;
-using System.Web.Configuration;
-using System.Web;
 using System.Xml.Linq;
 using System.Linq;
 using System.Net.Mail;
-using System.Web.Hosting;
 using System;
+using System.IO;
 
 namespace mesoBoard
 {
     public static class Settings
     {
-        internal static bool UseXmlAccess = false;
-
-        public static SettingsXmlAccess EnableXmlAccess { get { return new SettingsXmlAccess(); } }
-
         public static readonly string ConnectionStringName = "mesoBoard";
         public static readonly string EntityConnectionStringName = "mesoBoardEntity";
 
@@ -44,38 +38,6 @@ namespace mesoBoard
         /// Otherwise, a connection string is generated based on the database values in Settings.config
         /// </summary>
         public static string EntityConnectionString { get { return GenerateEntityConnectionString(); } }
-
-        public static AspNetHostingPermissionLevel TrustLevel
-        {
-            get
-            {
-                AspNetHostingPermissionLevel[] levels = new AspNetHostingPermissionLevel[] 
-                {
-                    AspNetHostingPermissionLevel.None,         // = 100,
-                    AspNetHostingPermissionLevel.Minimal,      // = 200,
-                    AspNetHostingPermissionLevel.Low,          // = 300,
-                    AspNetHostingPermissionLevel.Medium,       // = 400,
-                    AspNetHostingPermissionLevel.High,         // = 500,
-                    AspNetHostingPermissionLevel.Unrestricted, // = 600,
-                };
-
-                foreach (var level in levels)
-                {
-                    try
-                    {
-                        var permission = new AspNetHostingPermission(level);
-                        permission.Demand();
-                    }
-                    catch
-                    {
-                        continue;
-                    }
-                    return level;
-                }
-
-                return AspNetHostingPermissionLevel.None;
-            }
-        }
 
         public static bool IsInstalled 
         { 
@@ -205,42 +167,20 @@ namespace mesoBoard
 
         private static void SetAppSetting(string settingKey, string value)
         {
-            // Using Linq and Xml due to poor support for modifying configuration sections in medium trust
-            XDocument document = XDocument.Load(HostingEnvironment.MapPath("~/Settings.config"));
-            XElement element = document.Element("Settings").Elements("add").FirstOrDefault(item => item.Attribute("key").Value == settingKey);
-            if (element == null)
-            {
-                document.Element("Settings").Add(new XElement("add", new XAttribute("key", settingKey), new XAttribute("value", string.Empty)));
-                element = document.Element("Settings").Elements("add").FirstOrDefault(item => item.Attribute("key").Value == settingKey);
-            }
-            element.Attribute("value").Value = value;
-            document.Save(HostingEnvironment.MapPath("~/Settings.config"));
+            var settingsFilePath = "appsettings.config";
+            string json = File.ReadAllText(settingsFilePath);
+            dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+            jsonObj[settingKey] = value;
+            string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
+            File.WriteAllText(settingsFilePath, output);
         }
 
         private static string GetAppSetting(string settingKey)
         {
-            if (UseXmlAccess)
-            {
-                XDocument document = XDocument.Load(HostingEnvironment.MapPath("~/Settings.config"));
-                XElement element = document.Element("Settings").Elements("add").First(item => item.Attribute("key").Value == settingKey);
-                return element.Attribute("value").Value;
-            }
-
-            var configs = System.Configuration.ConfigurationManager.GetSection("mesoBoard/Settings") as NameValueCollection;
-            return configs[settingKey];
-        }
-
-        public class SettingsXmlAccess : IDisposable
-        {
-            public SettingsXmlAccess()
-            {
-                Settings.UseXmlAccess = true;
-            }
-
-            public void Dispose()
-            {
-                Settings.UseXmlAccess = false;
-            }
+            var settingsFilePath = "appsettings.config";
+            string json = File.ReadAllText(settingsFilePath);
+            dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+            return jsonObj[settingKey];
         }
     }
 }

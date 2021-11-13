@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using Microsoft.AspNetCore.Html;
 
 namespace mesoBoard
 {
@@ -19,7 +19,7 @@ namespace mesoBoard
             return items.Skip(pageSize * (page - 1)).Take(pageSize);
         }
 
-        public static IHtmlString ToHtmlString(this string value)
+        public static HtmlString ToHtmlString(this string value)
         {
             return new HtmlString(value);
         }

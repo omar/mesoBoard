@@ -1,104 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{EE812012-B40A-44B1-9B79-C80FA087462F}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>mesoBoard.Common</RootNamespace>
-    <AssemblyName>mesoBoard.Common</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Abstractions" />
-    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Web.Routing" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="DirectoryPaths.cs" />
-    <Compile Include="Enums\AvatarType.cs" />
-    <Compile Include="Enums\Permissions\PermissionCollection.cs" />
-    <Compile Include="Enums\Permissions\PermissionsBase.cs" />
-    <Compile Include="Extensions\ModelStateDictionary.cs" />
-    <Compile Include="Repository\IUnitOfWork.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="Models\UserPermissions.cs" />
-    <Compile Include="StringKeys\CacheKeys.cs" />
-    <Compile Include="Enums\Permissions\Permission.cs" />
-    <Compile Include="Enums\Permissions\PollingPermission.cs" />
-    <Compile Include="Enums\Permissions\SpecialPermission.cs" />
-    <Compile Include="Enums\Permissions\AttachmentPermission.cs" />
-    <Compile Include="Enums\Permissions\PostingPermission.cs" />
-    <Compile Include="Enums\Permissions\VisibilityPermission.cs" />
-    <Compile Include="Enums\ThreadType.cs" />
-    <Compile Include="Enums\Direction.cs" />
-    <Compile Include="Enums\OrderyBy.cs" />
-    <Compile Include="Enums\SearchType.cs" />
-    <Compile Include="Enums\SyntaxHighlighting.cs" />
-    <Compile Include="Extensions\Global.cs" />
-    <Compile Include="Plugin\IPluginController.cs" />
-    <Compile Include="Plugin\IPluginHooks.cs" />
-    <Compile Include="Plugin\PluginConfigurations.cs" />
-    <Compile Include="Plugin\IPluginAdminMenu.cs" />
-    <Compile Include="Plugin\IPluginDetails.cs" />
-    <Compile Include="Plugin\IPluginInstall.cs" />
-    <Compile Include="Models\NavigationLink.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository\IRepository.cs" />
-    <Compile Include="StringKeys\HttpContextItemKeys.cs" />
-    <Compile Include="StringKeys\RouteKeys.cs" />
-    <Compile Include="StringKeys\SessionKeys.cs" />
-    <Compile Include="StringKeys\SettingKeys.cs" />
-    <Compile Include="StringKeys\ViewDataKeys.cs" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

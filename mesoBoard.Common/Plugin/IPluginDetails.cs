@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Routing;
+
 namespace mesoBoard.Common
 {
     public interface IPluginDetails
@@ -16,8 +18,8 @@ namespace mesoBoard.Common
 
         IPluginInstall InstallDetails { get; }
 
-        System.Web.Routing.RouteCollection Routes { get; }
+        RouteCollection Routes { get; }
 
-        System.Web.Routing.RouteValueDictionary DefaultRoute { get; }
+        RouteValueDictionary DefaultRoute { get; }
     }
 }
