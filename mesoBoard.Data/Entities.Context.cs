@@ -9,18 +9,10 @@
 
 namespace mesoBoard.Data
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Infrastructure;
-    using System.Data.Objects;
+    using Microsoft.EntityFrameworkCore;
 
     public partial class mbEntities : DbContext
     {
-        public mbEntities()
-            : base("name=mbEntities")
-        {
-        }
-
         public DbSet<Attachment> Attachments { get; set; }
 
         public DbSet<BBCode> BBCodes { get; set; }
