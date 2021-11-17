@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace mesoBoard.Web.Controllers
 {
+    [Route("[controller]/[action]")]
     public class BoardController : BaseController
     {
         private ForumServices _forumServices;

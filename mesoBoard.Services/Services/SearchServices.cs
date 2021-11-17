@@ -7,10 +7,10 @@ namespace mesoBoard.Services
 {
     public class SearchServices : BaseService
     {
-        private mbEntities _dataContext;
+        private mesoBoardContext _dataContext;
 
         public SearchServices(
-            mbEntities dataContext,
+            mesoBoardContext dataContext,
             IUnitOfWork unitOfWork)
             : base(unitOfWork)
         {

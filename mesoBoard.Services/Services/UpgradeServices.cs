@@ -53,10 +53,10 @@ namespace mesoBoard.Services
             public string FullPath { get; set; }
         }
 
-        private mbEntities _dataContext;
+        private mesoBoardContext _dataContext;
 
         public UpgradeServices(
-            mbEntities dataContext)
+            mesoBoardContext dataContext)
         {
             _dataContext = dataContext;
         }

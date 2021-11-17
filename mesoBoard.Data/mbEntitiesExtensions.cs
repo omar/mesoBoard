@@ -2,7 +2,7 @@ using mesoBoard.Common;
 
 namespace mesoBoard.Data
 {
-    public partial class mbEntities : IUnitOfWork
+    public partial class mesoBoardContext : IUnitOfWork
     {
 
         public void Commit()

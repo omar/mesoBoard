@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace mesoBoard.Framework.Core
 {
@@ -11,6 +12,16 @@ namespace mesoBoard.Framework.Core
     [TrackActivity]
     public abstract class BaseController : Controller
     {
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            var themeServices = context.HttpContext.RequestServices.GetService<ThemeServices>();
+            var theme = themeServices.GetDefaultTheme();
+            context.HttpContext.Items[HttpContextItemKeys.ThemeFolder] = theme.FolderName;
+            context.HttpContext.Items[HttpContextItemKeys.CurrentTheme] = theme;
+
+            base.OnActionExecuting(context);
+        }
+
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             var timeZoneOffset = SiteConfig.TimeOffset.ToInt();

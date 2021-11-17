@@ -13,7 +13,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RazorCompileOnBuild>false</RazorCompileOnBuild>
+    <!-- <RazorCompileOnBuild>false</RazorCompileOnBuild> -->
   </PropertyGroup>
 
 </Project>

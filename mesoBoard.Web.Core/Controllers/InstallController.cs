@@ -9,6 +9,7 @@ using mesoBoard.Framework.Models;
 using mesoBoard.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
 
 namespace mesoBoard.Web.Controllers
 {
@@ -205,7 +206,9 @@ namespace mesoBoard.Web.Controllers
                             .Replace("{dbpassword}", sqlInfo.DatabasePassword);
 
                 string entityConnectionString = Settings.EntityConnectionStringTemplate.Replace("{CONNECTIONSTRING}", connectionString);
-                mbEntities dataContext = new mbEntities(entityConnectionString);
+                var dbContextOptionsBuilder = new DbContextOptionsBuilder<mesoBoardContext>();
+                dbContextOptionsBuilder.UseSqlServer(entityConnectionString);
+                var dataContext = new mesoBoardContext(dbContextOptionsBuilder.Options);
 
                 Config automatedEmail = dataContext.Configs.First(item => item.Name.Equals("AutomatedFromEmail"));
                 automatedEmail.Value = "no-reply@" + Request.Host;

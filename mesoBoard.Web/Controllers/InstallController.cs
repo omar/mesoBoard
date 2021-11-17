@@ -207,7 +207,7 @@ namespace mesoBoard.Web.Controllers
                             .Replace("{dbpassword}", sqlInfo.DatabasePassword);
 
                 string entityConnectionString = Settings.EntityConnectionStringTemplate.Replace("{CONNECTIONSTRING}", connectionString);
-                mbEntities dataContext = new mbEntities(entityConnectionString);
+                mesoBoardContext dataContext = new mesoBoardContext(entityConnectionString);
 
                 Config automatedEmail = dataContext.Configs.First(item => item.Name.Equals("AutomatedFromEmail"));
                 automatedEmail.Value = "no-reply@" + Request.Url.Host;
