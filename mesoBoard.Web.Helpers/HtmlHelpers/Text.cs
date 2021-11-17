@@ -9,7 +9,7 @@ namespace mesoBoard.Web.Helpers
 {
     public static partial class mesoBoardHtmlHelpers
     {
-        public static IHtmlString SyntaxHighlightingScripts(this HtmlHelper html, params SyntaxHighlighting[] langs)
+        public static IHtmlContent SyntaxHighlightingScripts(this IHtmlHelper html, params SyntaxHighlighting[] langs)
         {
             UrlHelper Url = new UrlHelper(html.ViewContext.RequestContext);
 
@@ -30,7 +30,7 @@ namespace mesoBoard.Web.Helpers
             return new HtmlString(str.ToString());
         }
 
-        public static IHtmlString SyntaxHighlightingScripts(this HtmlHelper html, string commaDelimitedList)
+        public static IHtmlContent SyntaxHighlightingScripts(this IHtmlHelper html, string commaDelimitedList)
         {
             string[] split = commaDelimitedList.Split(',');
 
@@ -44,7 +44,7 @@ namespace mesoBoard.Web.Helpers
             return SyntaxHighlightingScripts(html, langs.ToArray());
         }
 
-        public static decimal PercentOfVotes(this HtmlHelper html, int voteCount, int totalVotes)
+        public static decimal PercentOfVotes(this IHtmlHelper html, int voteCount, int totalVotes)
         {
             if (totalVotes == 0)
                 return 0;
@@ -55,7 +55,7 @@ namespace mesoBoard.Web.Helpers
             return Math.Round(percent);
         }
 
-        public static IHtmlString VoteBar(this HtmlHelper html, int voteCount, int totalVotes)
+        public static IHtmlContent VoteBar(this IHtmlHelper html, int voteCount, int totalVotes)
         {
             decimal percent = PercentOfVotes(html, voteCount, totalVotes) / 2;
 
@@ -67,7 +67,7 @@ namespace mesoBoard.Web.Helpers
             return new HtmlString(tag.ToString());
         }
 
-        public static IHtmlString FriendlyFileSize(this HtmlHelper html, int fileSizeBytes)
+        public static IHtmlContent FriendlyFileSize(this IHtmlHelper html, int fileSizeBytes)
         {
             string unit = "bytes";
             double ratio = fileSizeBytes;
@@ -92,15 +92,15 @@ namespace mesoBoard.Web.Helpers
                 ratio = (fileSizeBytes / Math.Pow(1024, 3));
             }
 
-            return MvcHtmlString.Create(string.Format("{0} {1}", ratio.ToString("#.##"), unit));
+            return new HtmlString(string.Format("{0} {1}", ratio.ToString("#.##"), unit));
         }
 
-        public static IHtmlString SubmitButtonText(this HtmlHelper htmlHelper, int idValue)
+        public static IHtmlContent SubmitButtonText(this IHtmlHelper htmlHelper, int idValue)
         {
             if (idValue == 0)
-                return MvcHtmlString.Create("Create");
+                return new HtmlString("Create");
             else
-                return MvcHtmlString.Create("Save Changes");
+                return new HtmlString("Save Changes");
         }
     }
 }

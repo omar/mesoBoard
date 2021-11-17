@@ -1,0 +1,56 @@
+@model IEnumerable<mesoBoard.Data.User>
+
+@{
+    Layout = "~/Views/Shared/_Site.cshtml";
+}
+
+    
+    <div class="members_list section">
+        <h2>Members List</h2>
+    
+        <table class="letters">
+            @{  string selectedLetter = (string)ViewData["letter"]; }
+            <tr>
+                <th>@Html.ActionLink("(All)", "MembersList", "Members", null, new { @class = selectedLetter == "(All)" ? "selected" : "" })</th>
+                @{  char alphaStart = Char.Parse("A");
+                    char alphaEnd = Char.Parse("Z");}
+                @for (char i = alphaStart; i <= alphaEnd; i++) { 
+                    <th>@Html.ActionLink(i.ToString(), "MembersList", new { Letter = i.ToString() }, new { @class= selectedLetter == i.ToString() ? "selected" : "" })</th>
+                }
+            </tr>
+    
+        </table>
+        
+        <table class="results">
+            <tr>
+                <th>Username</th>
+                <th>Joined</th>
+                <th>Posts</th>
+                <th>Age</th>
+            </tr>
+        
+            @{ foreach(var user in Model){ 
+        
+            <tr>
+                <td>@Html.UsernameLink(user) </td>
+                <td>@user.RegisterDate.ToShortDateString()  (@Html.RelativeDate(user.RegisterDate) )</td>
+                <td>@user.Posts.Count </td>
+                <td>@(user.UserProfile.Birthdate.HasValue ? (DateTime.UtcNow.Year - user.UserProfile.Birthdate.Value.Year).ToString() : "Not set")</td>
+            </tr>
+        
+            } }       
+
+            @if(Model.Count() == 0){ 
+            <tr>
+                <td class="empty" colspan="4">
+                    No users found
+                </td>
+            </tr>
+             } 
+        </table>
+    
+         @Html.Partial("_Pagination", ViewData["Pagination"]) 
+    
+    </div>
+
+

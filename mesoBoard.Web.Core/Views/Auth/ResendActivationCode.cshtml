@@ -1,0 +1,26 @@
+@model ResendActivationCodeViewModel
+@{
+    Layout = "~/Views/Shared/_Site.cshtml";
+}
+<div class="resend_code section">
+    <h2>Resend Activation Code</h2>
+        
+    @using (Html.BeginForm())
+    {
+        <dl>
+            <dt>@Html.DisplayFor(model => model.UsernameOrEmail)</dt>
+            <dd>
+                @Html.TextBoxFor(model => model.UsernameOrEmail)
+                @Html.ValidationMessageFor(model => model.UsernameOrEmail)
+            </dd>
+                
+            <dt>&nbsp;</dt>
+            <dd>
+                <input type="submit" value="Send Activation Email" />
+            </dd>
+            
+        </dl>
+    }
+
+
+</div>

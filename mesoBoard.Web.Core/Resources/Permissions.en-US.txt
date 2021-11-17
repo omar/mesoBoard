@@ -1,0 +1,13 @@
+﻿Attachments_Download=Can download attachments
+Attachments_None=Can't download or upload
+Attachments_Upload=Can download and upload attachments
+Polling_Create=Can vote and create polls
+Polling_None=Can't vote or create polls
+Polling_Vote=Can vote
+Posting_Announcments=Can create announcments
+Posting_None=Can't post or create threads
+Posting_Reply=Can reply to threads
+Posting_Sticky=Can create sticky threads
+Posting_Thread=Can create threads
+Visibility_Hidden=Hidden
+Visibility_Visible=Visible

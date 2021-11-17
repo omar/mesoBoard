@@ -7,7 +7,7 @@ namespace mesoBoard.Web.Helpers
 {
     public static partial class mesoBoardHtmlHelpers
     {
-        public static MvcHtmlString ConfirmLink(this HtmlHelper html, string linkText, string yesRedirectUrl, string noRedirectUrl, object htmlAttributes = null)
+        public static IHtmlContent ConfirmLink(this IHtmlHelper html, string linkText, string yesRedirectUrl, string noRedirectUrl, object htmlAttributes = null)
         {
             return html.ActionLink(linkText, "Confirm", "Board",
             new
@@ -17,7 +17,7 @@ namespace mesoBoard.Web.Helpers
             }, htmlAttributes);
         }
 
-        public static MvcHtmlString TopBreadCrumbLink(this HtmlHelper html, object htmlAttributes = null)
+        public static IHtmlContent TopBreadCrumbLink(this IHtmlHelper html, object htmlAttributes = null)
         {
             string action = (string)html.ViewContext.RouteData.Values["action"];
             string controller = (string)html.ViewContext.RouteData.Values["controller"];
@@ -34,7 +34,7 @@ namespace mesoBoard.Web.Helpers
             }
         }
 
-        public static MvcHtmlString BreadCrumbLink(this HtmlHelper html, object htmlAttributes = null)
+        public static IHtmlContent BreadCrumbLink(this IHtmlHelper html, object htmlAttributes = null)
         {
             string action = (string)html.ViewContext.RouteData.Values["action"];
             string controller = (string)html.ViewContext.RouteData.Values["controller"];
@@ -51,7 +51,7 @@ namespace mesoBoard.Web.Helpers
             }
         }
 
-        public static IHtmlString UserProfileLink(this HtmlHelper html, string UserNameOrID)
+        public static IHtmlContent UserProfileLink(this IHtmlHelper html, string UserNameOrID)
         {
             UrlHelper Url = new UrlHelper(html.ViewContext.RequestContext);
             TagBuilder link = new TagBuilder("a");
@@ -61,7 +61,7 @@ namespace mesoBoard.Web.Helpers
             return new HtmlString(link.ToString());
         }
 
-        public static IHtmlString ImageLink(this HtmlHelper html, string text, string link,
+        public static IHtmlContent ImageLink(this IHtmlHelper html, string text, string link,
             string imageSource, string titleAndAlt, string cssClass)
         {
             UrlHelper Url = new UrlHelper(html.ViewContext.RequestContext);

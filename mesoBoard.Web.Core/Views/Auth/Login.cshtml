@@ -1,0 +1,42 @@
+@model mesoBoard.Framework.Models.LoginViewModel
+@{
+    Layout = "~/Views/Shared/_Site.cshtml";
+}
+<div class="login section">
+    <h2>Login</h2>
+            
+    @using(Html.BeginForm()) { 
+        <dl>
+            <dt>@Html.LabelFor(model => model.Username)</dt>
+            <dd>
+                @Html.TextBoxFor(model => model.Username)
+                @Html.ValidationMessageFor(model => model.Username)
+            </dd>
+                
+            <dt>@Html.LabelFor(model => model.Password)</dt>
+            <dd>
+                @Html.PasswordFor(model => model.Password)
+                @Html.ValidationMessageFor(model => model.Password)
+            </dd>
+                
+            <dt>&nbsp;</dt>
+            <dd>
+                @Html.CheckBoxFor(model => model.RememberMe)  <label for="RememberMe">Remember me</label>
+                <br />
+                @Html.ActionLink("Don't have an account?", "Register", "Auth") 
+                <br />
+                @Html.ActionLink("Forgot password?", "ForgotPassword", "Auth")    
+            </dd>
+                
+            <dt>&nbsp;</dt>
+            <dd>
+                <input type="submit" value="Login" />
+            </dd>
+            
+        </dl>
+     } 
+
+</div>
+
+
+

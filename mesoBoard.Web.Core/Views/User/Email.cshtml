@@ -1,0 +1,30 @@
+@model EmailViewModel
+@{
+    Layout = "~/Views/Shared/_User.cshtml";
+}
+  
+<div class="user_cp_email section">
+    <h2>Email</h2>
+    @using(Html.BeginForm()) {         
+        <dl>
+            <dt>Current Email</dt>
+            <dd>@Model.CurrentEmail</dd>
+                
+            <dt>New Email</dt>
+            <dd>
+                @Html.TextBoxFor(model => model.NewEmail)
+                @Html.ValidationMessageFor(model => model.NewEmail)
+            </dd>   
+                
+            <dt>&nbsp;</dt>
+            <dd>
+                <input type="submit" value="Save Changes" />
+            </dd>
+        </dl>
+     } 
+</div>
+
+   
+
+
+

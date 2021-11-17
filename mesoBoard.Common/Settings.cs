@@ -167,20 +167,20 @@ namespace mesoBoard
 
         private static void SetAppSetting(string settingKey, string value)
         {
-            var settingsFilePath = "appsettings.config";
+            var settingsFilePath = "appsettings.json";
             string json = File.ReadAllText(settingsFilePath);
             dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
-            jsonObj[settingKey] = value;
+            jsonObj["mesoBoard"][settingKey] = value;
             string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
             File.WriteAllText(settingsFilePath, output);
         }
 
         private static string GetAppSetting(string settingKey)
         {
-            var settingsFilePath = "appsettings.config";
+            var settingsFilePath = "appsettings.json";
             string json = File.ReadAllText(settingsFilePath);
             dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
-            return jsonObj[settingKey];
+            return jsonObj["mesoBoard"][settingKey];
         }
     }
 }

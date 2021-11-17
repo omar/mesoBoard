@@ -10,17 +10,20 @@ namespace mesoBoard.Services
         private IRepository<Config> _configRepository;
         private IRepository<InRole> _inRoleRepository;
         private IRepository<User> _userRepository;
+        private SiteConfig _siteConfig;
 
         public RoleServices(
             IRepository<Config> configRepository,
             IRepository<InRole> inRoleRepository,
             IRepository<User> userRepository,
+            SiteConfig siteConfig,
             IUnitOfWork unitOfWork)
             : base(unitOfWork)
         {
             _configRepository = configRepository;
             _inRoleRepository = inRoleRepository;
             _userRepository = userRepository;
+            _siteConfig = siteConfig;
         }
 
         public IEnumerable<Role> GetUserRoleRanks(int userID)
@@ -48,7 +51,7 @@ namespace mesoBoard.Services
             registrationRole.Value = roleID.ToString();
             _configRepository.Update(registrationRole);
             _unitOfWork.Commit();
-            SiteConfig.UpdateCache();
+            _siteConfig.UpdateCache();
         }
     }
 }

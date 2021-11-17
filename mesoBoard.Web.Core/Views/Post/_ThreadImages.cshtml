@@ -1,0 +1,21 @@
+@model IThreadEditor
+    
+    <ul class="thread_images">
+        <li class="no_image">
+            @Html.RadioButtonFor(model => model.ThreadEditor.Image, "", new { id = "no_thread_image" })
+            <label for="no_thread_image">None</label>
+        </li>
+
+        @{int i = 0;}
+        @foreach (var image in Model.ThreadEditor.ThreadImages) 
+        { 
+            <li>
+                @Html.RadioButtonFor(model => model.ThreadEditor.Image, image, new { id = "thread_image_" + i })
+                <label for="thread_image_@(i)">@Html.Image("~/Images/ThreadImages/" + image)
+                </label>
+            </li>
+            i++;
+        }
+    </ul>
+    <div class="clear">&nbsp;</div>
+    @Html.ValidationMessageFor(model => model.ThreadEditor.Image)

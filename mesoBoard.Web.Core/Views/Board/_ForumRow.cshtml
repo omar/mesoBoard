@@ -1,0 +1,62 @@
+@model mesoBoard.Framework.Models.ForumRow
+
+@{
+    string forumClass = "bg_color2";
+
+    if (Model.IsOdd)
+    {
+        forumClass = "bg_color3";
+    }
+    if (Model.HasNewPost)
+    {
+        forumClass += " new";
+    }
+}
+
+<tr class="forum_row @forumClass ">
+    <td class="image">
+    </td>
+
+    <td class="info">
+        @Html.ActionLink(Model.Forum.Name, "ViewForum", new { controller= "Board", ForumID = Model.Forum.ForumID })
+
+        <div class="description">
+            @Model.Forum.Description
+        </div>
+    </td>
+
+    @if (Model.Forum.Threads.Count == 0)
+    {
+        <td class="last_post">
+            No Posts
+        </td>
+        <td class="stats">
+            0 threads <br />
+            0 posts
+        </td>
+    }
+    else
+    {
+        var postUrl = Url.Action("ViewThread", "Board", new { ThreadID = Model.LastPost.Thread.ThreadID, LastPost = true });
+        postUrl = postUrl + "#" + Model.LastPost.PostID;
+
+
+        <td class="last_post">
+            <a href="@postUrl" title="@Model.LastPost.TextOnly.Shorten(75) ">
+                &#187; @Model.LastPost.Thread.Title.Shorten(23)
+            </a>
+
+            <div class="by_line">
+                by @Html.UsernameLink(Model.LastPost.User)
+
+                - <span>@Html.RelativeDate(Model.LastPost.Date)</span>
+            </div>
+        </td>
+
+        <td class="stats">
+            @Model.Forum.Threads.Count threads
+            <br />@Model.Forum.Threads.Sum(item => item.Posts.Count) posts
+        </td>
+    }
+
+</tr>

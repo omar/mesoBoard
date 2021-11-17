@@ -9,15 +9,18 @@ namespace mesoBoard.Services
     {
         private IRepository<Theme> _themeRepository;
         private IRepository<Config> _configRepository;
+        private SiteConfig _siteConfig;
 
         public ThemeServices(
             IRepository<Theme> themeRepository,
             IRepository<Config> configRepository,
+            SiteConfig siteConfig,
             IUnitOfWork unitOfWork)
             : base(unitOfWork)
         {
-            this._themeRepository = themeRepository;
-            this._configRepository = configRepository;
+            _themeRepository = themeRepository;
+            _configRepository = configRepository;
+            _siteConfig = siteConfig;
         }
 
         public Theme GetAdminTheme()
@@ -56,7 +59,7 @@ namespace mesoBoard.Services
             boardTheme.Value = themeID.ToString();
             _configRepository.Update(boardTheme);
             _unitOfWork.Commit();
-            SiteConfig.UpdateCache();
+            _siteConfig.UpdateCache();
         }
     }
 }

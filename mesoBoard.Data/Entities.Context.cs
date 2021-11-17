@@ -13,6 +13,15 @@ namespace mesoBoard.Data
 
     public partial class mbEntities : DbContext
     {
+        public mbEntities(string connectionString) : base()
+        {
+            base.Database.SetConnectionString(connectionString);
+        }
+
+        public mbEntities(DbContextOptions options) : base(options)
+        {
+        }
+
         public DbSet<Attachment> Attachments { get; set; }
 
         public DbSet<BBCode> BBCodes { get; set; }

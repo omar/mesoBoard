@@ -1,0 +1,110 @@
+@model ProfileViewModel
+           
+@{
+    Layout = "~/Views/Shared/_User.cshtml";             
+}
+
+<div class="user_cp_profile section">
+    <h2>Profile</h2>
+    @using (Html.BeginForm())
+    { 
+        <dl>
+            <dt>Location</dt>
+            <dd>
+                @Html.TextBoxFor(model => model.Location)
+            </dd>
+
+            <dt>
+                Birthdate
+            </dt>
+            <dd>
+                @Html.DropDownListFor(model => model.Month, Model.MonthList, "Month")
+                @Html.DropDownListFor(model => model.Day, Model.DayList, "Day")
+                @Html.DropDownListFor(model => model.Year, Model.YearList, "Year")
+                
+                @Html.ValidationMessageFor(model => model.Birthdate) 
+                <label class="info">Never displayed, used to calculate age</label>
+            </dd>
+                
+            @if (Model.CanSelectTheme)
+            { 
+                <dt>Theme</dt>
+                <dd>
+                    @Html.DropDownListFor(model => model.ThemeID, Model.ThemeList, "(Select a theme)")
+                    @Html.ValidationMessageFor(model => model.ThemeID)
+                </dd>        
+            } 
+                
+            @if (Model.RankRoles.Count() != 0)
+            {                        
+
+                <dt>Username Color/Image</dt>
+                <dd>
+                    <p>
+                        <input type="radio" name="DefaultRankRole" value="" id="role_none" 
+                        @(Model.DefaultRankRole == null ? "checked=\"checked\"" : "")
+                        />
+                        <label for="role_none">None</label>
+                    </p> 
+                    @foreach (var role in Model.RankRoles) 
+                    { 
+                        <p>
+                            <input type="radio" id="role_@(role.RoleID)" name="DefaultRankRole" value="@role.RoleID" 
+                            @(Model.DefaultRankRole == role.RoleID ? "checked=\"checked\"" : "") />
+
+                            <label for="role_@(role.RoleID)" style="color: @role.Rank.Color;">
+                                @role.Rank.Title
+                                @if (!string.IsNullOrEmpty(role.Rank.Image))
+                                {
+                                    <br />
+                                    @Html.RankImage(role.Rank.Image)
+                                }
+                            </label>
+                        </p>
+                    }
+                    @Html.ValidationMessageFor(model => model.DefaultRankRole)    
+                </dd>
+            } 
+                
+            <dt>AIM Username</dt>
+            <dd>
+                @Html.TextBoxFor(model => model.AIM)
+            </dd>
+                
+            <dt>ICQ Number</dt>
+            <dd>
+                @Html.TextBoxFor(model => model.ICQ)
+                @Html.ValidationMessageFor(model => model.ICQ)
+            </dd>
+                
+            <dt>MSN Address</dt>
+            <dd>
+                @Html.TextBoxFor(model => model.MSN)
+                @Html.ValidationMessageFor(model => model.MSN)
+            </dd>
+                
+            <dt>Website URL</dt>
+            <dd>
+                @Html.TextBoxFor(model => model.Website)
+            </dd>
+
+            <dt></dt>
+            <dd>
+                @Html.CheckBoxFor(model => model.AlwaysShowSignature)
+                @Html.LabelFor(model => model.AlwaysShowSignature, "Always show signature")
+            </dd>
+                
+            <dt></dt>
+            <dd>
+                @Html.CheckBoxFor(model => model.AlwaysSubscribeToThread)
+                @Html.LabelFor(model => model.AlwaysSubscribeToThread, "Always subscribe to threads")
+            </dd>
+                                
+            <dt>&nbsp;</dt>
+            <dd>
+                <input type="submit" value="Save Changes" />
+            </dd>
+                
+        </dl>
+        }  
+</div>

@@ -1,0 +1,74 @@
+@model mesoBoard.Framework.Models.SQLInstallViewModel
+@{
+    
+    Layout = "~/Views/Shared/_Install.cshtml";
+}
+
+    <script language="javascript" type="text/javascript">
+        $(function () {
+            if(@Model.UseIntegratedSecurity.ToString().ToLower())
+                $(".install_sql_login").hide();
+            
+            $(".sqlRadios").change(function () {
+                if ($(this).val() == "true")
+                    $(".install_sql_login").hide();
+                else
+                    $(".install_sql_login").show();
+            });
+        });
+    
+    </script>
+
+     @using (Html.BeginForm()) {
+        <h3>Step 1 - Database Information</h3>
+
+        <dl>
+            <dt>
+                @Html.LabelFor(model => model.DatabaseServer) 
+            </dt>
+            <dd>
+                @Html.TextBoxFor(model => model.DatabaseServer)
+                @Html.ValidationMessageFor(model => model.DatabaseServer)
+            </dd>
+            
+            <dt>
+                @Html.LabelFor(model => model.DatabaseName) 
+            </dt>
+            <dd>
+                @Html.TextBoxFor(model => model.DatabaseName) 
+                @Html.ValidationMessageFor(model => model.DatabaseName) 
+            </dd>
+            
+            <dt>
+                @Html.LabelFor(model => model.UseIntegratedSecurity) 
+            </dt>
+            <dd>
+                <input type="radio" class="sqlRadios" id="sqlTrue" name="UseIntegratedSecurity" value="true" @Html.Raw(Model.UseIntegratedSecurity ? "checked='checked'" : "")  /><label for="sqlTrue">Yes</label>
+                <br />
+                <input type="radio" class="sqlRadios" id="sqlFalse" name="UseIntegratedSecurity" value="false" @Html.Raw(!Model.UseIntegratedSecurity ? "checked='checked'" : "")  /><label for="sqlFalse">No</label>
+                @Html.ValidationMessageFor(model => model.UseIntegratedSecurity)
+            </dd>
+            
+            <dt class="install_sql_login">
+                @Html.LabelFor(model => model.DatabaseLogin) 
+            </dt>
+            <dd class="install_sql_login">
+                @Html.TextBoxFor(model => model.DatabaseLogin)
+                @Html.ValidationMessageFor(model => model.DatabaseLogin)
+            </dd>
+            
+            <dt class="install_sql_login">
+                @Html.LabelFor(model => model.DatabasePassword) 
+            </dt>
+            <dd class="install_sql_login">
+                @Html.PasswordFor(model => model.DatabasePassword)
+                @Html.ValidationMessageFor(model => model.DatabasePassword)
+            </dd>
+
+            <dt>&nbsp;</dt>
+            <dd>
+                <input type="submit" value="Test SQL Connection & Create Tables &#187;" />
+            </dd>
+
+        </dl>
+     } 

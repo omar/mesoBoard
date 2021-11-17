@@ -7,13 +7,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace mesoBoard.Framework.Core
 {
-    public static class SetupDependencyInjection
+    public static class DependencyInjectionModule
     {
         public static IServiceCollection AddDataAccess(this IServiceCollection services)
         {
-            services.AddScoped<DbContext, mbEntities>();
+            services.AddDbContext<mbEntities>(options => options.UseSqlServer(Settings.ConnectionString));
             services.AddScoped(typeof(IRepository<>), typeof(EntityRepository<>));
-            services.AddScoped<IUnitOfWork, mbEntities>();
+            services.AddScoped<IUnitOfWork>(sp => sp.GetService<mbEntities>());
+            System.Console.WriteLine("Added IUnitOfWork");
             return services;
         }
 

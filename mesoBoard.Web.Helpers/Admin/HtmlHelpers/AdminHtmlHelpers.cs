@@ -14,7 +14,7 @@ namespace mesoBoard.Web.Helpers
         /// <param name="YesRedirectURL">URL to redirect to for YES response.</param>
         /// <param name="noRedirectUrl">URL to redirect to for NO response.</param>
         /// <returns></returns>
-        public static MvcHtmlString AdminConfirm(this HtmlHelper html, string linkText, string yesRedirectUrl, string noRedirectUrl, object htmlAttributes = null)
+        public static IHtmlContent AdminConfirm(this IHtmlHelper html, string linkText, string yesRedirectUrl, string noRedirectUrl, object htmlAttributes = null)
         {
             return html.ActionLink(linkText, "Confirm", "Admin",
             new
@@ -25,7 +25,7 @@ namespace mesoBoard.Web.Helpers
             }, htmlAttributes);
         }
 
-        public static MvcHtmlString AdminDeleteImageLink(this HtmlHelper html, string YesRedirectUrl, string NoRedirectUrl, string AltText)
+        public static IHtmlContent AdminDeleteImageLink(this IHtmlHelper html, string YesRedirectUrl, string NoRedirectUrl, string AltText)
         {
             UrlHelper Url = new UrlHelper(html.ViewContext.RequestContext);
 
@@ -39,10 +39,10 @@ namespace mesoBoard.Web.Helpers
 
             link.InnerHtml = img.ToString();
 
-            return MvcHtmlString.Create(link.ToString());
+            return new HtmlString(link.ToString());
         }
 
-        public static IHtmlString ControllerAwareActionLink(this HtmlHelper htmlHelper, string linkText, string action, string controller, object htmlAttributes)
+        public static IHtmlContent ControllerAwareActionLink(this IHtmlHelper htmlHelper, string linkText, string action, string controller, object htmlAttributes)
         {
             string controllerName = (string)htmlHelper.ViewContext.RouteData.Values["controller"];
 

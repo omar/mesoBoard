@@ -1,0 +1,49 @@
+@model mesoBoard.Framework.Models.Pagination
+
+@if (Model.TotalPages > 1) { 
+
+<ul class="pagination">
+    @if(Model.CurrentPage != 1){ 
+        <li class="previous">
+            <a href="@Url.Action(Model.Action, Model.Controller, Model.GetDictionary(Model.CurrentPage - 1)) ">
+            &#171; Prev
+            </a>
+        </li>
+     } 
+
+    <li class="@(Model.CurrentPage == 1 ? "selected" : "")">
+        @Html.ActionLink("1", Model.Action, Model.Controller, Model.GetDictionary(1), null)
+    </li>
+
+    @if (Model.Shorten && Model.CurrentPage > 5) 
+       {       
+    <li>
+        @Html.ActionLink("...", Model.Action, Model.Controller, Model.GetDictionary(Model.CurrentPage - 3), null) 
+    </li>
+     } 
+    @for (int i = Model.Start; i <= Model.Stop; i++) { 
+    <li class="@(Model.CurrentPage == i ? "selected" : "")">
+        @Html.ActionLink(i.ToString(), Model.Action, Model.Controller, Model.GetDictionary(i), null)
+    </li>
+    }
+
+    @if (Model.Shorten && Model.CurrentPage <= (Model.TotalPages - 5)) { 
+    <li>
+        @Html.ActionLink("...", Model.Action, Model.Controller, Model.GetDictionary(Model.CurrentPage + 3), null) 
+    </li>
+    } 
+
+    <li class="@(Model.CurrentPage == Model.TotalPages ? "selected" : "")">
+        @Html.ActionLink(Model.TotalPages.ToString(), Model.Action, Model.Controller, Model.GetDictionary(Model.TotalPages), null)      
+    </li>
+
+    @if(Model.CurrentPage != Model.TotalPages){ 
+        <li class="next">
+            <a href="@Url.Action(Model.Action, Model.Controller, Model.GetDictionary(Model.CurrentPage + 1)) ">
+            Next &#187;
+            </a>
+        </li>
+     } 
+</ul>
+
+ } 

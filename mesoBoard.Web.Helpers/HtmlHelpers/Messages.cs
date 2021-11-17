@@ -11,13 +11,13 @@ namespace mesoBoard.Web.Helpers
 {
     public static partial class mesoBoardHtmlHelpers
     {
-        public static IHtmlString PluginConfigValue(this HtmlHelper html, string Name)
+        public static IHtmlContent PluginConfigValue(this IHtmlHelper html, string Name)
         {
             var PluginConfigRep = ((IHaveKernel)html.ViewContext.RequestContext.HttpContext.ApplicationInstance).Kernel.Get<IRepository<PluginConfig>>();
             return new HtmlString(PluginConfigRep.First(item => item.Name.Equals(Name)).Value);
         }
 
-        public static IHtmlString GetMessages(this HtmlHelper html)
+        public static IHtmlContent GetMessages(this IHtmlHelper html)
         {
             string output = GenerateMessage(ViewDataKeys.GlobalMessages.Success, html);
             output += GenerateMessage(ViewDataKeys.GlobalMessages.Notice, html);
@@ -50,7 +50,7 @@ namespace mesoBoard.Web.Helpers
             return tag.ToString();
         }
 
-        public static IHtmlString PageTitle(this HtmlHelper html)
+        public static IHtmlContent PageTitle(this IHtmlHelper html)
         {
             var ConfigRep = ((IHaveKernel)html.ViewContext.RequestContext.HttpContext.ApplicationInstance).Kernel.Get<IRepository<Config>>();
             string breadCrumb = html.ViewData[ViewDataKeys.BreadCrumb] as string;

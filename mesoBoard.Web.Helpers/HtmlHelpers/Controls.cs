@@ -19,7 +19,7 @@ namespace mesoBoard.Web.Helpers
         //
         // Modified for mesoBoard
 
-        public static IHtmlString Captcha(this HtmlHelper html, string hiddenFormFieldName = "captcha_code")
+        public static IHtmlContent Captcha(this IHtmlHelper html, string hiddenFormFieldName = "captcha_code")
         {
             string challengeGuid = Guid.NewGuid().ToString();
 
@@ -40,7 +40,7 @@ namespace mesoBoard.Web.Helpers
             return new HtmlString(image.ToString(TagRenderMode.SelfClosing) + hidden.ToString(TagRenderMode.SelfClosing));
         }
 
-        public static IHtmlString FileTypeImage(this HtmlHelper html, string fileExtension)
+        public static IHtmlContent FileTypeImage(this IHtmlHelper html, string fileExtension)
         {
             var kernel = ((IHaveKernel)html.ViewContext.RequestContext.HttpContext.ApplicationInstance).Kernel;
             var FileTypes = kernel.Get<IRepository<FileType>>();
@@ -60,12 +60,12 @@ namespace mesoBoard.Web.Helpers
             return new HtmlString(tag.ToString());
         }
 
-        public static MvcHtmlString ThemeFolder(this HtmlHelper html)
+        public static IHtmlContent ThemeFolder(this IHtmlHelper html)
         {
-            return MvcHtmlString.Create((string)html.ViewContext.HttpContext.Items[HttpContextItemKeys.ThemeFolder]);
+            return new HtmlString((string)html.ViewContext.HttpContext.Items[HttpContextItemKeys.ThemeFolder]);
         }
 
-        public static MvcHtmlString Image(this HtmlHelper html, string imageSource, object htmlAttributes = null)
+        public static IHtmlContent Image(this IHtmlHelper html, string imageSource, object htmlAttributes = null)
         {
             UrlHelper url = new UrlHelper(html.ViewContext.RequestContext);
             TagBuilder tag = new TagBuilder("img");
@@ -81,20 +81,20 @@ namespace mesoBoard.Web.Helpers
                 }
             }
 
-            return MvcHtmlString.Create(tag.ToString());
+            return new HtmlString(tag.ToString());
         }
 
-        public static MvcHtmlString ThemeImage(this HtmlHelper html, string themeImageFileName)
+        public static IHtmlContent ThemeImage(this IHtmlHelper html, string themeImageFileName)
         {
             return html.Image("~/Themes/" + html.ThemeFolder() + "/Images/" + themeImageFileName);
         }
 
-        public static MvcHtmlString ThemeImage(this HtmlHelper html, string themeImageFileName, string altText)
+        public static IHtmlContent ThemeImage(this IHtmlHelper html, string themeImageFileName, string altText)
         {
             return html.Image("~/Themes/" + html.ThemeFolder() + "/Images/" + themeImageFileName, altText);
         }
 
-        public static MvcHtmlString ThemeImage(this HtmlHelper html, string themeImageFileName, object htmlAttributes)
+        public static IHtmlContent ThemeImage(this IHtmlHelper html, string themeImageFileName, object htmlAttributes)
         {
             return html.Image("~/Themes/" + html.ThemeFolder() + "/Images/" + themeImageFileName, (object)htmlAttributes);
         }
@@ -109,7 +109,7 @@ namespace mesoBoard.Web.Helpers
             return new string(buf);
         }
 
-        public static IHtmlString Label(this HtmlHelper html, string forControl, string innerHTML, string cssClass = "")
+        public static IHtmlContent Label(this IHtmlHelper html, string forControl, string innerHTML, string cssClass = "")
         {
             TagBuilder tag = new TagBuilder("label");
             tag.Attributes.Add("for", forControl);
@@ -119,7 +119,7 @@ namespace mesoBoard.Web.Helpers
             return tag.ToString().ToHtmlString();
         }
 
-        public static IHtmlString UserAvatar(this HtmlHelper html, int UserID)
+        public static IHtmlContent UserAvatar(this IHtmlHelper html, int UserID)
         {
             var kernel = ((IHaveKernel)html.ViewContext.RequestContext.HttpContext.ApplicationInstance).Kernel;
             var UserRep = kernel.Get<IRepository<User>>();
@@ -152,7 +152,7 @@ namespace mesoBoard.Web.Helpers
             return imgtag.ToString().ToHtmlString();
         }
 
-        public static IHtmlString ParseNavLink(this HtmlHelper html, NavigationLink link)
+        public static IHtmlContent ParseNavLink(this IHtmlHelper html, NavigationLink link)
         {
             if (link == null)
                 return "".ToHtmlString();
@@ -179,7 +179,7 @@ namespace mesoBoard.Web.Helpers
             return linktag.ToString().ToHtmlString();
         }
 
-        public static IHtmlString RankImage(this HtmlHelper html, string source)
+        public static IHtmlContent RankImage(this IHtmlHelper html, string source)
         {
             UrlHelper url = new UrlHelper(html.ViewContext.RequestContext);
             string src = Path.Combine(DirectoryPaths.Ranks, source);
@@ -187,7 +187,7 @@ namespace mesoBoard.Web.Helpers
             TagBuilder imageTag = new TagBuilder("img");
             imageTag.MergeAttribute("src", url.Content(src));
 
-            return MvcHtmlString.Create(imageTag.ToString());
+            return new HtmlString(imageTag.ToString());
         }
     }
 }

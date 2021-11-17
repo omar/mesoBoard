@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head runat="server">
+        <title>Install - mesoBoard Install</title>
+        <link href="@Url.Content("~/Themes/Default/Content/Styles/theme.css")" type="text/css" rel="Stylesheet" />
+    	<link href="@Url.Content("~/Themes/Default/Images/favicon.ico")" rel="shortcut icon" />     
+        <script type="text/javascript" src="@Url.Content("~/Themes/Default/Content/Scripts/jquery-1.4.2.min.js")"></script> 
+
+        <style type="text/css">
+            #install_logo {
+                
+            }
+            
+            #install_wrap{
+                width: 600px;
+                margin: 50px auto;
+            }
+            
+            #footer
+            {
+                background-color: #fff;
+            }
+        </style>
+        @if(IsSectionDefined("Header"))
+        {
+            @RenderSection("Header");
+        }
+    </head>
+
+    <body>          
+        <div id="install_wrap">
+            <div id="header" style="padding: 10px;">
+                <div id="install_logo">
+                    <a href="@Url.Action("Index", "Board")">    
+                        <img src="@Url.Content("~/Themes/Default/Images/logo.png")" alt="mesoBoard" />
+                    </a>
+                </div>
+                @if (ViewData["StepNumber"] != null) {
+                <div style="font-size: 18px;margin-top: 10px;">
+                    Installation - Step @ViewData["StepNumber"] of 3
+                </div>
+                }
+            </div>
+
+            <div id="content" style="padding-top: 0; background-color: #fff; border: solid 1px #000;padding-top: 10px;">
+                @Html.GetMessages()
+                
+                @RenderBody()
+                <br />
+                &nbsp;
+            </div>
+            
+            <div id="footer">
+                @Html.Partial("_Footer")
+            </div>
+        </div>
+    </body>
+</html>

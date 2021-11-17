@@ -9,17 +9,17 @@ namespace mesoBoard.Web.Helpers
 {
     public static class Resources
     {
-        public static IHtmlString PermissionResource(this HtmlHelper htmlHelper, string key)
+        public static IHtmlContent PermissionResource(this IHtmlHelper htmlHelper, string key)
         {
             string resourceClass = "Permissions";
             return htmlHelper.Resource(resourceClass, key);
         }
 
-        public static IHtmlString Resource(this HtmlHelper htmlHelper, string resourceClass, string key)
+        public static IHtmlContent Resource(this IHtmlHelper htmlHelper, string resourceClass, string key)
         {
             string value = (string)HttpContext.GetGlobalResourceObject(resourceClass, key);
 
-            return MvcHtmlString.Create(value);
+            return new HtmlString(value);
         }
     }
 }

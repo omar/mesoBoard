@@ -1,0 +1,63 @@
+@model PostViewModel
+
+@{
+    Layout = "~/Views/Shared/_Posting.cshtml";
+    string action = Model.EditorType == EditorType.Edit ? "Edit" : "Create";
+}
+
+@section BreadCrumbContent {
+     @Html.Partial("_BoardBreadCrumb", Model.Thread)  &raquo; @action Post
+}
+
+<div class="posting create_post section">
+    <h2>@action Post</h2>
+
+    @if (Model.Preview.HasValue) { 
+        <table class="post_preview">
+            <tr>
+                <th>Post Preview</th>
+            </tr>
+            <tr>
+                <td class="text">
+                    @Html.Raw(Model.PreviewText)
+                </td>
+            </tr>
+        </table>
+    } 
+
+    <form action="@Url.Action("PostValidate", "Post")" method="post" enctype="multipart/form-data">
+        <dl>
+            @Html.Partial("_PostEditor")
+
+            @if (Model.CanUploadAttachments)
+            {
+                @Html.Partial("_AttachmentsEditor")
+            }
+
+            <dt>Options</dt>
+
+            <dd>
+                @Html.CheckBoxFor(model => model.PostEditor.SubscribeToThread)
+                @Html.LabelFor(model => model.PostEditor.SubscribeToThread)
+                <br />
+                @Html.CheckBoxFor(model => model.PostEditor.ShowSignature)
+                @Html.LabelFor(model => model.PostEditor.ShowSignature)
+            </dd>
+
+            <dt></dt>
+
+            <dd>
+                @Html.HiddenFor(model => model.ThreadID)
+                @Html.HiddenFor(model => model.PostEditor.PostID)
+                <input type="submit" value="@action Post"/>
+                <button type="submit" name="Preview" value="true">Preview Post</button>
+                @Html.AntiForgeryToken() 
+                @Html.ValidationMessage("TimeBetweenPosts") 
+            </dd>
+        </dl>
+    </form>
+
+
+    @Html.Action("ThreadReview", new { ThreadID = Model.ThreadID })
+
+</div>

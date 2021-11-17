@@ -6,13 +6,13 @@ namespace mesoBoard.Web.Helpers
 {
     public static partial class mesoBoardHtmlHelpers
     {
-        public static DateTime TimeZoneOffset(this HtmlHelper html, DateTime date)
+        public static DateTime TimeZoneOffset(this IHtmlHelper html, DateTime date)
         {
             int offset = (int)html.ViewData[ViewDataKeys.TimeZoneOffset];
             return date.AddHours(offset);
         }
 
-        public static IHtmlString RelativeDate(this HtmlHelper html, DateTime CompleteDate, int TimeOffset = 0)
+        public static IHtmlContent RelativeDate(this IHtmlHelper html, DateTime CompleteDate, int TimeOffset = 0)
         {
             // From http://stackoverflow.com/questions/11/how-do-i-calculate-relative-time/1248#1248
             var ts = new TimeSpan(DateTime.UtcNow.Ticks - CompleteDate.Ticks);

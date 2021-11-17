@@ -1,0 +1,112 @@
+@using Microsoft.AspNetCore.Html
+@model mesoBoard.Framework.Models.ViewMessageViewModel
+@{
+    Layout = "~/Views/Shared/_User.cshtml";
+}
+
+<div class="view_message">
+    <div class="post_row bg_color2">
+
+        <div class="user">
+            @if(Model.Message.FromUserID.HasValue) 
+            { 
+
+                if(!string.IsNullOrEmpty(Model.Message.FromUser.UserProfile.Avatar))
+                {    
+                <div class="avatar">
+                    @Html.UserAvatar(Model.Message.FromUser.UserID) 
+                </div>
+                } 
+        
+                <div class="username">
+                    @Html.UsernameLink(Model.Message.FromUser)
+                </div>
+            
+                <div class="rank">
+                    @Html.UserRank(Model.Message.FromUser)
+                </div>
+            
+                <ul class="info">
+                    <li>
+                        @Html.ActionLink("Private Message", "SendMessage", "Messages", new { ToUserName = Model.Message.FromUser.Username }, "")
+                    </li>
+                    <li>
+                        @Model.Message.FromUser.Posts.Count  posts
+                    </li>
+                    <li>
+                        Joined: @Model.Message.FromUser.RegisterDate.ToString("MMM yyyy")
+                    </li>
+
+                    @if(string.IsNullOrWhiteSpace(Model.Message.FromUser.UserProfile.Location)){ 
+                    <li>
+                        Location: @Model.Message.FromUser.UserProfile.Location
+                    </li>
+                    } 
+                </ul>
+            } else { 
+            <div class="username">
+                User Deleted
+            </div>
+            } 
+        </div>
+        
+        <div class="body">
+            <div class="top">
+                <div class="date">
+                    by <b>@(Model.Message.FromUserID.HasValue ? Html.UserProfileLink(Model.Message.FromUser.Username) : new HtmlString("User Deleted"))</b> on <b>@Model.Message.DateSent.ToString("ddd, MMM dd \\'yy h:mm tt") </b>
+                </div>                                
+            </div>
+                     
+            <hr />       
+
+            <div class="text">
+                @Html.Raw(Model.ParsedText)
+            </div>
+
+            
+            @if (Model.Message.FromUserID.HasValue && !string.IsNullOrWhiteSpace(Model.Message.FromUser.UserProfile.ParsedSignature)) 
+            { 
+                <hr />
+                <div class="signature">
+                    @Html.Raw(Model.Message.FromUser.UserProfile.ParsedSignature)
+                </div>
+            } 
+        </div>
+    </div>
+    @if(Model.CurrentUser.UserID == Model.Message.ToUserID){ 
+        using(Html.BeginForm("SendMessage", "Messages"))
+	    {
+        <table class="quick_reply">
+            <tr>
+                <th>Reply</th>
+            </tr>            
+            @if(Model.Message.FromUserID.HasValue)
+            { 
+                <tr>
+                    <td>
+                        Subject:
+                        @Html.TextBoxFor(model => model.SendMessageViewModel.Subject)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Message:<br />
+                        @Html.TextAreaFor(model => model.SendMessageViewModel.Message, new { cols = "60", rows = "7", @class = "bbcode" })
+                        @Html.ValidationMessageFor(model => model.SendMessageViewModel.Message)
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        @Html.HiddenFor(model => model.SendMessageViewModel.Username)
+                        <input type="submit" value="Send Reply" />
+                    </th>
+                </tr>
+            } else { 
+            <tr class="empty">
+                <td> Reply not allowed because sender was deleted</td>
+            </tr>
+            } 
+        </table>
+        }
+    } 
+</div>

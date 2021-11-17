@@ -3,11 +3,19 @@ using System.Linq;
 using mesoBoard.Data;
 using mesoBoard.Data.Repositories;
 using System.Runtime.Caching;
+using mesoBoard.Common;
 
 namespace mesoBoard.Services
 {
-    public static class SiteConfig
+    public class SiteConfig
     {
+        private readonly IRepository<Config> _configRepository;
+
+        public SiteConfig(IRepository<Config> configRepository)
+        {
+            _configRepository = configRepository;
+        }
+
         // Board Settings
         public static Config BoardName              { get { return GetConfig("BoardName"); } }
         public static Config BoardURL               { get { return GetConfig("BoardURL"); } }
@@ -52,19 +60,12 @@ namespace mesoBoard.Services
         {
             List<Config> configs = (List<Config>)MemoryCache.Default[CacheKeys.SiteConfigurations];
 
-            if (configs == null)
-            {
-                UpdateCache();
-                configs = (List<Config>)MemoryCache.Default[CacheKeys.SiteConfigurations];
-            }
-
             return configs.Single(x => x.Name == configName);
         }
 
-        public static void UpdateCache()
+        public void UpdateCache()
         {
-            EntityRepository<Config> configsRepo = new EntityRepository<Config>(new mbEntities());
-            List<Config> configurations = configsRepo.Get().ToList();
+            List<Config> configurations = _configRepository.Get().ToList();
 
             MemoryCache.Default[CacheKeys.SiteConfigurations] = configurations;
         }

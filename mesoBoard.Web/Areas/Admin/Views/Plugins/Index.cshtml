@@ -20,7 +20,7 @@
                     @plugin.Description                     
                 </td>
                 <td>
-                    @(plugin.Installed ? MvcHtmlString.Create("Installed") : Html.ActionLink("Install plugin", "Install", new { AssemblyName = plugin.AssemblyName })) 
+                    @(plugin.Installed ? new HtmlString("Installed") : Html.ActionLink("Install plugin", "Install", new { AssemblyName = plugin.AssemblyName })) 
                 </td>
             </tr>
         }

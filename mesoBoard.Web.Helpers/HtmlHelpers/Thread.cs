@@ -6,7 +6,7 @@ namespace mesoBoard.Web.Helpers
 {
     public static partial class mesoBoardHtmlHelpers
     {
-        public static MvcHtmlString CreatePostLink(this HtmlHelper html, Thread thread)
+        public static IHtmlContent CreatePostLink(this IHtmlHelper html, Thread thread)
         {
             string txt = thread.IsLocked ? "Locked" : "Create Post";
             string cssClass = thread.IsLocked ? "img_link create-post-locked" : "img_link create-post";
@@ -16,7 +16,7 @@ namespace mesoBoard.Web.Helpers
                 return html.ActionLink(txt, "CreatePost", "Post", new { ThreadID = thread.ThreadID }, new { @class = cssClass });
         }
 
-        public static MvcHtmlString SubscriptionLink(this HtmlHelper html, int threadID, bool isSubscribed)
+        public static IHtmlContent SubscriptionLink(this IHtmlHelper html, int threadID, bool isSubscribed)
         {
             string txt = isSubscribed ? "Unsubscribe to Thread" : "Subscribe to Thread";
             string cssClass = "img_link thread-subscription";

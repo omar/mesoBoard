@@ -1,0 +1,21 @@
+@model mesoBoard.Data.Thread
+
+<div class="thread_review section">
+    <h2>Displaying Last 25 Posts</h2>
+    <table>
+        @{ int i = 0; }
+        @foreach(var post in Model.Posts.OrderByDescending(item => item.Date).Take(25)) 
+        {
+            <tr class="@(i++ % 2 == 0 ? "bg_color3" : "bg_color2") post">
+                <td>
+                    <div class="by-line">
+                        by @Html.UserProfileLink(post.User.Username)  - @Html.RelativeDate(post.Date) 
+                    </div>
+                    <p>
+                        @Html.Raw(post.ParsedText)
+                    </p>
+                </td>
+            </tr>
+         }
+    </table>        
+</div>

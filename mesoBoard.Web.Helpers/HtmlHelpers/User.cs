@@ -11,12 +11,12 @@ namespace mesoBoard.Web.Helpers
 {
     public static partial class mesoBoardHtmlHelpers
     {
-        public static int GetNewMessagesCount(this HtmlHelper html)
+        public static int GetNewMessagesCount(this IHtmlHelper html)
         {
             return (int)html.ViewData["mbNewMessagesCount"];
         }
 
-        public static MvcHtmlString UsernameLink(this HtmlHelper html, User user, bool includeRankColor = true)
+        public static IHtmlContent UsernameLink(this IHtmlHelper html, User user, bool includeRankColor = true)
         {
             if (includeRankColor)
             {
@@ -28,7 +28,7 @@ namespace mesoBoard.Web.Helpers
                 return html.ActionLink(user.Username, "UserProfile", "Members", new { UserNameOrID = user.UserID }, null);
         }
 
-        public static IHtmlString UsernameColor(this HtmlHelper html, User user)
+        public static IHtmlContent UsernameColor(this IHtmlHelper html, User user)
         {
             if (user == null || user.UserID == 0)
                 return new HtmlString(string.Empty);
@@ -45,7 +45,7 @@ namespace mesoBoard.Web.Helpers
                 return new HtmlString(string.Empty);
         }
 
-        public static IHtmlString UserRank(this HtmlHelper html, User user)
+        public static IHtmlContent UserRank(this IHtmlHelper html, User user)
         {
             Rank rank;
 

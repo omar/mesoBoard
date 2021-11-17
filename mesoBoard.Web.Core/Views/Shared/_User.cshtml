@@ -1,0 +1,14 @@
+@{
+    ViewBag.Title = "_User";
+    Layout = "~/Views/Shared/_Site.cshtml";
+}
+<div class="user_cp section">
+    <h2>User CP</h2>
+    <div class="side_menu">
+        @Html.Action("Menu", "User")
+    </div>
+    
+    <div class="content">
+        @RenderBody()
+    </div>
+</div>

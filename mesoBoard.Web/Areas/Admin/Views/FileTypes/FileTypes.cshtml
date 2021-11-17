@@ -25,7 +25,7 @@
             <td>@Html.ActionLink("Edit", "EditFileType", new { FileTypeID = fileType.FileTypeID })</td>
             <td>@Html.AdminConfirm("Delete", Url.Action("DeleteFileType", new { FileTypeID = fileType.FileTypeID }), Url.Action("FileTypes"))</td>
             <td>@fileType.Extension</td>
-            <td>@(string.IsNullOrWhiteSpace(fileType.Image) ? MvcHtmlString.Create("No image") : Html.Image(System.IO.Path.Combine(DirectoryPaths.FileTypes, fileType.Image)))</td>
+            <td>@(string.IsNullOrWhiteSpace(fileType.Image) ? new HtmlString("No image") : Html.Image(System.IO.Path.Combine(DirectoryPaths.FileTypes, fileType.Image)))</td>
         </tr>
     }        
 </table>

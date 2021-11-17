@@ -1,0 +1,78 @@
+@model mesoBoard.Framework.Models.MailInstallViewModel
+@{
+    Layout = "~/Views/Shared/_Install.cshtml";
+}
+
+   <script language="javascript" type="text/javascript">
+        $(function () {
+            if(@Model.MailUseDefaultCredentials.ToString().ToLower())
+                $(".install_mail_login").hide();
+            $(".mailRadios").change(function () {
+                if ($(this).val() == "true")
+                    $(".install_mail_login").hide();
+                else
+                    $(".install_mail_login").show();
+            });
+        });
+    
+    </script>
+
+     @using (Html.BeginForm()) {
+       
+            <h3>Step 2 - Mail Server Information</h3>
+
+            <dl>
+                <dt>
+                    @Html.LabelFor(model => model.MailServerAddress) 
+                </dt>
+                <dd>
+                    @Html.TextBoxFor(model => model.MailServerAddress) 
+                    @Html.ValidationMessageFor(model => model.MailServerAddress) 
+                </dd>
+            
+                <dt>
+                    @Html.LabelFor(model => model.PortNumber) 
+                </dt>
+                <dd>
+                    @Html.TextBoxFor(model => model.PortNumber) 
+                    @Html.ValidationMessageFor(model => model.PortNumber) 
+                </dd>
+            
+                <dt>
+                    @Html.LabelFor(model => model.MailUseDefaultCredentials) 
+                </dt>
+                <dd>
+                    <input type="radio" id="mailTrue" class="mailRadios" name="MailUseDefaultCredentials" value="true" @(Model.MailUseDefaultCredentials ? "checked='checked'" : "") /><label for="mailTrue">Yes</label>
+                    <br />
+                    <input type="radio" id="mailFalse" class="mailRadios" name="MailUseDefaultCredentials" value="false" @(!Model.MailUseDefaultCredentials ? "checked='checked'" : "") /><label for="mailFalse">No</label>
+                    @Html.ValidationMessageFor(model => model.MailUseDefaultCredentials) 
+                </dd>
+            
+                <dt class="install_mail_login">
+                    @Html.LabelFor(model => model.MailLogin) 
+                </dt>
+                <dd class="install_mail_login">
+                    @Html.TextBoxFor(model => model.MailLogin) 
+                    @Html.ValidationMessageFor(model => model.MailLogin) 
+                </dd>
+            
+                <dt class="install_mail_login">
+                    @Html.LabelFor(model => model.MailPassword) 
+                </dt>
+                <dd class="install_mail_login">
+                    @Html.PasswordFor(model => model.MailPassword)
+                    @Html.ValidationMessageFor(model => model.MailPassword) 
+                </dd>
+
+                <dt>&nbsp;</dt>
+                <dd>
+                    <input type="submit" value="Test Mail Connection &#187;" />
+                </dd>
+
+                <dt>&nbsp;</dt>
+                <dd>
+                    @Html.ActionLink("Skip this step", "Step3", "Install") 
+                </dd>
+
+            </dl>
+     } 
