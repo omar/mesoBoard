@@ -109,7 +109,6 @@ namespace mesoBoard.Web.Controllers
         }
 
         [HttpGet]
-        [Route("")]
         [AllowOffline]
         public ActionResult Login(string ReturnUrl)
         {
@@ -148,6 +147,7 @@ namespace mesoBoard.Web.Controllers
                         ReturnUrl = ReturnUrl ?? Url.Action("Index", "Board");
                         _userServices.LoginRoutine(user, Request.HttpContext.Connection.RemoteIpAddress.ToString());
                         await HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
+                        System.Console.WriteLine("Principal set");
                         HttpContext.Session.Set(SessionKeys.UserID, BitConverter.GetBytes(user.UserID));
                         SetSuccess("Successfully Logged In");
                         return Redirect(ReturnUrl);

@@ -1,15 +1,20 @@
+using System.Collections.Generic;
+using System.Linq;
 using mesoBoard.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace mesoBoard.Framework.Core
 {
     [InstalledCheck]
     [OfflineCheck]
     [TrackActivity]
+    [SetTempDataModelStateAttribute]
+    [RestoreModelStateFromTempData]
     public abstract class BaseController : Controller
     {
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -28,10 +33,16 @@ namespace mesoBoard.Framework.Core
             ViewData[ViewDataKeys.TimeZoneOffset] = timeZoneOffset;      
             base.OnActionExecuted(filterContext);
 
-            var result = filterContext.Result as ViewResult;
-            
-            if (TempData["ModelState"] != null && !ModelState.Equals(TempData["ModelState"]))
-                ModelState.Merge((ModelStateDictionary)TempData["ModelState"]);
+            // var result = filterContext.Result as ViewResult;
+
+            // if (TempData["ModelState"] != null)
+            // {
+            //     var storedModelState = JsonConvert.DeserializeObject<ModelStateDictionary>(TempData["ModelState"] as string);
+            //     if (!ModelState.Equals(storedModelState))
+            //     {
+            //         ModelState.Merge(storedModelState);
+            //     }
+            // }
         }
 
         public void SetError(string message)
@@ -92,15 +103,59 @@ namespace mesoBoard.Framework.Core
             return RedirectToSelf(null);
         }
 
-        protected void PersistModelState()
-        {
-            TempData["ModelState"] = ModelState;
-        }
+        // protected void PersistModelState()
+        // {
+        //     TempData["ModelState"] = JsonConvert.SerializeObject(ModelState);
+        // }
 
         protected bool IsModelValidAndPersistErrors()
         {
-            PersistModelState();
+            // PersistModelState();
             return ModelState.IsValid;
+        }
+    }
+
+    public class SetTempDataModelStateAttribute : ActionFilterAttribute
+    {
+        public override void OnActionExecuted(ActionExecutedContext filterContext)
+        {
+            base.OnActionExecuted(filterContext);
+
+            var controller = filterContext.Controller as Controller;
+            var modelState = controller?.ViewData.ModelState;
+            if (modelState != null)
+            {
+                var listError = modelState.Where(x => x.Value.Errors.Any())
+                    .ToDictionary(m => m.Key, m => m.Value.Errors
+                    .Select(s => s.ErrorMessage)
+                    .FirstOrDefault(s => s != null));
+                controller.TempData["ModelState"] = JsonConvert.SerializeObject(listError);
+            }
+        }
+    }
+    public class RestoreModelStateFromTempDataAttribute : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            base.OnActionExecuting(filterContext);
+
+            var controller = filterContext.Controller as Controller;
+            var tempData = controller?.TempData?.Keys;
+            if (controller != null && tempData != null)
+            {
+                if (tempData.Contains("ModelState"))
+                {
+                    var modelStateString = controller.TempData["ModelState"].ToString();
+                    var listError = JsonConvert.DeserializeObject<Dictionary<string, string>>(modelStateString);
+                    var modelState = new ModelStateDictionary();
+                    foreach (var item in listError)
+                    {
+                        modelState.AddModelError(item.Key, item.Value ?? "");
+                    }
+
+                    controller.ViewData.ModelState.Merge(modelState);
+                }
+            }
         }
     }
 }

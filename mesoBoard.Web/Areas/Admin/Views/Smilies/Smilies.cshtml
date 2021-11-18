@@ -8,7 +8,7 @@
     <fieldset>
         <legend>Create Smiley</legend>
             
-        @Html.Partial("_Smiley", Model.SmileyViewModel)    
+        @await Html.PartialAsync("_Smiley", Model.SmileyViewModel)    
     </fieldset>
 }     
         

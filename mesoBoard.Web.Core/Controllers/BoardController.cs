@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace mesoBoard.Web.Controllers
 {
-    [Route("[controller]/[action]")]
     public class BoardController : BaseController
     {
         private ForumServices _forumServices;
@@ -68,7 +67,6 @@ namespace mesoBoard.Web.Controllers
             SetTopBreadCrumb("Board");
         }
 
-        [Route("")]
         public ActionResult Index()
         {
             SetBreadCrumb("Board Index");
@@ -297,34 +295,6 @@ namespace mesoBoard.Web.Controllers
             return RedirectToAction("ViewThread", new { ThreadID = threadID });
         }
 
-        public ActionResult BoardStats()
-        {
-            var onlineUsers = _onlineUserRepository.Get().Select(item =>
-                new OnlineUserDetails()
-                {
-                    DefaultRole = item.User.UserProfile.DefaultRole.HasValue ? item.User.UserProfile.Role : null,
-                    OnlineUser = item
-                }).ToList();
-
-            IEnumerable<OnlineGuest> onlineGuests = _onlineGuestRepository.Get().ToList();
-
-            var newestUser = _userRepository.Get().OrderByDescending(item => item.RegisterDate).First();
-            var birthdays = _userServices.GetBirthdays(DateTime.UtcNow);
-
-            var model = new BoardStatsViewModel()
-            {
-                NewestUser = newestUser,
-                OnlineGuests = onlineGuests,
-                OnlineUsers = onlineUsers,
-                TotalPosts = _postServices.TotalPosts(),
-                TotalRegisteredUsers = _userRepository.Get().Count(),
-                TotalThreads = _threadServices.TotalThreads(),
-                BirthdayUsers = birthdays
-            };
-
-            return View(model);
-        }
-
         public ActionResult DownloadAttachment(int AttachmentID)
         {
             Attachment attachment = _fileServices.GetAttachment(AttachmentID);
@@ -350,19 +320,6 @@ namespace mesoBoard.Web.Controllers
         public ActionResult Offline()
         {
             return View();
-        }
-
-        [AllowOffline]
-        public ActionResult Header()
-        {
-            HeaderViewModel model = new HeaderViewModel()
-            {
-                CurrentUser = _currentUser,
-                NewMessagesCount = HttpContext.User.Identity.IsAuthenticated ? _messageServices.GetUnreadMessages(_currentUser.UserID).Count() : 0,
-                IsAdministrator = HttpContext.User.Identity.IsAuthenticated ? _roleServices.UserHasSpecialPermissions(_currentUser.UserID, SpecialPermissionValue.Administrator) : false
-            };
-
-            return View("_Header", model);
         }
     }
 }

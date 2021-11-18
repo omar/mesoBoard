@@ -70,7 +70,6 @@ namespace mesoBoard.Web.Controllers
             return View(groups);
         }
 
-        [Route("")]
         public ActionResult MembersList(string Letter = "(All)", int Page = 1, int PageSize = 10)
         {
             SetBreadCrumb("Members List");

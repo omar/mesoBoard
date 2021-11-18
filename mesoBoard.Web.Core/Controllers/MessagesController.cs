@@ -93,7 +93,6 @@ namespace mesoBoard.Web.Controllers
         }
 
         [HttpGet]
-        [Route("")]
         public ActionResult Inbox(string Box, int page = 1, int pageSize = 25)
         {
             IEnumerable<Message> messages;

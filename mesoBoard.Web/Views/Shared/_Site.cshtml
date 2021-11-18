@@ -43,7 +43,7 @@
                     }
                     else
                     {
-                        @Html.Partial("_BreadCrumb");
+                        @await Html.PartialAsync("_BreadCrumb");
                     }
                 </div>
                 @RenderBody()
@@ -52,7 +52,7 @@
             
             
             <div id="footer">
-                @Html.Partial("_Footer")
+                @await Html.PartialAsync("_Footer")
             </div>
         </div>        
     </body>

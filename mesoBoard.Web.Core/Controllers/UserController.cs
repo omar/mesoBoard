@@ -45,15 +45,7 @@ namespace mesoBoard.Web.Controllers
             SetBreadCrumb("User CP");
         }
 
-        public ActionResult Menu()
-        {
-            int messageCount = HttpContext.User.Identity.IsAuthenticated ? _messageServices.GetUnreadMessages(_currentUser.UserID).Count() : 0;
-            ViewData["NewMessagesCount"] = messageCount;
-            return View("_Menu");
-        }
-
         [HttpGet]
-        [Route("")]
         public ActionResult Profile()
         {
             SetBreadCrumb("Modify Profile");

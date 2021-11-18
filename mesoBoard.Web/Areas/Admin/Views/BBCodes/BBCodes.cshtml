@@ -7,7 +7,7 @@
     <legend>Create BB Code</legend>
     @using (Html.BeginForm())
     { 
-        @Html.Partial("_BBCode")
+        @await Html.PartialAsync("_BBCode")
     } 
 </fieldset>
         

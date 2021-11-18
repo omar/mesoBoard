@@ -7,7 +7,7 @@
         <legend>Create Role</legend>
         @using(Html.BeginForm("CreateRole", "Roles"))
         { 
-            @Html.Partial("_Role", Model.RoleViewModel)    
+            @await Html.PartialAsync("_Role", Model.RoleViewModel)    
         } 
     </fieldset>
 

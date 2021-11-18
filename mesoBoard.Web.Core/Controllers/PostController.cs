@@ -52,22 +52,6 @@ namespace mesoBoard.Web.Controllers
             _currentUser = currentUser;
         }
 
-        public ActionResult GetSmilies(int x, int z)
-        {
-            ViewData["x"] = x;
-            ViewData["z"] = z;
-            IEnumerable<Smiley> smilies = _smileyRepository.Get().ToList();
-            if (smilies.Count() < z)
-            {
-                ViewData["z"] = smilies.Count();
-                return View("_SmiliesTable", smilies);
-            }
-            else
-            {
-                return View("_SmiliesTable", smilies.Take(z));
-            }
-        }
-
         [HttpGet]
         public ActionResult CreateThread(int ForumID)
         {
@@ -397,12 +381,6 @@ namespace mesoBoard.Web.Controllers
                 SetError("You don't have permission to cast a vote");
 
             return RedirectToAction("ViewThread", "Board", new { ThreadID = ThreadID });
-        }
-
-        public ActionResult ThreadReview(int ThreadID)
-        {
-            Thread thread = _threadServices.GetThread(ThreadID);
-            return View("_ThreadReview", thread);
         }
 
         [PermissionAuthorize(SpecialPermissionValue.Administrator, SpecialPermissionValue.Moderator)]

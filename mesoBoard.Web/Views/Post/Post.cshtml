@@ -6,7 +6,7 @@
 }
 
 @section BreadCrumbContent {
-     @Html.Partial("_BoardBreadCrumb", Model.Thread)  &raquo; @action Post
+     @await Html.PartialAsync("_BoardBreadCrumb", Model.Thread)  &raquo; @action Post
 }
 
 <div class="posting create_post section">
@@ -27,11 +27,11 @@
 
     <form action="@Url.Action("PostValidate", "Post")" method="post" enctype="multipart/form-data">
         <dl>
-            @Html.Partial("_PostEditor")
+            @await Html.PartialAsync("_PostEditor")
 
             @if (Model.CanUploadAttachments)
             {
-                @Html.Partial("_AttachmentsEditor")
+                @await Html.PartialAsync("_AttachmentsEditor")
             }
 
             <dt>Options</dt>

@@ -24,7 +24,7 @@
             
         @if(Model.Pagination.TotalPages != 1) {
             <div class="_Pagination">
-                    @Html.Partial("_Pagination", Model.Pagination) 
+                    @await Html.PartialAsync("_Pagination", Model.Pagination) 
             </div>
             } 
 
@@ -52,7 +52,7 @@
                 </tr>
 
                 @foreach (var threadRow in Model.GlobalAnnouncements){
-                        @Html.Partial("_ThreadRow", threadRow) 
+                        @await Html.PartialAsync("_ThreadRow", threadRow) 
                 }
 
             </table>
@@ -73,7 +73,7 @@
             }
 
             @foreach(var threadRow in Model.ThreadRows){
-                    @Html.Partial("_ThreadRow", threadRow) 
+                    @await Html.PartialAsync("_ThreadRow", threadRow) 
             }
 
         </table>
@@ -97,7 +97,7 @@
             
         @if(Model.Pagination.TotalPages != 1) {
             <div class="_Pagination">
-                    @Html.Partial("_Pagination", Model.Pagination) 
+                    @await Html.PartialAsync("_Pagination", Model.Pagination) 
             </div>
         } 
 
@@ -105,7 +105,7 @@
         <div style="clear:both">&nbsp;</div>
 
 
-            @Html.Partial("_ForumPermissions", Model.UserPermissions) 
+            @await Html.PartialAsync("_ForumPermissions", Model.UserPermissions) 
 
         <table class="thread_types">
             <tr><td>@Html.ThemeImage("thread_new_normal.png") </td><td>Thread</td></tr>

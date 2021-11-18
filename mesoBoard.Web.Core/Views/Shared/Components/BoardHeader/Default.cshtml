@@ -1,0 +1,33 @@
+@model mesoBoard.Framework.Models.HeaderViewModel
+
+<div id="logo">
+    <a href="@Url.Action("Index", "Board") ">
+        <img src="@Url.ThemeContent("~/Images/logo.png") " alt="" />
+    </a>
+</div>
+
+<div id="left_menu">
+    <ul class="horizontal menu">
+        <li>@Html.ActionLink("Board", "Index", "Board", null, new { @class = "board_index" })</li>
+        <li>@Html.ActionLink("Search", "Search", "Board", null, new { @class = "search" })</li>
+        <li>@Html.ActionLink("Members List", "MembersList", "Members", null, new { @class = "members_list" })</li>
+        <li>@Html.ActionLink("Groups", "Groups", "Members", null, new { @class = "groups" })</li>
+    </ul>
+</div>
+
+<div id="top_right_menu">
+    <ul class="horizontal menu">
+        @if (Html.ViewContext.HttpContext.User.Identity.IsAuthenticated) 
+        {
+            if (Model.IsAdministrator) { 
+                   <li>@Html.ActionLink("Admin CP", "Index", "Admin", new { area="Admin" }, new { @class = "admin_cp" }) </li>
+             } 
+            <li>@Html.ActionLink("User CP", "Index", "User", null, new { @class = "user_cp" })</li>
+            <li><a href="@Url.Action("Inbox", "Messages", new { Box = "Inbox" })" class="inbox">Inbox [@Model.NewMessagesCount  new]</a></li>
+            <li><a href="@Url.Action("Logout", "Auth", new { area = "" }) " class="logout">Logout [<strong>@Model.CurrentUser.Username </strong>]</a></li>
+         } else { 
+            <li>@Html.ActionLink("Register", "Register", "Auth", null, new { @class = "register" })</li>
+            <li>@Html.ActionLink("Login", "Login", "Auth", null, new { @class = "login" })</li>
+         } 
+    </ul>
+</div>

@@ -5,7 +5,7 @@
 <div class="user_cp section">
     <h2>User CP</h2>
     <div class="side_menu">
-        @* @Html.Action("Menu", "User") *@
+        @await Component.InvokeAsync(nameof(MenuViewComponent))
     </div>
     
     <div class="content">

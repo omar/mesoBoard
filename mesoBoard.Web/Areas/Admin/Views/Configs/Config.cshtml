@@ -34,7 +34,7 @@
                                     }
                                     else
                                     {
-                                        @Html.Partial("_Config", config)       
+                                        @await Html.PartialAsync("_Config", config)       
                                     }
                                     <label class="note">@config.Note</label>
                                 </dd>

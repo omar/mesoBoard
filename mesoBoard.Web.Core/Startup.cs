@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using mesoBoard.Framework.Core;
 using mesoBoard.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +27,14 @@ namespace mesoBoard.Web.Core
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+                        options =>
+                        {
+                            options.Cookie.HttpOnly = true;
+                            options.LoginPath = new PathString("/auth/login");
+                            options.AccessDeniedPath = new PathString("/auth/login");
+                        });
             services.AddSession();
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
@@ -56,6 +66,7 @@ namespace mesoBoard.Web.Core
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseSession();
 

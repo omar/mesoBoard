@@ -4,7 +4,7 @@
     <h2>Users</h2>
     
     <div class="pagination">
-        @Html.Partial("_Pagination", ViewData["Pagination"])
+        @await Html.PartialAsync("_Pagination", ViewData["Pagination"])
     </div>    
 
     <table>    
@@ -36,6 +36,6 @@
     </table>
 
     <div class="pagination">
-        @Html.Partial("_Pagination", ViewData["Pagination"])
+        @await Html.PartialAsync("_Pagination", ViewData["Pagination"])
     </div>        
 </div>

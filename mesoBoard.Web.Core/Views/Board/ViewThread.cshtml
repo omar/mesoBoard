@@ -31,7 +31,7 @@
         @if (Model.Pagination.TotalPages != 1)
         {
             <div class="_Pagination">
-                    @Html.Partial("_Pagination", Model.Pagination) 
+                    @await Html.PartialAsync("_Pagination", Model.Pagination) 
             </div>
         } 
             
@@ -67,13 +67,13 @@
     @if (Model.Thread.HasPoll)
     { 
         <div class="poll">
-                @Html.Partial("_ThreadPoll", Model.ThreadPoll)
+                @await Html.PartialAsync("_ThreadPoll", Model.ThreadPoll)
         </div>
     } 
         
     <div class="posts">
         @foreach (var postRow in Model.Posts){
-            @Html.Partial("_PostRow", postRow) 
+            @await Html.PartialAsync("_PostRow", postRow) 
         }
     </div>
 
@@ -118,7 +118,7 @@
         @if (Model.Pagination.TotalPages != 1)
         {
             <div class="_Pagination">
-                    @Html.Partial("_Pagination", Model.Pagination) 
+                    @await Html.PartialAsync("_Pagination", Model.Pagination) 
             </div>
         } 
 

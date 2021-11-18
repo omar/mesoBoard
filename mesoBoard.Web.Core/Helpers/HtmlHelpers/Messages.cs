@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text.Encodings.Web;
 using mesoBoard.Common;
 using mesoBoard.Data;
 using Microsoft.AspNetCore.Html;
@@ -18,19 +19,20 @@ namespace mesoBoard.Web.Helpers
 
         public static IHtmlContent GetMessages(this IHtmlHelper html)
         {
-            string output = GenerateMessage(ViewDataKeys.GlobalMessages.Success, html);
-            output += GenerateMessage(ViewDataKeys.GlobalMessages.Notice, html);
-            output += GenerateMessage(ViewDataKeys.GlobalMessages.Error, html);
+            var htmlBuilder = new HtmlContentBuilder();
+            htmlBuilder.AppendHtml(GenerateMessage(ViewDataKeys.GlobalMessages.Success, html));
+            htmlBuilder.AppendHtml(GenerateMessage(ViewDataKeys.GlobalMessages.Notice, html));
+            htmlBuilder.AppendHtml(GenerateMessage(ViewDataKeys.GlobalMessages.Error, html));
 
-            return new HtmlString(output);
+            return htmlBuilder;
         }
 
-        private static string GenerateMessage(string messageType, IHtmlHelper html)
+        private static IHtmlContent GenerateMessage(string messageType, IHtmlHelper html)
         {
             string message = (string)html.ViewContext.TempData[messageType] ?? (string)html.ViewData[messageType] ?? string.Empty;
 
             if (string.IsNullOrWhiteSpace(message))
-                return string.Empty;
+                return new HtmlString("");
 
             string cssClass = string.Empty;
 
@@ -46,7 +48,15 @@ namespace mesoBoard.Web.Helpers
             tag.AddCssClass("global_message");
             tag.InnerHtml.SetHtmlContent(message);
 
-            return tag.ToString();
+            return tag;
+        }
+        public static string GetString(this IHtmlContent content)
+        {
+            using (var writer = new System.IO.StringWriter())
+            {        
+                content.WriteTo(writer, HtmlEncoder.Default);
+                return writer.ToString();
+            } 
         }
 
         public static IHtmlContent PageTitle(this IHtmlHelper html)
