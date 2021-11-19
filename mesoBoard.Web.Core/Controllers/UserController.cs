@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace mesoBoard.Web.Controllers
 {
     [Authorize]
+    [Route("[controller]/{action=Profile}")]
     public class UserController : BaseController
     {
         private ThemeServices _themeServices;

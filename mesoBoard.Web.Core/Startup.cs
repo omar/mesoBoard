@@ -33,7 +33,6 @@ namespace mesoBoard.Web.Core
                         {
                             options.Cookie.HttpOnly = true;
                             options.LoginPath = new PathString("/auth/login");
-                            options.AccessDeniedPath = new PathString("/auth/login");
                         });
             services.AddSession();
             services.AddControllersWithViews();
@@ -63,12 +62,13 @@ namespace mesoBoard.Web.Core
             // app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseSession();
+            
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
-            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

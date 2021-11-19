@@ -15,12 +15,6 @@ namespace mesoBoard.Web.Helpers
 {
     public static partial class mesoBoardHtmlHelpers
     {
-        //
-        // CAPTCHA code taken from "Pro ASP.NET MVC Framework" by Steven Sanderson
-        // Apress publishing
-        //
-        // Modified for mesoBoard
-
         public static IHtmlContent Captcha(this IHtmlHelper html, string hiddenFormFieldName = "captcha_code")
         {
             string challengeGuid = Guid.NewGuid().ToString();
@@ -46,7 +40,9 @@ namespace mesoBoard.Web.Helpers
             hidden.MergeAttribute("name", hiddenFormFieldName);
             hidden.TagRenderMode = TagRenderMode.SelfClosing;
 
-            return new HtmlString(image.ToString() + hidden.ToString());
+            return new HtmlContentBuilder()
+                .AppendHtml(image)
+                .AppendHtml(hidden);
         }
 
         public static IHtmlContent FileTypeImage(this IHtmlHelper html, string fileExtension)
@@ -89,7 +85,7 @@ namespace mesoBoard.Web.Helpers
                 }
             }
 
-            return new HtmlString(tag.ToString());
+            return tag;
         }
 
         public static IHtmlContent ThemeImage(this IHtmlHelper html, string themeImageFileName)
@@ -124,7 +120,7 @@ namespace mesoBoard.Web.Helpers
             if (!string.IsNullOrWhiteSpace(cssClass))
                 tag.Attributes.Add("class", cssClass);
             tag.InnerHtml.AppendHtml(innerHTML);
-            return tag.ToString().ToHtmlString();
+            return tag;
         }
 
         public static IHtmlContent UserAvatar(this IHtmlHelper html, int UserID)
@@ -156,7 +152,7 @@ namespace mesoBoard.Web.Helpers
 
             imgtag.Attributes.Add("src", src);
 
-            return imgtag.ToString().ToHtmlString();
+            return imgtag;
         }
 
         public static IHtmlContent ParseNavLink(this IHtmlHelper html, NavigationLink link)
@@ -183,7 +179,7 @@ namespace mesoBoard.Web.Helpers
                 linktag.Attributes.Add("href", url.Link(link.RouteName, null));
 
             linktag.InnerHtml.AppendHtml(link.Text);
-            return linktag.ToString().ToHtmlString();
+            return linktag;
         }
 
         public static IHtmlContent RankImage(this IHtmlHelper html, string source)
@@ -194,7 +190,7 @@ namespace mesoBoard.Web.Helpers
             TagBuilder imageTag = new TagBuilder("img");
             imageTag.MergeAttribute("src", url.Content(src));
 
-            return new HtmlString(imageTag.ToString());
+            return imageTag;
         }
     }
 }

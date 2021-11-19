@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
+using mesoBoard.Common;
 
 namespace mesoBoard.Web.Controllers
 {
@@ -133,7 +134,7 @@ namespace mesoBoard.Web.Controllers
                         var link = new TagBuilder("a");
                         link.Attributes.Add("href", Url.Action("ResendActivationCode", new { UserID = user.UserID }));
                         link.InnerHtml.AppendHtml("resend the activation email");
-                        SetNotice("<b>" + user.Username + "</b>'s account has not been activated yet. Click here to " + link.ToString());
+                        SetNotice("<b>" + user.Username + "</b>'s account has not been activated yet. Click here to " + link.WriteToString());
                     }
                     else if (_userServices.ValidatePassword(user, model.Password))
                     {
@@ -147,7 +148,6 @@ namespace mesoBoard.Web.Controllers
                         ReturnUrl = ReturnUrl ?? Url.Action("Index", "Board");
                         _userServices.LoginRoutine(user, Request.HttpContext.Connection.RemoteIpAddress.ToString());
                         await HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
-                        System.Console.WriteLine("Principal set");
                         HttpContext.Session.Set(SessionKeys.UserID, BitConverter.GetBytes(user.UserID));
                         SetSuccess("Successfully Logged In");
                         return Redirect(ReturnUrl);

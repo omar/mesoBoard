@@ -1,3 +1,4 @@
+using mesoBoard.Common;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -59,7 +60,7 @@ namespace mesoBoard.Web.Helpers
             link.Attributes.Add("href", Url.Action("UserProfile", "Members", new { UserNameOrID = UserNameOrID }));
             link.Attributes.Add("title", "User Profile");
             link.InnerHtml.AppendHtml(UserNameOrID);
-            return new HtmlString(link.ToString());
+            return link;
         }
 
         public static IHtmlContent ImageLink(this IHtmlHelper html, string text, string link,

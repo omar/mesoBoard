@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace mesoBoard.Web.ViewComponents.Post
 {
-    public class GetSmiliesViewComponent : ViewComponent
+    public class GetSmilies : ViewComponent
     {
         private readonly IRepository<Smiley> _smileyRepository;
         
-        public GetSmiliesViewComponent(IRepository<Smiley> smileyRepository)
+        public GetSmilies(IRepository<Smiley> smileyRepository)
         {
             _smileyRepository = smileyRepository;
         }

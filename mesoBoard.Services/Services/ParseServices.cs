@@ -102,7 +102,7 @@ namespace mesoBoard.Services
                 smileyImage.Attributes["src"] = imageUrl;
                 smileyImage.Attributes["alt"] = smiley.Title;
                 smileyImage.Attributes["title"] = smiley.Title;
-                text = text.Replace(smiley.Code, smileyImage.ToString());
+                text = text.Replace(smiley.Code, smileyImage.WriteToString());
             }
             return text;
         }

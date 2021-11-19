@@ -9,7 +9,7 @@ namespace mesoBoard.Services
     {
         private class EmailTemplates
         {
-            public static readonly string TemplateLocation = "~/App_Data/EmailTemplates";
+            public static readonly string TemplateLocation = "App_Data/EmailTemplates";
 
             public static readonly string Welcome = "Welcome.html";
             public static readonly string Registration = "Registration.html";

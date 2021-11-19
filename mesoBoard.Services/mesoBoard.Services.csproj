@@ -9,6 +9,7 @@
     <PackageReference Include="MailKit" Version="2.15.0" />
     <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="6.0.0" />
     <PackageReference Include="System.Runtime.Caching" Version="6.0.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4" />
   </ItemGroup>
 
   <PropertyGroup>

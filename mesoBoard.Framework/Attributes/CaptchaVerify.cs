@@ -26,7 +26,6 @@ namespace mesoBoard.Framework
             filterContext.HttpContext.Session.TryGetValue((SessionKeys.CaptchaSessionPrefix + guid), out solutionBytes);
 
             var solution = Encoding.ASCII.GetString(solutionBytes);
-            
 
             filterContext.HttpContext.Session.Remove(SessionKeys.CaptchaSessionPrefix + guid);
             if ((solution == null) || (attemptedValue != solution))

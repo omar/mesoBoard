@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using mesoBoard.Common;
 using mesoBoard.Data;
 using Microsoft.AspNetCore.Http;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.Processing;
 
 namespace mesoBoard.Services
 {
@@ -150,7 +151,7 @@ namespace mesoBoard.Services
 
             using (var stream = avatar.OpenReadStream())
             {
-                using (Image ravatar = Image.FromStream(stream, true, true))
+                using (Image ravatar = Image.Load(stream))
                 {
                     if (ravatar.Width > maxWidth || ravatar.Height > maxHeight)
                     {
@@ -170,13 +171,10 @@ namespace mesoBoard.Services
                             newHeight = maxHeight;
                         }
 
-                        using (var resizedAvatar = ravatar.GetThumbnailImage((int)newWidth, (int)newHeight, null, IntPtr.Zero))
-                        {
-                            resizedAvatar.Save(filePath, ImageFormat.Png);
-                        };
+                        ravatar.Mutate(x => x.Resize((int)newWidth, (int)newHeight));
                     }
-                    else
-                        ravatar.Save(filePath, ImageFormat.Png);
+                    
+                    ravatar.Save(filePath, new PngEncoder());
                 }
             }
             return random_name;

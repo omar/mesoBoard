@@ -1,17 +1,14 @@
-using System.Collections.Generic;
-using System.Linq;
-using mesoBoard.Common;
 using mesoBoard.Data;
 using mesoBoard.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace mesoBoard.Web.ViewComponents.Post
 {
-    public class ThreadReviewViewComponent : ViewComponent
+    public class ThreadReview : ViewComponent
     {
         private readonly ThreadServices _threadServices;
         
-        public ThreadReviewViewComponent(ThreadServices threadServices)
+        public ThreadReview(ThreadServices threadServices)
         {
             _threadServices = threadServices;
         }

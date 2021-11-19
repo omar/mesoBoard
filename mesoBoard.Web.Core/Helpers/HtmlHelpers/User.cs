@@ -65,7 +65,7 @@ namespace mesoBoard.Web.Helpers
             title.AddCssClass("title");
 
             if (string.IsNullOrWhiteSpace(rank.Image))
-                return new HtmlString(title.ToString());
+                return title;
 
             var url = html.GetUrlHelper();
 
@@ -73,8 +73,10 @@ namespace mesoBoard.Web.Helpers
 
             TagBuilder image = new TagBuilder("img");
             image.MergeAttribute("src", url.Content(src));
-
-            HtmlString output = new HtmlString(title.ToString() + image.ToString());
+            
+            var output = new HtmlContentBuilder();
+            output.AppendHtml(title);
+            output.AppendHtml(image);
 
             return output;
         }

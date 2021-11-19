@@ -10,7 +10,7 @@
         @Html.TextAreaFor(model => model.PostEditor.Message, new { @class = "posting bbcode", id = "smiley_insert", tabindex = 2 })
     </div>
     <table class="smilies">
-        @await Component.InvokeAsync(nameof(GetSmiliesViewComponent), new { x = 4, z = 20 })
+        @await Component.InvokeAsync(nameof(GetSmilies), new { x = 4, z = 20 })
     </table>                
     @if (Model.EditorType == EditorType.Edit)
     { 
