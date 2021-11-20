@@ -3,7 +3,7 @@
 <script type="text/javascript" language="javascript">
     $(function () {
         $("#tabs").tabs();
-        var plugin = "@Ajax.JavaScriptStringEncode(ViewData["Plugin"] as string)";
+        var plugin = "@Json.Serialize(ViewData["Plugin"] as string)";
         if(plugin !== ""){
             $("#tabs").tabs('select', plugin);
         }

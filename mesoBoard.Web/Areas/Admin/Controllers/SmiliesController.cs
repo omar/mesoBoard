@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using System.Web.Mvc;
 using mesoBoard.Common;
 using mesoBoard.Data;
 using mesoBoard.Framework.Core;
 using mesoBoard.Web.Areas.Admin.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace mesoBoard.Web.Areas.Admin.Controllers
 {

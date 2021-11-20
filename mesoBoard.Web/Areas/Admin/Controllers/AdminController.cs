@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Web.Mvc;
 using mesoBoard.Common;
 using mesoBoard.Data;
 using mesoBoard.Framework.Core;
 using mesoBoard.Web.Areas.Admin.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace mesoBoard.Web.Areas.Admin.Controllers
 {
@@ -55,7 +55,6 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
             return View();
         }
 
-        [ChildActionOnly]
         public ActionResult PluginsMenu()
         {
             List<PluginMenu> menus = new List<PluginMenu>();

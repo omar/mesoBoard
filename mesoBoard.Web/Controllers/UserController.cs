@@ -1,18 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using mesoBoard.Common;
 using mesoBoard.Data;
 using mesoBoard.Framework;
 using mesoBoard.Framework.Core;
 using mesoBoard.Framework.Models;
 using mesoBoard.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace mesoBoard.Web.Controllers
 {
     [Authorize]
+    [Route("[controller]/{action=Profile}")]
     public class UserController : BaseController
     {
         private ThemeServices _themeServices;
@@ -46,16 +46,7 @@ namespace mesoBoard.Web.Controllers
             SetBreadCrumb("User CP");
         }
 
-        [ChildActionOnly]
-        public ActionResult Menu()
-        {
-            int messageCount = Request.IsAuthenticated ? _messageServices.GetUnreadMessages(_currentUser.UserID).Count() : 0;
-            ViewData["NewMessagesCount"] = messageCount;
-            return View("_Menu");
-        }
-
         [HttpGet]
-        [DefaultAction]
         public ActionResult Profile()
         {
             SetBreadCrumb("Modify Profile");
@@ -87,7 +78,6 @@ namespace mesoBoard.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateInput(false)]
         public ActionResult Profile(ProfileViewModel model)
         {
             DateTime? birthdate = null;
@@ -165,7 +155,6 @@ namespace mesoBoard.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateInput(false)]
         public ActionResult Signature(SignatureViewModel model)
         {
             if (!model.Preview.HasValue)
@@ -292,7 +281,7 @@ namespace mesoBoard.Web.Controllers
                         "image/jpg", "image/x-jpg",
                     };
 
-                    if (model.Image == null || model.Image.ContentLength == 0)
+                    if (model.Image == null || model.Image.Length == 0)
                         ModelState.AddModelErrorFor<AvatarViewModel>(m => m.Image.FileName, "Please select an image to upload.");
                     else if (!validFormats.Contains(model.Image.ContentType))
                         ModelState.AddModelErrorFor<AvatarViewModel>(m => m.Image, "Invalid file format; only gif,png,jpeg,jpg are allowed.");

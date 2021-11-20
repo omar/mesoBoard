@@ -1,8 +1,9 @@
-using System.Web.Mvc;
+using System.Threading.Tasks;
 using mesoBoard.Common;
 using mesoBoard.Data;
 using mesoBoard.Framework.Core;
 using mesoBoard.Web.Areas.Admin.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace mesoBoard.Web.Areas.Admin.Controllers
 {
@@ -68,12 +69,12 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditBBCode(BBCodeViewModel model)
+        public async Task<ActionResult> EditBBCodeAsync(BBCodeViewModel model)
         {
             if (IsModelValidAndPersistErrors())
             {
                 BBCode bbCode = _bbCodeRepository.Get(model.BBCodeID);
-                TryUpdateModel(bbCode);
+                await TryUpdateModelAsync(bbCode);
                 _bbCodeRepository.Update(bbCode);
                 SetSuccess("BB Code edited");
                 return RedirectToAction("BBCodes");

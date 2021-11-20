@@ -1,15 +1,15 @@
-@model mesoBoard.Framework.Models.ForumRow    
+@model mesoBoard.Framework.Models.ForumRow
 
-@{  
+@{
     string forumClass = "bg_color2";
-    
+
     if (Model.IsOdd)
     {
         forumClass = "bg_color3";
-    }   
+    }
     if (Model.HasNewPost)
     {
-        forumClass += " new";        
+        forumClass += " new";
     }
 }
 
@@ -18,15 +18,15 @@
     </td>
 
     <td class="info">
-        @Html.ActionLink(Model.Forum.Name, "ViewForum", new { controller= "Board", ForumID = Model.Forum.ForumID }) 
-        
+        @Html.ActionLink(Model.Forum.Name, "ViewForum", new { controller= "Board", ForumID = Model.Forum.ForumID })
+
         <div class="description">
             @Model.Forum.Description
         </div>
     </td>
 
     @if (Model.Forum.Threads.Count == 0)
-      { 
+    {
         <td class="last_post">
             No Posts
         </td>
@@ -35,25 +35,28 @@
             0 posts
         </td>
     }
-      else
-      {     
+    else
+    {
+        var postUrl = Url.Action("ViewThread", "Board", new { ThreadID = Model.LastPost.Thread.ThreadID, LastPost = true });
+        postUrl = postUrl + "#" + Model.LastPost.PostID;
+
+
         <td class="last_post">
-            <a href="@Url.Action("ViewThread", "Board", new { ThreadID = Model.LastPost.Thread.ThreadID, LastPost = true }) + "#" + Model.LastPost.PostID " 
-            title="@Model.LastPost.TextOnly.Shorten(75) ">
-            &#187; @Model.LastPost.Thread.Title.Shorten(23) 
+            <a href="@postUrl" title="@Model.LastPost.TextOnly.Shorten(75) ">
+                &#187; @Model.LastPost.Thread.Title.Shorten(23)
             </a>
 
             <div class="by_line">
-                by @Html.UsernameLink(Model.LastPost.User) 
-        
+                by @Html.UsernameLink(Model.LastPost.User)
+
                 - <span>@Html.RelativeDate(Model.LastPost.Date)</span>
             </div>
-        </td>  
+        </td>
 
         <td class="stats">
             @Model.Forum.Threads.Count threads
             <br />@Model.Forum.Threads.Sum(item => item.Posts.Count) posts
         </td>
-    } 
+    }
 
 </tr>

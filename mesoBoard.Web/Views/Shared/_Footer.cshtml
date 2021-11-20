@@ -1,7 +1,8 @@
+@using Microsoft.AspNetCore.Http
 
 
 &copy; @DateTime.UtcNow.Year  mesoBoard - All Rights Reserved
 <br />
 Powered by <a href="http://mesoboard.com">mesoBoard</a> 
-version @HttpContext.Current.Cache["mesoBoardVersion"]
+version @Html.ViewContext.HttpContext.Items["mesoBoardVersion"]
 

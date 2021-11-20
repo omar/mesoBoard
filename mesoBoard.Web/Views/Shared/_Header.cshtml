@@ -17,7 +17,7 @@
 
 <div id="top_right_menu">
     <ul class="horizontal menu">
-        @if (Request.IsAuthenticated) 
+        @if (Html.ViewContext.HttpContext.User.Identity.IsAuthenticated) 
         {
             if (Model.IsAdministrator) { 
                    <li>@Html.ActionLink("Admin CP", "Index", "Admin", new { area="Admin" }, new { @class = "admin_cp" }) </li>

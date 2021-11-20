@@ -1,10 +1,18 @@
-using System.Web.Mvc;
-using System.Web.Security;
-using mesoBoard.Data;
 using mesoBoard.Services;
 using mesoBoard.Framework.Core;
 using mesoBoard.Framework.Models;
 using mesoBoard.Framework;
+using mesoBoard.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System;
+using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
+using mesoBoard.Common;
 
 namespace mesoBoard.Web.Controllers
 {
@@ -102,7 +110,6 @@ namespace mesoBoard.Web.Controllers
         }
 
         [HttpGet]
-        [DefaultAction]
         [AllowOffline]
         public ActionResult Login(string ReturnUrl)
         {
@@ -115,7 +122,7 @@ namespace mesoBoard.Web.Controllers
 
         [HttpPost]
         [AllowOffline]
-        public ActionResult Login(LoginViewModel model, string ReturnUrl)
+        public async Task<ActionResult> LoginAsync(LoginViewModel model, string ReturnUrl)
         {
             if (IsModelValidAndPersistErrors())
             {
@@ -124,17 +131,24 @@ namespace mesoBoard.Web.Controllers
                     User user = _userServices.GetUser(model.Username);
                     if (!string.IsNullOrEmpty(user.ActivationCode))
                     {
-                        TagBuilder link = new TagBuilder("a");
+                        var link = new TagBuilder("a");
                         link.Attributes.Add("href", Url.Action("ResendActivationCode", new { UserID = user.UserID }));
-                        link.InnerHtml = "resend the activation email";
-                        SetNotice("<b>" + user.Username + "</b>'s account has not been activated yet. Click here to " + link.ToString());
+                        link.InnerHtml.AppendHtml("resend the activation email");
+                        SetNotice("<b>" + user.Username + "</b>'s account has not been activated yet. Click here to " + link.WriteToString());
                     }
                     else if (_userServices.ValidatePassword(user, model.Password))
                     {
+                        var claims = new List<Claim>
+                        {
+                            new Claim(ClaimTypes.Name, user.UserID.ToString())
+                        };
+
+                        var claimsIdentity = new ClaimsIdentity(
+                            claims, CookieAuthenticationDefaults.AuthenticationScheme);
                         ReturnUrl = ReturnUrl ?? Url.Action("Index", "Board");
-                        _userServices.LoginRoutine(user, Request.UserHostAddress);
-                        FormsAuthentication.SetAuthCookie(user.UserID.ToString(), model.RememberMe);
-                        Session[SessionKeys.UserID] = user.UserID;
+                        _userServices.LoginRoutine(user, Request.HttpContext.Connection.RemoteIpAddress.ToString());
+                        await HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
+                        HttpContext.Session.Set(SessionKeys.UserID, BitConverter.GetBytes(user.UserID));
                         SetSuccess("Successfully Logged In");
                         return Redirect(ReturnUrl);
                     }
@@ -150,12 +164,12 @@ namespace mesoBoard.Web.Controllers
 
         [Authorize]
         [AllowOffline]
-        public ActionResult Logout()
+        public async Task<ActionResult> LogoutAsync()
         {
             _userServices.LogoutRoutine(_currentUser.UserID);
-            Session.Remove(SessionKeys.LastActivityUpdate);
-            Session.Remove(SessionKeys.UserID);
-            FormsAuthentication.SignOut();
+            HttpContext.Session.Remove(SessionKeys.LastActivityUpdate);
+            HttpContext.Session.Remove(SessionKeys.UserID);
+            await HttpContext.SignOutAsync();
 
             SetSuccess("Successfully Logged out");
             return RedirectToAction("Index", "Board");

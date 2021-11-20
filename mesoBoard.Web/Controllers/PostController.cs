@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Web;
-using System.Web.Mvc;
+using System.Threading.Tasks;
 using mesoBoard.Common;
 using mesoBoard.Data;
 using mesoBoard.Framework;
 using mesoBoard.Framework.Core;
 using mesoBoard.Framework.Models;
 using mesoBoard.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace mesoBoard.Web.Controllers
 {
@@ -52,22 +52,6 @@ namespace mesoBoard.Web.Controllers
             _currentUser = currentUser;
         }
 
-        public ActionResult GetSmilies(int x, int z)
-        {
-            ViewData["x"] = x;
-            ViewData["z"] = z;
-            IEnumerable<Smiley> smilies = _smileyRepository.Get().ToList();
-            if (smilies.Count() < z)
-            {
-                ViewData["z"] = smilies.Count();
-                return View("_SmiliesTable", smilies);
-            }
-            else
-            {
-                return View("_SmiliesTable", smilies.Take(z));
-            }
-        }
-
         [HttpGet]
         public ActionResult CreateThread(int ForumID)
         {
@@ -101,9 +85,8 @@ namespace mesoBoard.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateInput(false)]
         [ValidateAntiForgeryToken]
-        public ActionResult ThreadValidate(ThreadViewModel model)
+        public async Task<ActionResult> ThreadValidateAsync(ThreadViewModel model)
         {
             EditorType editorType;
             if (model.PostEditor.PostID == 0)
@@ -150,7 +133,7 @@ namespace mesoBoard.Web.Controllers
                 if (model.PostEditor.Files != null)
                 {
                     ValidatePostedFiles(model.PostEditor.Files);
-                    files = model.PostEditor.Files.Where(item => item != null && item.ContentLength > 0 && !string.IsNullOrWhiteSpace(item.FileName)).ToArray();
+                    files = model.PostEditor.Files.Where(item => item != null && item.Length > 0 && !string.IsNullOrWhiteSpace(item.FileName)).ToArray();
                 }
             }
             else
@@ -166,7 +149,7 @@ namespace mesoBoard.Web.Controllers
             {
                 if (editorType == EditorType.Create)
                 {
-                    Thread thread = _threadServices.CreateThread(
+                    Thread thread = await _threadServices.CreateThreadAsync(
                         model.ForumID,
                         _currentUser.UserID,
                         model.ThreadEditor.Title,
@@ -213,7 +196,7 @@ namespace mesoBoard.Web.Controllers
                         _fileServices.DeleteAttachments(model.PostEditor.Delete);
 
                     _threadServices.UpdateThread(model.ThreadEditor.ThreadID, model.ThreadEditor.Title, (ThreadType)model.ThreadEditor.ThreadType, model.ThreadEditor.Image);
-                    _postServices.UpdatePost(model.PostEditor.PostID, model.PostEditor.Message, files);
+                    await _postServices.UpdatePostAsync(model.PostEditor.PostID, model.PostEditor.Message, files);
 
                     SetSuccess("Thread edited");
                     return RedirectToAction("ViewThread", "Board", new { ThreadID = model.ThreadEditor.ThreadID });
@@ -281,9 +264,8 @@ namespace mesoBoard.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateInput(false)]
         [ValidateAntiForgeryToken]
-        public ActionResult PostValidate(PostViewModel model)
+        public async Task<ActionResult> PostValidateAsync(PostViewModel model)
         {
             EditorType editorType;
             if (model.PostEditor.PostID == 0)
@@ -325,7 +307,7 @@ namespace mesoBoard.Web.Controllers
                 if (model.PostEditor.Files != null)
                 {
                     ValidatePostedFiles(model.PostEditor.Files);
-                    files = model.PostEditor.Files.Where(item => item != null && item.ContentLength > 0 && !string.IsNullOrWhiteSpace(item.FileName)).ToArray();
+                    files = model.PostEditor.Files.Where(item => item != null && item.Length > 0 && !string.IsNullOrWhiteSpace(item.FileName)).ToArray();
                 }
             }
             else
@@ -338,7 +320,7 @@ namespace mesoBoard.Web.Controllers
                     if (_threadServices.IsSubscribed(thread.ThreadID, _currentUser.UserID) && model.PostEditor.SubscribeToThread)
                         _threadServices.Subscribe(thread.ThreadID, _currentUser.UserID);
 
-                    var post = _postServices.CreatePost(model.ThreadID, _currentUser.UserID, model.PostEditor.Message, model.PostEditor.ShowSignature, files);
+                    var post = await _postServices.CreatePostAsync(model.ThreadID, _currentUser.UserID, model.PostEditor.Message, model.PostEditor.ShowSignature, files);
                     string postUrl = Url.Action("ViewThread", "Board", new { ThreadID = post.ThreadID, PostID = post.PostID }) + "#" + post.PostID;
                     IEnumerable<Subscription> subscriptions = thread.Subscriptions;
                     _emailServices.NewPostEmail(subscriptions, post, post.Thread, postUrl);
@@ -351,7 +333,7 @@ namespace mesoBoard.Web.Controllers
                     if (model.PostEditor.Delete != null)
                         _fileServices.DeleteAttachments(model.PostEditor.Delete);
 
-                    _postServices.UpdatePost(model.PostEditor.PostID, model.PostEditor.Message, files);
+                    await _postServices.UpdatePostAsync(model.PostEditor.PostID, model.PostEditor.Message, files);
                     SetSuccess("Post edited");
                     return Redirect(Url.Action("ViewThread", "Board", new { ThreadID = thread.ThreadID, LastPost = true, PostID = model.PostEditor.PostID }) + "#" + model.PostEditor.PostID);
                 }
@@ -399,12 +381,6 @@ namespace mesoBoard.Web.Controllers
                 SetError("You don't have permission to cast a vote");
 
             return RedirectToAction("ViewThread", "Board", new { ThreadID = ThreadID });
-        }
-
-        public ActionResult ThreadReview(int ThreadID)
-        {
-            Thread thread = _threadServices.GetThread(ThreadID);
-            return View("_ThreadReview", thread);
         }
 
         [PermissionAuthorize(SpecialPermissionValue.Administrator, SpecialPermissionValue.Moderator)]
@@ -569,11 +545,11 @@ namespace mesoBoard.Web.Controllers
 
                 foreach (var file in files.Where(item => item != null))
                 {
-                    if (file.ContentLength > 0)
+                    if (file.Length > 0)
                     {
                         if (!_fileServices.ValidFileType(file.FileName))
                             invalidFileTypes.Add(System.IO.Path.GetExtension(file.FileName));
-                        else if (file.ContentLength > maxFileSize * 1024)
+                        else if (file.Length > maxFileSize * 1024)
                             uploadLimitExceeded = true;
                     }
                 }

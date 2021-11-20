@@ -11,7 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mesoBoard.Services", "mesoB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mesoBoard.Framework", "mesoBoard.Framework\mesoBoard.Framework.csproj", "{33AE60AE-05F4-408E-8412-B6658C05B630}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mesoBoard.Web.Core", "mesoBoard.Web.Core\mesoBoard.Web.Core.csproj", "{C268B128-5E0C-4F05-878A-EA43A090CC1A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mesoBoard.Web", "mesoBoard.Web\mesoBoard.Web.csproj", "{C268B128-5E0C-4F05-878A-EA43A090CC1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mesoBoard.Tests", "mesoBoard.Tests\mesoBoard.Tests.csproj", "{5FFAD199-9CCC-47F2-98E4-EBAECB77CB0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -86,5 +88,17 @@ Global
 		{C268B128-5E0C-4F05-878A-EA43A090CC1A}.Release|x64.Build.0 = Release|Any CPU
 		{C268B128-5E0C-4F05-878A-EA43A090CC1A}.Release|x86.ActiveCfg = Release|Any CPU
 		{C268B128-5E0C-4F05-878A-EA43A090CC1A}.Release|x86.Build.0 = Release|Any CPU
+		{5FFAD199-9CCC-47F2-98E4-EBAECB77CB0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FFAD199-9CCC-47F2-98E4-EBAECB77CB0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FFAD199-9CCC-47F2-98E4-EBAECB77CB0D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5FFAD199-9CCC-47F2-98E4-EBAECB77CB0D}.Debug|x64.Build.0 = Debug|Any CPU
+		{5FFAD199-9CCC-47F2-98E4-EBAECB77CB0D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5FFAD199-9CCC-47F2-98E4-EBAECB77CB0D}.Debug|x86.Build.0 = Debug|Any CPU
+		{5FFAD199-9CCC-47F2-98E4-EBAECB77CB0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FFAD199-9CCC-47F2-98E4-EBAECB77CB0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FFAD199-9CCC-47F2-98E4-EBAECB77CB0D}.Release|x64.ActiveCfg = Release|Any CPU
+		{5FFAD199-9CCC-47F2-98E4-EBAECB77CB0D}.Release|x64.Build.0 = Release|Any CPU
+		{5FFAD199-9CCC-47F2-98E4-EBAECB77CB0D}.Release|x86.ActiveCfg = Release|Any CPU
+		{5FFAD199-9CCC-47F2-98E4-EBAECB77CB0D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

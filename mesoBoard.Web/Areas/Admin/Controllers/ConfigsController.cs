@@ -1,13 +1,17 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Web.Mvc;
 using mesoBoard.Common;
 using mesoBoard.Data;
 using mesoBoard.Framework.Core;
 using mesoBoard.Services;
 using mesoBoard.Web.Areas.Admin.Models;
 using mesoBoard.Web.Areas.Admin.ViewModels;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace mesoBoard.Web.Areas.Admin.Controllers
 {
@@ -20,6 +24,7 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
         private IRepository<Theme> _themeRepository;
         private ThemeServices _themeServices;
         private Theme _currentTheme;
+        private SiteConfig _siteConfig;
 
         public ConfigsController(
             IRepository<Config> configRepository,
@@ -27,7 +32,8 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
             IRepository<Role> roleRepository,
             IRepository<Theme> themeRepository,
             ThemeServices themeServices,
-            Theme currentTheme)
+            Theme currentTheme,
+            SiteConfig siteConfig)
         {
             _configRepository = configRepository;
             _pluginConfigRepository = pluginConfigRepository;
@@ -35,6 +41,7 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
             _themeRepository = themeRepository;
             _themeServices = themeServices;
             _currentTheme = currentTheme;
+            _siteConfig = siteConfig;
         }
 
         private class ConfigValidation
@@ -118,8 +125,8 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
                 if (config != null)
                 {
                     string value = Request.Form[configKey];
-                    ModelState modelState = new ModelState();
-                    modelState.Value = new ValueProviderResult(value, value, CultureInfo.CurrentUICulture);
+                    var modelState = new ModelStateDictionary();
+
                     if (value != config.Value)
                     {
                         if (string.IsNullOrEmpty(value))
@@ -129,7 +136,7 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
                             var validation = ValidateConfig(config, value);
                             if (!validation.Valid)
                             {
-                                modelState.Errors.Add(validation.FieldError);
+                                modelState.AddModelError(value, validation.FieldError);
                                 ModelState.AddModelError(string.Empty, validation.Error);
                                 errors++;
                             }
@@ -146,7 +153,7 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
                             }
                         }
                     }
-                    ModelState.Add(configKey, modelState);
+                    ModelState.Merge(modelState);
                 }
             }
 
@@ -155,10 +162,9 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
 
             if (errors != 0)
                 SetError(errors + " config errors. See the messages below");
-
-            SiteConfig.UpdateCache();
+            
+            _siteConfig.UpdateCache();
             Misc.ParseBBCodeScriptFile(_currentTheme);
-            PersistModelState();
             return RedirectToSelf();
         }
 

@@ -1,29 +1,22 @@
 using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Web;
-using System.Web.Mvc;
 using mesoBoard.Framework;
 using mesoBoard.Framework.Core;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using SixLaborsCaptcha.Core;
 
 namespace mesoBoard.Web.Controllers
 {
-    public class CaptchaController : Controller
+    public class CaptchaController : BaseController
     {
-        public void Render(string challengeGuid)
+        [ResponseCache(NoStore=true, Location=ResponseCacheLocation.None)]
+        public FileResult Render(string challengeGuid)
         {
-            string solution = (string)Session[SessionKeys.CaptchaSessionPrefix + challengeGuid];
+            var solution = Extentions.GetUniqueKey(6);
+            HttpContext.Session.SetString(SessionKeys.CaptchaSessionPrefix + challengeGuid, solution);
 
-            using (Bitmap bmp = Captcha.RenderCaptcha(solution))
-            {
-                Response.ContentType = "image/jpeg";
-                Response.Cache.SetExpires(DateTime.UtcNow.AddDays(-1));
-                Response.Cache.SetValidUntilExpires(false);
-                Response.Cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
-                Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                Response.Cache.SetNoStore();
-                bmp.Save(Response.OutputStream, ImageFormat.Jpeg);
-            }
+            var captcha = Captcha.RenderCaptcha(solution);
+            return File(captcha, "image/png");
         }
     }
 }

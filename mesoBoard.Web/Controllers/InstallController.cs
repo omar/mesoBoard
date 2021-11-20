@@ -2,18 +2,14 @@ using System;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
-using System.Net.Configuration;
 using System.Net.Mail;
-using System.Net.Sockets;
-using System.Web;
-using System.Web.Configuration;
-using System.Web.Mvc;
-using System.Web.Security;
 using mesoBoard.Common;
 using mesoBoard.Data;
-using mesoBoard.Framework.Core;
 using mesoBoard.Framework.Models;
 using mesoBoard.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
 
 namespace mesoBoard.Web.Controllers
 {
@@ -21,28 +17,31 @@ namespace mesoBoard.Web.Controllers
     {
         private IUnitOfWork _unitOfWork;
         private IRepository<User> _userRepository;
+        private UserServices _userServices;
+        private SiteConfig _siteConfig;
         private static string SessionSqlInfoKey = "mbSqlInfoKey";
         private static string SessionMailInfoKey = "mbMailInfoKey";
 
-        public InstallController(IUnitOfWork unitOfWork, IRepository<User> userRepository)
+        public InstallController(
+            IRepository<User> userRepository,
+            UserServices userServices,
+            IUnitOfWork unitOfWork,
+            SiteConfig siteConfig)
         {
             _unitOfWork = unitOfWork;
             _userRepository = userRepository;
+            _userServices = userServices;
+            _siteConfig = siteConfig;
         }
 
-        protected override void ExecuteCore()
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
+            context.HttpContext.Items[HttpContextItemKeys.ThemeFolder] = "Default";
+            
             if (Settings.IsInstalled)
                 View("AlreadyInstalled").ExecuteResult(ControllerContext);
             else
-                base.ExecuteCore();
-        }
-
-        protected override void Execute(System.Web.Routing.RequestContext requestContext)
-        {
-            requestContext.HttpContext.Items[HttpContextItemKeys.ThemeFolder] = "Default";
-
-            base.Execute(requestContext);
+                base.OnActionExecuting(context);
         }
 
         public ActionResult Index()
@@ -79,7 +78,7 @@ namespace mesoBoard.Web.Controllers
             if (!ModelState.IsValid)
                 return View(info);
 
-            SqlConnectionStringBuilder connectionString = new SqlConnectionStringBuilder();
+            var connectionString = new SqlConnectionStringBuilder();
 
             connectionString.DataSource = info.DatabaseServer;
             connectionString.InitialCatalog = info.DatabaseName;
@@ -92,12 +91,12 @@ namespace mesoBoard.Web.Controllers
                 connectionString.Password = info.DatabasePassword;
             }
 
-            SqlConnection connection = new SqlConnection(connectionString.ToString());
+            var connection = new SqlConnection(connectionString.ToString());
 
             try
             {
                 connection.Open();
-                string sql = System.IO.File.ReadAllText(Server.MapPath("~/App_Data/Install/mesoBoard.SqlServer.sql"));
+                string sql = System.IO.File.ReadAllText("~/App_Data/Install/mesoBoard.SqlServer.sql");
 
                 string[] cmds = sql.Split(new string[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -121,7 +120,7 @@ namespace mesoBoard.Web.Controllers
                 connection.Dispose();
             }
 
-            Session[SessionSqlInfoKey] = info;
+            HttpContext.Session.SetObject(SessionSqlInfoKey, info);
 
             return RedirectToAction("Step2");
         }
@@ -131,12 +130,12 @@ namespace mesoBoard.Web.Controllers
         {
             ViewData["StepNumber"] = 2;
 
-            if (Session[SessionSqlInfoKey] != null)
+            if (HttpContext.Session.GetObject<SQLInstallViewModel>(SessionSqlInfoKey) != null)
                 ViewData[ViewDataKeys.GlobalMessages.Success] = "Successfully connected to database and created tables";
 
             MailInstallViewModel model = new MailInstallViewModel
             {
-                MailServerAddress = "mail." + Request.Url.Host,
+                MailServerAddress = "mail." + Request.Host,
                 MailUseDefaultCredentials = false,
                 PortNumber = 25
             };
@@ -167,7 +166,7 @@ namespace mesoBoard.Web.Controllers
 
             try
             {
-                smtpClient.Send("no-reply@" + Request.Url.Host, "test@" + smtpClient.Host, "", "");
+                smtpClient.Send("no-reply@" + Request.Host, "test@" + smtpClient.Host, "", "");
             }
             catch (Exception ex)
             {
@@ -176,17 +175,17 @@ namespace mesoBoard.Web.Controllers
                 return View(info);
             }
 
-            Session[SessionMailInfoKey] = info;
+            HttpContext.Session.SetObject(SessionMailInfoKey, info);
             return RedirectToAction("Step3");
         }
 
         [HttpGet]
         public ActionResult Step3()
         {
-            if (Session[SessionMailInfoKey] != null)
+            if (HttpContext.Session.GetObject<MailInstallViewModel>(SessionMailInfoKey) != null)
                 ViewData[ViewDataKeys.GlobalMessages.Success] = "Successfully connected to mail server";
 
-            SQLInstallViewModel sqlInfo = Session[SessionSqlInfoKey] as SQLInstallViewModel;
+            var sqlInfo = HttpContext.Session.GetObject<SQLInstallViewModel>(SessionSqlInfoKey);
             if (sqlInfo != null)
             {
                 Settings.DatabaseServer = sqlInfo.DatabaseServer;
@@ -207,18 +206,20 @@ namespace mesoBoard.Web.Controllers
                             .Replace("{dbpassword}", sqlInfo.DatabasePassword);
 
                 string entityConnectionString = Settings.EntityConnectionStringTemplate.Replace("{CONNECTIONSTRING}", connectionString);
-                mesoBoardContext dataContext = new mesoBoardContext(entityConnectionString);
+                var dbContextOptionsBuilder = new DbContextOptionsBuilder<mesoBoardContext>();
+                dbContextOptionsBuilder.UseSqlServer(entityConnectionString);
+                var dataContext = new mesoBoardContext(dbContextOptionsBuilder.Options);
 
                 Config automatedEmail = dataContext.Configs.First(item => item.Name.Equals("AutomatedFromEmail"));
-                automatedEmail.Value = "no-reply@" + Request.Url.Host;
+                automatedEmail.Value = "no-reply@" + Request.Host;
 
                 Config boardUrl = dataContext.Configs.First(item => item.Name.Equals("BoardURL"));
-                boardUrl.Value = Request.Url.Host;
+                boardUrl.Value = Request.Host.ToString();
 
                 dataContext.SaveChanges();
             }
 
-            MailInstallViewModel mailInfo = Session[SessionMailInfoKey] as MailInstallViewModel;
+            MailInstallViewModel mailInfo = HttpContext.Session.GetObject<MailInstallViewModel>(SessionMailInfoKey);
             if (mailInfo != null)
             {
                 Settings.SmtpServer = mailInfo.MailServerAddress;
@@ -249,13 +250,12 @@ namespace mesoBoard.Web.Controllers
 
             string password = Randoms.RandomPassword();
             string salt = Randoms.CreateSalt();
-            string hashedPassword = FormsAuthentication.HashPasswordForStoringInConfigFile(password + salt, "MD5");
+            string hashedPassword = _userServices.HashPassword(password, salt);
 
             string connectionString = Settings.EntityConnectionString;
-            var param = new Ninject.Parameters.Parameter("connectionString", connectionString, false);
 
             var date = DateTime.UtcNow;
-            string ipAddress = HttpContext.Request.UserHostAddress;
+            string ipAddress = HttpContext.Connection.RemoteIpAddress.ToString();
 
             User adminUser = _userRepository.Get().FirstOrDefault();
 
@@ -278,7 +278,7 @@ namespace mesoBoard.Web.Controllers
                 {
                     try
                     {
-                        smtp.Send("no-reply@" + Request.Url.Host,
+                        smtp.Send("no-reply@" + Request.Host,
                             email,
                             "mesoBoard Installation Complete",
                             "Admin user created" + Environment.NewLine +
@@ -302,7 +302,7 @@ namespace mesoBoard.Web.Controllers
 
             try
             {
-                SiteConfig.UpdateCache();
+                _siteConfig.UpdateCache();
             }
             catch
             {

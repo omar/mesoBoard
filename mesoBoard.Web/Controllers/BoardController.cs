@@ -1,20 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Net.Configuration;
-using System.Web.Configuration;
-using System.Web.Hosting;
-using System.Web.Mvc;
-using System.Xml.Linq;
 using mesoBoard.Common;
 using mesoBoard.Data;
 using mesoBoard.Framework;
 using mesoBoard.Framework.Core;
 using mesoBoard.Framework.Models;
 using mesoBoard.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace mesoBoard.Web.Controllers
 {
@@ -72,7 +67,6 @@ namespace mesoBoard.Web.Controllers
             SetTopBreadCrumb("Board");
         }
 
-        [DefaultAction]
         public ActionResult Index()
         {
             SetBreadCrumb("Board Index");
@@ -111,7 +105,7 @@ namespace mesoBoard.Web.Controllers
 
             if (string.IsNullOrEmpty(Keywords))
             {
-                if (Request.HttpMethod.Equals("Post", StringComparison.InvariantCultureIgnoreCase))
+                if (Request.Method.Equals("Post", StringComparison.InvariantCultureIgnoreCase))
                     SetNotice("Enter a keyword to search");
                 return View();
             }
@@ -158,8 +152,8 @@ namespace mesoBoard.Web.Controllers
                 FirstPost = thread.FirstPost,
                 LastPost = thread.Posts.OrderByDescending(post => post.Date).FirstOrDefault(),
                 CurrentUser = _currentUser,
-                HasNewPost = Request.IsAuthenticated ? _threadServices.HasNewPost(thread.ThreadID, _currentUser.UserID) : false,
-                IsSubscribed = Request.IsAuthenticated ? _threadServices.IsSubscribed(thread.ThreadID, _currentUser.UserID) : false,
+                HasNewPost = HttpContext.User.Identity.IsAuthenticated ? _threadServices.HasNewPost(thread.ThreadID, _currentUser.UserID) : false,
+                IsSubscribed = HttpContext.User.Identity.IsAuthenticated ? _threadServices.IsSubscribed(thread.ThreadID, _currentUser.UserID) : false,
                 HasAttachment = _threadServices.HasAttachment(thread.ThreadID)
             });
 
@@ -173,8 +167,8 @@ namespace mesoBoard.Web.Controllers
                 FirstPost = thread.FirstPost,
                 LastPost = thread.Posts.OrderByDescending(post => post.Date).FirstOrDefault(),
                 CurrentUser = _currentUser,
-                HasNewPost = Request.IsAuthenticated ? _threadServices.HasNewPost(thread.ThreadID, _currentUser.UserID) : false,
-                IsSubscribed = Request.IsAuthenticated ? _threadServices.IsSubscribed(thread.ThreadID, _currentUser.UserID) : false
+                HasNewPost = HttpContext.User.Identity.IsAuthenticated ? _threadServices.HasNewPost(thread.ThreadID, _currentUser.UserID) : false,
+                IsSubscribed = HttpContext.User.Identity.IsAuthenticated ? _threadServices.IsSubscribed(thread.ThreadID, _currentUser.UserID) : false
             });
 
             ViewForumViewModel viewForum = new ViewForumViewModel()
@@ -301,38 +295,10 @@ namespace mesoBoard.Web.Controllers
             return RedirectToAction("ViewThread", new { ThreadID = threadID });
         }
 
-        public ActionResult BoardStats()
-        {
-            var onlineUsers = _onlineUserRepository.Get().Select(item =>
-                new OnlineUserDetails()
-                {
-                    DefaultRole = item.User.UserProfile.DefaultRole.HasValue ? item.User.UserProfile.Role : null,
-                    OnlineUser = item
-                }).ToList();
-
-            IEnumerable<OnlineGuest> onlineGuests = _onlineGuestRepository.Get().ToList();
-
-            var newestUser = _userRepository.Get().OrderByDescending(item => item.RegisterDate).First();
-            var birthdays = _userServices.GetBirthdays(DateTime.UtcNow);
-
-            var model = new BoardStatsViewModel()
-            {
-                NewestUser = newestUser,
-                OnlineGuests = onlineGuests,
-                OnlineUsers = onlineUsers,
-                TotalPosts = _postServices.TotalPosts(),
-                TotalRegisteredUsers = _userRepository.Get().Count(),
-                TotalThreads = _threadServices.TotalThreads(),
-                BirthdayUsers = birthdays
-            };
-
-            return View(model);
-        }
-
         public ActionResult DownloadAttachment(int AttachmentID)
         {
             Attachment attachment = _fileServices.GetAttachment(AttachmentID);
-            string path = Server.MapPath(Path.Combine(DirectoryPaths.Attachments, attachment.SavedName));
+            string path = Path.Combine(DirectoryPaths.Attachments, attachment.SavedName);
             if (System.IO.File.Exists(path))
             {
                 if (!_permissionServices.CanDownloadAttachment(attachment.Post.Thread.ForumID, _currentUser.UserID))
@@ -354,20 +320,6 @@ namespace mesoBoard.Web.Controllers
         public ActionResult Offline()
         {
             return View();
-        }
-
-        [ChildActionOnly]
-        [AllowOffline]
-        public ActionResult Header()
-        {
-            HeaderViewModel model = new HeaderViewModel()
-            {
-                CurrentUser = _currentUser,
-                NewMessagesCount = Request.IsAuthenticated ? _messageServices.GetUnreadMessages(_currentUser.UserID).Count() : 0,
-                IsAdministrator = Request.IsAuthenticated ? _roleServices.UserHasSpecialPermissions(_currentUser.UserID, SpecialPermissionValue.Administrator) : false
-            };
-
-            return View("_Header", model);
         }
     }
 }

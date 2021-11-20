@@ -1,14 +1,12 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
-using System.Web.Routing;
 using mesoBoard.Common;
 using mesoBoard.Data;
-using mesoBoard.Framework;
 using mesoBoard.Framework.Core;
 using mesoBoard.Framework.Models;
 using mesoBoard.Services;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace mesoBoard.Web.Controllers
 {
@@ -72,7 +70,6 @@ namespace mesoBoard.Web.Controllers
             return View(groups);
         }
 
-        [DefaultAction]
         public ActionResult MembersList(string Letter = "(All)", int Page = 1, int PageSize = 10)
         {
             SetBreadCrumb("Members List");
@@ -130,18 +127,18 @@ namespace mesoBoard.Web.Controllers
         {
             if (Action == "Preview")
             {
-                Session.Add("ptheme", PreviewTheme);
+                HttpContext.Session.SetInt32("ptheme", PreviewTheme);
                 SetSuccess("Theme changed");
             }
             else if (Action == "Reset")
             {
-                if (Session["ptheme"] != null)
+                if (HttpContext.Session.GetInt32("ptheme") != null)
                 {
-                    Session.Remove("ptheme");
+                    HttpContext.Session.Remove("ptheme");
                 }
             }
 
-            return Redirect(Request.UrlReferrer.AbsolutePath);
+            return Redirect(Request.GetTypedHeaders().Referer.AbsolutePath);
         }
     }
 }

@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Http
 @{
     Layout = null;
 }
@@ -172,7 +173,7 @@
                     </li>
                 </ul>
                  
-                @Html.Action("PluginsMenu", "Admin")
+                @* @Html.Action("PluginsMenu", "Admin") *@
             </div>
                  
             <div id="admin_content">
@@ -183,7 +184,7 @@
                 &copy; @DateTime.UtcNow.Year mesoBoard - All Rights Reserved
                 <br />
                 Powered by <a href="http://mesoboard.com">mesoBoard</a> 
-                version @HttpContext.Current.Cache["mesoBoardVersion"]
+                version @Html.ViewContext.HttpContext.Items["mesoBoardVersion"]
             </div>
         </div>
     </body>

@@ -1,13 +1,12 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
 using mesoBoard.Common;
 using mesoBoard.Data;
-using mesoBoard.Framework;
 using mesoBoard.Framework.Core;
 using mesoBoard.Framework.Models;
 using mesoBoard.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace mesoBoard.Web.Controllers
 {
@@ -94,7 +93,6 @@ namespace mesoBoard.Web.Controllers
         }
 
         [HttpGet]
-        [DefaultAction]
         public ActionResult Inbox(string Box, int page = 1, int pageSize = 25)
         {
             IEnumerable<Message> messages;

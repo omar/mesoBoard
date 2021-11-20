@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Html
 @model mesoBoard.Framework.Models.ViewMessageViewModel
 @{
     Layout = "~/Views/Shared/_User.cshtml";
@@ -52,7 +53,7 @@
         <div class="body">
             <div class="top">
                 <div class="date">
-                    by <b>@(Model.Message.FromUserID.HasValue ? Html.UserProfileLink(Model.Message.FromUser.Username) : "User Deleted".ToHtmlString())</b> on <b>@Model.Message.DateSent.ToString("ddd, MMM dd \\'yy h:mm tt") </b>
+                    by <b>@(Model.Message.FromUserID.HasValue ? Html.UserProfileLink(Model.Message.FromUser.Username) : new HtmlString("User Deleted"))</b> on <b>@Model.Message.DateSent.ToString("ddd, MMM dd \\'yy h:mm tt") </b>
                 </div>                                
             </div>
                      

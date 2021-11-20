@@ -58,6 +58,6 @@
     </form>
 
 
-    @Html.Action("ThreadReview", new { ThreadID = Model.ThreadID })
+    @await Component.InvokeAsync(nameof(ThreadReview), new { threadId = Model.ThreadID })
 
 </div>

@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.IO;
-using System.Web.Configuration;
-using System.Web.Mvc;
 using mesoBoard.Common;
 using mesoBoard.Data;
 using mesoBoard.Framework.Core;
 using mesoBoard.Services;
 using mesoBoard.Web.Areas.Admin.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace mesoBoard.Web.Areas.Admin.Controllers
 {
@@ -34,16 +33,16 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
         {
             string[] pluginFiles = Directory.GetFiles(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins"), "*.dll");
 
-            List<Plugin> plugins = _pluginServices.GetPluginsInFolder(Server.MapPath("~/Plugins"));
+            List<Plugin> plugins = _pluginServices.GetPluginsInFolder("Plugins");
 
             return View(plugins);
         }
 
         public ActionResult Install(string AssemblyName)
         {
-            var plugins = _pluginServices.GetPluginsInFolder(Server.MapPath("~/Plugins"));
+            var plugins = _pluginServices.GetPluginsInFolder("Plugins");
 
-            IPluginDetails details = _pluginServices.GetPluginDetailsFromAssembly(Path.Combine(Server.MapPath("~/Plugins"), AssemblyName + ".dll"));
+            IPluginDetails details = _pluginServices.GetPluginDetailsFromAssembly(Path.Combine("/Plugins", AssemblyName + ".dll"));
 
             ViewData["AssemblyName"] = AssemblyName;
 
@@ -57,7 +56,7 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult InstallPlugin(string AssemblyName)
         {
-            IPluginDetails details = _pluginServices.GetPluginDetailsFromAssembly(Path.Combine(Server.MapPath("~/Plugins"), AssemblyName + ".dll"));
+            IPluginDetails details = _pluginServices.GetPluginDetailsFromAssembly(Path.Combine("Plugins", AssemblyName + ".dll"));
 
             TempData["PluginDetails"] = details;
 
@@ -140,20 +139,20 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult EditWebConfig(string AssemblyName, string PluginName)
         {
-            try
-            {
-                var configuration = WebConfigurationManager.OpenWebConfiguration("~");
-                var section = (SystemWebSectionGroup)configuration.GetSectionGroup("system.web");
-                var info = new AssemblyInfo(AssemblyName);
-                section.Compilation.Assemblies.Add(info);
-                configuration.Save();
-            }
-            catch (Exception ex)
-            {
-                SetError("An error occurred while trying to edit the Web.config file");
-                SetNotice(ex.Message);
-                return RedirectToAction("Index");
-            }
+            // try
+            // {
+            //     var configuration = WebConfigurationManager.OpenWebConfiguration("~");
+            //     var section = (SystemWebSectionGroup)configuration.GetSectionGroup("system.web");
+            //     var info = new AssemblyInfo(AssemblyName);
+            //     section.Compilation.Assemblies.Add(info);
+            //     configuration.Save();
+            // }
+            // catch (Exception ex)
+            // {
+            //     SetError("An error occurred while trying to edit the Web.config file");
+            //     SetNotice(ex.Message);
+            //     return RedirectToAction("Index");
+            // }
 
             ViewData["PluginName"] = PluginName;
 

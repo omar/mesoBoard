@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Web.Mvc;
+using System.Threading.Tasks;
 using mesoBoard.Common;
 using mesoBoard.Data;
 using mesoBoard.Framework.Core;
 using mesoBoard.Services;
 using mesoBoard.Web.Areas.Admin.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace mesoBoard.Web.Areas.Admin.Controllers
 {
@@ -85,12 +86,12 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditFileType(FileTypeViewModel model)
+        public async Task<ActionResult> EditFileTypeAsync(FileTypeViewModel model)
         {
             if (IsModelValidAndPersistErrors())
             {
                 FileType fileType = _fileTypeRepository.Get(model.FileTypeID);
-                UpdateModel(fileType);
+                await TryUpdateModelAsync(fileType);
                 _fileTypeRepository.Update(fileType);
                 SetSuccess("File type edited");
                 return RedirectToAction("FileTypes");

@@ -65,6 +65,6 @@
             <th>This board has no forums</th>
         </tr>
     </table>
-    } 
-    @Html.Action("BoardStats", "Board")
+    }
+    @await Component.InvokeAsync("BoardStats")
 </div>

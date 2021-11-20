@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 using mesoBoard.Framework.Core;
 using mesoBoard.Services;
 using mesoBoard.Web.Areas.Admin.ViewModels;
 using System.IO;
-using mesoBoard.Framework;
+using Microsoft.AspNetCore.Mvc;
 
 namespace mesoBoard.Web.Areas.Admin.Controllers
 {
@@ -21,7 +16,6 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
             SetCrumb("Upgrade");
         }
 
-        [DefaultAction]
         public ActionResult Upgrade()
         {
             var upgrades = _upgradeServices.GetAvailableUpgrades();
@@ -37,7 +31,7 @@ namespace mesoBoard.Web.Areas.Admin.Controllers
             UpgradeDetailsViewModel model = new UpgradeDetailsViewModel();
             model.Version = version;
             string partialFileName = string.Format("{0}.cshtml", version);
-            string partialPath = Path.Combine(Server.MapPath(DirectoryPaths.Upgrade), version, partialFileName);
+            string partialPath = Path.Combine(DirectoryPaths.Upgrade, version, partialFileName);
             model.HasDetails = System.IO.File.Exists(partialPath);
             if (model.HasDetails)
                 model.Details = System.IO.File.ReadAllText(partialPath);
