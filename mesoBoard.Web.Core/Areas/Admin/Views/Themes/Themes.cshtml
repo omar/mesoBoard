@@ -1,0 +1,40 @@
+@model ThemeViewer
+@{
+    Layout = "_Themes.cshtml";
+}   
+       
+@Html.ActionLink("Create Theme", "CreateTheme", null, new { @class = "add" }) 
+        
+<table>
+    <tr>
+        <th class="edit"></th>
+        <th class="delete"></th>
+        <th>Theme</th>
+        <th>Display Name</th>
+        <th>Folder Name</th>
+        <th>Visible to Users</th>
+        <th>Default Theme</th>
+    </tr>
+            
+    @foreach(var theme in Model.Themes)
+    {
+        <tr class="@(Model.DefaultThemeID == theme.ThemeID ? "bg_color3 current_theme" : "")">
+            <td>@Html.ActionLink("Edit", "EditTheme", new { ThemeID = theme.ThemeID })</td>
+            <td>@Html.AdminConfirm("Delete", Url.Action("DeleteTheme", new { ThemeID = theme.ThemeID }), Url.Action("Themes"))</td>
+            <td>@theme.Name</td>
+            <td>@theme.DisplayName</td>
+            <td>@theme.FolderName</td>
+            <td>@(theme.VisibleToUsers ? "Yes" : "No")</td>
+            <td>
+                @if (Model.DefaultThemeID == theme.ThemeID)
+                {
+                    <text>Current default</text>
+                }
+                else
+                {
+                    @Html.ActionLink("Set as default", "SetThemeDefault", new { ThemeID = theme.ThemeID })
+                }
+            </td>
+        </tr>
+    }   
+</table> 

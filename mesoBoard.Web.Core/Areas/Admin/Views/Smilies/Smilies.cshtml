@@ -1,0 +1,37 @@
+@model SmiliesViewer
+@{
+    Layout = "_Smilies.cshtml";
+}           
+
+@using(Html.BeginForm())
+{ 
+    <fieldset>
+        <legend>Create Smiley</legend>
+            
+        @await Html.PartialAsync("_Smiley", Model.SmileyViewModel)    
+    </fieldset>
+}     
+        
+<table>       
+    <tr>
+        <th class="edit"></th>
+        <th class="delete"></th>
+        <th>Image</th>
+        <th>Filename</th>
+        <th>Code</th>
+        <th>Title</th>
+    </tr>    
+                
+    @foreach(var smiley in Model.Smilies)
+    { 
+        <tr>
+            <td>@Html.ActionLink("Edit", "EditSmiley", new { SmileyID = smiley.SmileyID })</td>
+            <td>@Html.AdminConfirm("Delete", Url.Action("DeleteSmiley", new { SmileyID = smiley.SmileyID }), Url.Action("Smilies")) </td>
+            <td>@Html.Image("~/Images/Smilies/"+smiley.ImageURL)</td>
+            <td>@smiley.ImageURL</td>
+            <td>@smiley.Code</td>
+            <td>@smiley.Title</td>
+        </tr>
+    }
+</table>
+        

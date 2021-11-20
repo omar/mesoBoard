@@ -1,0 +1,13 @@
+@model ThemeViewModel
+@{
+    Layout = "_Themes.cshtml";
+}     
+      
+<fieldset>
+    <legend>Create Theme</legend>
+
+    @using (Html.BeginForm()) 
+    {
+        @await Html.PartialAsync("_Theme")
+    }
+</fieldset>

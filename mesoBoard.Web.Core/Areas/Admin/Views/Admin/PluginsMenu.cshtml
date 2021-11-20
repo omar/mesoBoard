@@ -1,0 +1,19 @@
+@model IEnumerable<mesoBoard.Web.Areas.Admin.Models.PluginMenu>
+
+@{
+    Layout = null;
+}
+
+@foreach (var pluginMenu in Model)
+{ 
+    <h5>@pluginMenu.MainLink.Text</h5>
+    <ul>
+        @foreach (var link in pluginMenu.ChildLinks)
+        {  
+            <li>
+            @Html.ParseNavLink(link)
+            </li>
+        } 
+    </ul>
+}
+

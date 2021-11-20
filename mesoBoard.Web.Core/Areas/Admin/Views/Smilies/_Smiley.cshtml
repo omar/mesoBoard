@@ -1,0 +1,32 @@
+@model SmileyViewModel
+
+<dl>
+    <dt>Image</dt>
+    <dd>
+        @if (Model.SmileyID != 0)
+        {
+            @Html.Image(Model.ImagePath)
+            <br /> 
+        }
+        @Html.TextBoxFor(model => model.ImageURL) 
+        @Html.ValidationMessageFor(model => model.ImageURL) 
+    </dd>
+                
+    <dt>Code</dt>
+    <dd>
+        @Html.TextBoxFor(model => model.Code) 
+        @Html.ValidationMessageFor(model => model.Code) 
+    </dd>
+                
+    <dt>Title</dt>
+    <dd>
+        @Html.TextBoxFor(model => model.Title) 
+    </dd>
+                
+    <dt>&nbsp;</dt>
+    <dd>
+        @Html.HiddenFor(model => model.SmileyID)
+        <input type="submit" value="@Html.SubmitButtonText(Model.SmileyID)" />
+    </dd>
+                
+</dl>

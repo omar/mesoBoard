@@ -1,0 +1,14 @@
+<div class="confirm_dialog">
+    <h2>Confirm Operation</h2>
+    <hr />
+
+    <p>Are you sure you want to carry out this irreversible operation?</p>
+       
+    <form method="post" action="@ViewData["YesUrl"] ">
+        <input type="submit" value="Yes, proceed with this operation" class="accept" />
+    </form>
+
+    <form method="post" action="@ViewData["NoUrl"] ">
+        <input type="submit" value="No, cancel this operation" class="cancel" />
+    </form>
+</div>

@@ -1,0 +1,13 @@
+@model SmileyViewModel
+@{
+    Layout = "_Smilies.cshtml";
+}           
+
+<fieldset>
+    <legend>Edit Smiley</legend>
+
+    @using (Html.BeginForm())
+    { 
+        @await Html.PartialAsync("_Smiley")    
+    }
+</fieldset>

@@ -1,0 +1,22 @@
+@model FileTypeViewModel
+
+<dl>
+    <dt>File extension</dt>
+    <dd>
+        @Html.TextBoxFor(model => model.Extension) 
+        @Html.ValidationMessageFor(model => model.Extension) 
+        <label class="info">Include "."; Example: .gif</label>
+    </dd>
+                    
+    <dt>Image</dt>
+    <dd>
+        @Html.DropDownListFor(model => model.Image, Model.ImagesList, "(No image)")
+        <label class="info">Images located in @DirectoryPaths.FileTypes</label>
+    </dd>
+                    
+    <dt>&nbsp;</dt>
+    <dd>
+        @Html.HiddenFor(model => model.FileTypeID)
+        <input type="submit" value="@Html.SubmitButtonText(Model.FileTypeID)" />
+    </dd>
+</dl>

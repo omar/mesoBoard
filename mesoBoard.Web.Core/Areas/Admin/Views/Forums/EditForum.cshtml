@@ -1,0 +1,13 @@
+@model ForumViewModel
+@{
+    Layout = "_Forums.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <fieldset class="forums">
+        <legend>Edit Forum</legend>
+            
+        @await Html.PartialAsync("_Forum")
+    </fieldset>
+}

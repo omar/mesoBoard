@@ -6,7 +6,7 @@ namespace mesoBoard.Web.Helpers
 {
     public static class UrlHelpers
     {
-        public static string PluginContent(this UrlHelper url, string contentPath)
+        public static string PluginContent(this IUrlHelper url, string contentPath)
         {
             string pluginFolder = (string)url.ActionContext.HttpContext.Items[HttpContextItemKeys.PluginFolder];
 
@@ -16,12 +16,12 @@ namespace mesoBoard.Web.Helpers
             return url.Content("~/Plugins/" + pluginFolder + "/" + contentPath);
         }
 
-        public static string AdminContent(this UrlHelper url, string contentPath)
+        public static string AdminContent(this IUrlHelper url, string contentPath)
         {
             return url.Content(System.IO.Path.Combine("~/Areas/Admin/Content", contentPath));
         }
 
-        public static string ThemeImage(this UrlHelper url, string imageFileName)
+        public static string ThemeImage(this IUrlHelper url, string imageFileName)
         {
             string themeName = url.ActionContext.HttpContext.Items[HttpContextItemKeys.ThemeFolder].ToString();
 

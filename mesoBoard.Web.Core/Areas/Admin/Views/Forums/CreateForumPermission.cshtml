@@ -1,0 +1,16 @@
+@model ForumPermissionViewModel
+@{
+    Layout = "_Forums.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    
+    <fieldset class="forum_permission">
+        <legend>Create Forum Permissions</legend>
+        
+        @await Html.PartialAsync("_ForumPermission")
+
+            
+    </fieldset>
+} 

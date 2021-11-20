@@ -1,0 +1,68 @@
+@{ IEnumerable<User> users = ((IEnumerable<User>)ViewData["NewestRegistrations"]).OrderByDescending(x => x.RegisterDate).Take(5); }
+@{ IEnumerable<ReportedPost> ReportedPosts = ((IEnumerable<ReportedPost>)ViewData["ReportedPosts"]).OrderByDescending(x => x.Date).Take(5); }
+
+<div class="summary section">
+    <h2>Summary</h2>
+
+    <fieldset>
+        <legend>Recent User Registration</legend>
+
+        <table>    
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Last Login</th>
+            </tr>
+            
+            @foreach(var user in users)
+            { 
+                <tr class="@(string.IsNullOrEmpty(user.ActivationCode) ? "active" : "inactive")">
+                    <td>@Html.ActionLink(user.Username, "UserDetails", "Users", new { UserID = user.UserID }, null) </td>
+                    <td>@user.Email </td>
+                    <td>@(string.IsNullOrEmpty(user.ActivationCode) ? "Active" : "Inactive")</td>
+                    <td>@Html.RelativeDate(user.LastLoginDate)  from @user.LastLoginIP </td>
+                </tr>
+            }
+        </table>
+                
+        <p>
+            &#187; @Html.ActionLink("View All Users", "Users", "Users")  
+        </p>
+
+    </fieldset>    
+
+
+    <fieldset>
+        <legend>Reported Posts</legend>
+        <table>
+            <tr>
+                <th>Post Text</th>
+                <th>Date</th>
+                <th></th>
+                <th></th>
+            </tr>
+            
+            @if (ReportedPosts.Count() == 0){ 
+            <tr>
+                <td colspan="4" style="text-align: center">No reported posts</td>
+            </tr>
+                } 
+            
+            @foreach(var reportedPost in ReportedPosts)
+            { 
+                <tr>
+                    <td>@reportedPost.Post.TextOnly.Shorten(25) </td>
+                    <td>@Html.RelativeDate(reportedPost.Date) </td>
+                    <td>@Html.ActionLink("Mark as Safe", "MarkAsSafe", new { ReportedPostID = reportedPost.PostID }, null) </td>
+                    <td>@Html.AdminConfirm("Delete", Url.Action("DeletePost", "Post", new { PostID = reportedPost.PostID }), Url.Action("Index")) </td>
+                </tr>
+            }
+        </table>
+        
+        <p>
+            &#187; @Html.ActionLink("View All Reported Posts (" + ReportedPosts.Count() + ")", "ReportedPosts")
+        </p>
+
+    </fieldset>    
+</div>

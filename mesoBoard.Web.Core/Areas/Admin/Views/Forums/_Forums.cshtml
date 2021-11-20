@@ -1,0 +1,16 @@
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Admin.cshtml";
+}
+
+<div class="forums section">
+    <h2>Forums</h2>
+
+    <div>
+        @Html.ActionLink("Create Category", "CreateCategory", "Forums", null, new { @class = "create_category add" }) 
+        @Html.ActionLink("Create Forum", "CreateForum", "Forums", null, new { @class = "create_forum add" })
+    </div>
+
+    @RenderBody()
+</div>
+
+

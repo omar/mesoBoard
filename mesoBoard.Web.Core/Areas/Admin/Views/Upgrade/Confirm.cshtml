@@ -1,0 +1,27 @@
+@model UpgradeDetailsViewModel
+
+<div class="upgrade section">
+    <h2>Upgrade</h2>
+
+    <h3>Confirm Upgrade</h3>
+    <p>
+        Are you sure you want to upgrade the current installation of mesoBoard to version <strong>@Model.Version?</strong>
+    </p>
+
+    <p>
+        Please <strong>backup</strong> the mesoBoard files and database prior to running this upgrade script.
+    </p>
+
+    @using (Html.BeginForm(new { action = "Confirm" })) 
+    {
+        @Html.HiddenFor(model => model.Version) 
+        <input type="submit" name="Action" value="Yes, I have created a backup and ready to upgrade" />
+        <button type="submit" name="Action" value="Cancel">No, do not upgrade</button>
+    }
+    @if (Model.HasDetails)
+    {
+        <h3>Upgrade Details</h3>
+        @Html.Raw(Model.Details)
+    } 
+
+</div>

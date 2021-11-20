@@ -1,0 +1,37 @@
+@model ForumViewModel
+           
+<dl>
+    <dt>Category</dt>
+    <dd>
+        @Html.DropDownListFor(model => model.CategoryID, Model.CategoryList, "(Select a category)")
+        @Html.ValidationMessageFor(model => model.CategoryID)
+    </dd>
+                
+    <dt>Name</dt>
+    <dd>
+        @Html.TextBoxFor(model => model.Name) 
+        @Html.ValidationMessageFor(model => model.Name) 
+    </dd>
+                
+    <dt>Description</dt>
+    <dd>
+        @Html.TextAreaFor(model => model.Description, new { cols = "50", rows = "7" })
+        @Html.ValidationMessageFor(model => model.Description) 
+    </dd>
+
+    <dt>@Html.LabelFor(model => model.VisibleToGuests)</dt>
+    <dd>
+        @Html.EditorFor(model => model.VisibleToGuests)
+    </dd>
+
+    <dt>@Html.LabelFor(model => model.AllowGuestDownloads)</dt>
+    <dd>
+        @Html.EditorFor(model => model.AllowGuestDownloads)
+    </dd>
+                
+    <dt>&nbsp;</dt>
+    <dd>
+        @Html.HiddenFor(model => model.ForumID)
+        <input type="submit" value="@Html.SubmitButtonText(Model.ForumID)" />
+    </dd>
+</dl>

@@ -1,0 +1,65 @@
+@model ForumPermissionViewModel
+<dl>
+    <dt>Forum</dt>
+    <dd>
+        @Html.DropDownListFor(model => model.ForumID, Model.ForumsList, "(Select a forum)")
+        @Html.ValidationMessageFor(model => model.ForumID)
+    </dd>
+                
+    <dt>Role</dt>
+    <dd>
+        @Html.DropDownListFor(model => model.RoleID, Model.RolesList, "(Select a role)") 
+        @Html.ValidationMessageFor(model => model.RoleID)
+    </dd>
+                
+    <dt>Visibility</dt>
+    <dd>
+        @foreach (var permission in Model.VisibilityPermissionList)
+        {
+            @Html.RadioButtonFor(model => model.Visibility, permission.Value, new { id = "visibility_" + permission.Value })
+            <label for="visibility_@(permission.Value)">@Html.PermissionResource("Visibility_" + permission.Text)</label>
+            <br />
+        }
+        @Html.ValidationMessageFor(model => model.Visibility)
+        </dd>
+                
+    <dt>Posting</dt>
+    <dd>
+        @foreach (var permission in Model.PostingPermissionsList)
+        {
+            @Html.RadioButtonFor(model => model.Posting, permission.Value, new { id = "posting_" + permission.Value })
+            <label for="posting_@(permission.Value)">@Html.PermissionResource("Posting_" + permission.Text)</label>
+            <br />
+        }
+        @Html.ValidationMessageFor(model => model.Posting)
+    </dd>
+                
+    <dt>Attachments</dt>
+    <dd>
+        @foreach (var permission in Model.AttachmentPermissionsList)
+        {
+            @Html.RadioButtonFor(model => model.Attachments, permission.Value, new { id = "attachments_" + permission.Value })
+            <label for="attachments_@(permission.Value)">@Html.PermissionResource("Attachments_" + permission.Text)</label>
+            <br />
+        }
+        @Html.ValidationMessageFor(model => model.Attachments)
+    </dd>
+                
+    <dt>Polling</dt>                
+    <dd>
+        @foreach (var permission in Model.PollingPermissionsList)
+        {
+            @Html.RadioButtonFor(model => model.Polling, permission.Value, new { id = "polling_" + permission.Value })
+            <label for="polling_@(permission.Value)">@Html.PermissionResource("Polling_" + permission.Text)</label>
+            <br />
+        }
+        @Html.ValidationMessageFor(model => model.Polling)
+    </dd>
+                                
+    <dt>&nbsp;</dt>
+    <dd>
+        @Html.HiddenFor(model => model.ForumID) 
+        @Html.HiddenFor(model => model.ForumPermissionID)
+        <input type="submit" value="@Html.SubmitButtonText(Model.ForumPermissionID)" />
+    </dd>
+</dl>

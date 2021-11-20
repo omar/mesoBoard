@@ -1,0 +1,29 @@
+@using Microsoft.AspNetCore.Html
+@model IEnumerable<mesoBoard.Data.Plugin>
+
+<div class="plugins section">
+    <h2>Plugins</h2>
+        
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th style="width: 100px;"></th>
+        </tr>
+
+        @foreach(var plugin in Model)
+        { 
+            <tr>
+                <td>
+                    @plugin.Name
+                </td>               
+                <td>
+                    @plugin.Description                     
+                </td>
+                <td>
+                    @(plugin.Installed ? new HtmlString("Installed") : Html.ActionLink("Install plugin", "Install", new { AssemblyName = plugin.AssemblyName })) 
+                </td>
+            </tr>
+        }
+    </table>
+</div>

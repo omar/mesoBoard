@@ -1,0 +1,31 @@
+@model IEnumerable<mesoBoard.Data.Rank>
+@{
+    Layout = "_Ranks.cshtml";
+}       
+
+@Html.ActionLink("Create Rank", "CreateRank", null, new { @class = "add" } ) 
+                       
+<table> 
+        
+    <tr>
+        <th class="edit"></th>
+        <th class="delete"></th>
+        <th>Title</th>
+        <th>Post Count</th>
+        <th>Image</th>
+        <th>Color</th>
+    </tr>
+            
+    @foreach(var rank in Model)
+    {
+        <tr>
+            <td>@Html.ActionLink("Edit", "EditRank", new { RankID = rank.RankID })</td>
+            <td>@Html.AdminConfirm("Delete", Url.Action("DeleteRank", new { RankID = rank.RankID }), Url.Action("Ranks"))</td>
+            <td>@rank.Title </td>
+            <td>@(rank.IsRoleRank ? "N/A (Is a role rank)" : rank.PostCount.ToString())</td>
+            <td>@(string.IsNullOrWhiteSpace(rank.Image) ? null : Html.Image("~/Images/Ranks/" + rank.Image))</td>
+            <td><span style="color:@rank.Color ">@rank.Color</span></td>
+        </tr>
+    }
+            
+</table>
